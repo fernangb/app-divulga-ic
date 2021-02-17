@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import { Image, KeyboardAvoidingView, Platform, View, ScrollView } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, View, ScrollView, TextInput } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { Container, Title, VoltarSigInButton, VoltarSigInText, LogoView } from './styles';
@@ -12,6 +12,11 @@ import {FormHandles} from '@unform/core';
 
 const CadastroAluno: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const emailInputRef = useRef<TextInput>(null);
+  const dreInputRef = useRef<TextInput>(null);
+  const courseInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
+  const repeatPasswordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
   return (
@@ -31,13 +36,72 @@ const CadastroAluno: React.FC = () => {
               <Title>Crie a sua conta</Title>
             </View>
             <Form ref={formRef} onSubmit={() => {}}>
-              <Input name="user" icon="user" placeholder="Nome completo" />
-              <Input name="dre" icon="hash" placeholder="DRE" />
-              <Input name="curso" icon="target" placeholder="Curso" />
-              <Input name="email" icon="mail" placeholder="Email" />
-              <Input name="password" icon="lock" placeholder="Senha" />
-              <Input name="password2" icon="lock" placeholder="Repita a sua senha" />
-              <Button onPress={() => formRef.current?.submitForm()}>Cadastrar</Button>
+              <Input
+                autoCapitalize="words"
+                name="nome"
+                icon="user"
+                placeholder="Nome completo"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  dreInputRef.current?.focus()
+                }}
+              />
+              <Input
+                ref={dreInputRef}
+                name="dre"
+                icon="hash"
+                placeholder="DRE"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  courseInputRef.current?.focus()
+                }}
+              />
+              <Input
+                ref={courseInputRef}
+                name="curso"
+                icon="target"
+                placeholder="Curso"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  emailInputRef.current?.focus()
+                }}
+              />
+              <Input
+                ref={emailInputRef}
+                keyboardType="email-address"
+                name="email"
+                icon="mail"
+                placeholder="Email"
+                autoCapitalize="none"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  passwordInputRef.current?.focus()
+                }}
+              />
+              <Input
+                ref={passwordInputRef}
+                name="password"
+                icon="lock"
+                placeholder="Senha"
+                secureTextEntry
+                textContentType="newPassword"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  repeatPasswordInputRef.current?.focus()
+                }}
+              />
+              <Input
+                ref={repeatPasswordInputRef}
+                name="password2"
+                icon="lock"
+                placeholder="Repita a sua senha"
+                secureTextEntry
+                returnKeyType="send"
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm()
+                }}
+              />
+              <Button onPress={() => formRef.current?.submitForm()}>Entrar</Button>
             </Form>
 
           </Container>

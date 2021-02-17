@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useImperativeHandle, forwardRef} from 'react';
 import { TextInputProps } from 'react-native';
 import { Container, TextInput, Icon } from './styles';
 import {useField} from '@unform/core';
@@ -13,11 +13,21 @@ interface InputValueReference {
   value: string;
 }
 
+interface InputRef {
+  focus(): void;
+}
+
 // eslint-disable-next-line react/prop-types
-const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
+const Input: React.ForwardRefRenderFunction<InputRef,InputProps> = ({ name, icon, ...rest }, ref) => {
   const inputElementRef = useRef<any>(null);
   const {registerField, defaultValue = '', fieldName, error} = useField(name);
   const inputValueRef = useRef<InputValueReference>({value: defaultValue});
+
+  useImperativeHandle(ref, () => ({
+    focus(){
+      inputElementRef.current?.focus();
+    }
+  }));
 
   useEffect(() => {
     registerField<string>({
@@ -39,6 +49,7 @@ return(
   <Container>
     <Icon name={icon} size={16} color="#f76769" />
     <TextInput
+
       ref={inputElementRef}
       keyboardAppearance="dark"
       placeholderTextColor="#f76769"
@@ -50,4 +61,4 @@ return(
 );
 };
 
-export default Input;
+export default forwardRef(Input);
