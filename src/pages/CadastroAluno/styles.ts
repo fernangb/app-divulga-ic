@@ -6,7 +6,12 @@ export const Container = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  padding: 0 30px ${Platform.OS === 'android'? 150: 40}px;
+  padding: 0 30px ${Platform.OS === 'android'? 125: 40}px;
+`;
+
+export const LogoView = styled.View`
+ flex: 1;
+ width: 10%;
 `;
 
 export const Title = styled.Text`
