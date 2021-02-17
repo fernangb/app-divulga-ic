@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Image, KeyboardAvoidingView, Platform, View, ScrollView } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -6,9 +6,12 @@ import { Container, Title, VoltarSigInButton, VoltarSigInText, LogoView } from '
 import logoImg from '../../assets/logo1.png';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
+import {Form} from '@unform/mobile';
+import {FormHandles} from '@unform/core';
 
 
 const CadastroAluno: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
   return (
@@ -27,13 +30,16 @@ const CadastroAluno: React.FC = () => {
               <View>
               <Title>Crie a sua conta</Title>
             </View>
-            <Input name="user" icon="user" placeholder="Nome completo" />
-            <Input name="dre" icon="hash" placeholder="DRE" />
-            <Input name="curso" icon="target" placeholder="Curso" />
-            <Input name="email" icon="mail" placeholder="Email" />
-            <Input name="password" icon="lock" placeholder="Senha" />
-            <Input name="password2" icon="lock" placeholder="Repita a sua senha" />
-            <Button>Cadastrar</Button>
+            <Form ref={formRef} onSubmit={() => {}}>
+              <Input name="user" icon="user" placeholder="Nome completo" />
+              <Input name="dre" icon="hash" placeholder="DRE" />
+              <Input name="curso" icon="target" placeholder="Curso" />
+              <Input name="email" icon="mail" placeholder="Email" />
+              <Input name="password" icon="lock" placeholder="Senha" />
+              <Input name="password2" icon="lock" placeholder="Repita a sua senha" />
+              <Button onPress={() => formRef.current?.submitForm()}>Cadastrar</Button>
+            </Form>
+
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
