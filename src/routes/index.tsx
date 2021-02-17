@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import SignUp from '../pages/SignUp';
-import SignIn from '../pages/SignIn';
+import CadastroAluno from '../pages/CadastroAluno';
+import Login from '../pages/Login';
 import ChooseProfile from '../pages/ChooseProfile';
 
 const Auth = createStackNavigator();
@@ -12,10 +12,10 @@ const AuthRoutes: React.FC = () => (
       headerShown: false,
       cardStyle: { backgroundColor: '#fff' },
     }}
-    initialRouteName="ChooseProfile"
+    initialRouteName="CadastroAluno"
   >
-    <Auth.Screen name="SignIn" component={SignIn} />
-    <Auth.Screen name="SignUp" component={SignUp} />
+    <Auth.Screen name="Login" component={Login} />
+    <Auth.Screen name="CadastroAluno" component={CadastroAluno} />
     <Auth.Screen name="ChooseProfile" component={ChooseProfile} />
   </Auth.Navigator>
 );

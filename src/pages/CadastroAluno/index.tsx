@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, KeyboardAvoidingView, Platform, View, ScrollView } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import { Container, Title, EsqueceuSenha, EsqueceuSenhaText, CadastroText, CadastroButton } from './styles';
+import { Container, Title, VoltarSigInButton, VoltarSigInText, } from './styles';
 import logoImg from '../../assets/logo1.png';
 import Icon from 'react-native-vector-icons/Feather';
 
-const SignIn: React.FC = () => {
+const CadastroAluno: React.FC = () => {
   return (
     <>
       <KeyboardAvoidingView
@@ -21,24 +21,25 @@ const SignIn: React.FC = () => {
           <Container>
             <Image source={logoImg} />
             <View>
-              <Title>Login</Title>
+              <Title>Cadastro</Title>
             </View>
-            <Input name="email" icon="mail" placeholder="E-mail" />
+            <Input name="user" icon="user" placeholder="Nome completo" />
+            <Input name="dre" icon="hash" placeholder="DRE" />
+            <Input name="curso" icon="target" placeholder="Senha" />
+            <Input name="email" icon="mail" placeholder="Email" />
             <Input name="password" icon="lock" placeholder="Senha" />
-            <Button>Entrar</Button>
-            <EsqueceuSenha>
-              <EsqueceuSenhaText>Esqueci a minha senha</EsqueceuSenhaText>
-            </EsqueceuSenha>
+            <Input name="password2" icon="lock" placeholder="Repita a sua senha" />
+            <Button>Cadastrar</Button>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
-      <CadastroButton>
-        <Icon name="log-in" size={20} color="#222680" />
-        <CadastroText>Não tem uma conta? Cadastre-se</CadastroText>
-      </CadastroButton>
+      <VoltarSigInButton>
+        <Icon name="arrow-left" size={20} color="#fff" />
+        <VoltarSigInText>Voltar para Login</VoltarSigInText>
+      </VoltarSigInButton>
 
     </>
   );
 };
 
-export default SignIn;
+export default CadastroAluno;
