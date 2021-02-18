@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import { Image, KeyboardAvoidingView, Platform, View, ScrollView, TextInput } from 'react-native';
+import React, {useRef, useCallback} from 'react';
+import { Image, KeyboardAvoidingView, Platform, View, ScrollView, TextInput, Alert } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { Container, Title, VoltarSigInButton, VoltarSigInText, LogoView } from './styles';
@@ -8,7 +8,17 @@ import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import {Form} from '@unform/mobile';
 import {FormHandles} from '@unform/core';
+import * as Yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErrors';
 
+interface CadastroFormData {
+  nome: string;
+  dre: string;
+  curso: string;
+  email: string;
+  senha: string;
+  senhaRepetida: string;
+}
 
 const CadastroAluno: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
@@ -18,6 +28,53 @@ const CadastroAluno: React.FC = () => {
   const passwordInputRef = useRef<TextInput>(null);
   const repeatPasswordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+
+  const handleSignUp = useCallback(async (data: CadastroFormData) => {
+    formRef.current?.setErrors({});
+
+    try {
+      const schema = Yup.object().shape({
+        nome: Yup.string().required('Nome obrigatório'),
+        dre: Yup.string().required('DRE obrigatório'),
+        curso: Yup.string().required('Curso obrigatório'),
+        email: Yup.string()
+          .required('Email obrigatório')
+          .email('Digite um e-mail válido'),
+        senha: Yup.string().min(6, 'Mínimo de 6 caracteres'),
+        senhaRepetida: Yup.string().min(6, 'Mínimo de 6 caracteres'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      // console.log('Dados: ', data);
+
+      // await api.post('/users', data);
+
+      Alert.alert(
+        'Cadastro realizado com sucesso!',
+        'Você já pode fazer login na aplicação.',
+      );
+
+      navigation.goBack();
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+
+        Alert.alert(
+          'Erro no cadastro',
+          'Ocorreu um erro ao fazer o cadastro. Tente novamente.',
+        );
+
+        return;
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
 
   return (
     <>
@@ -35,7 +92,7 @@ const CadastroAluno: React.FC = () => {
               <View>
               <Title>Crie a sua conta</Title>
             </View>
-            <Form ref={formRef} onSubmit={() => {}}>
+            <Form ref={formRef} onSubmit={handleSignUp}>
               <Input
                 autoCapitalize="words"
                 name="nome"
@@ -48,6 +105,7 @@ const CadastroAluno: React.FC = () => {
               />
               <Input
                 ref={dreInputRef}
+                keyboardType='numeric'
                 name="dre"
                 icon="hash"
                 placeholder="DRE"
@@ -80,7 +138,7 @@ const CadastroAluno: React.FC = () => {
               />
               <Input
                 ref={passwordInputRef}
-                name="password"
+                name="senha"
                 icon="lock"
                 placeholder="Senha"
                 secureTextEntry
@@ -92,7 +150,7 @@ const CadastroAluno: React.FC = () => {
               />
               <Input
                 ref={repeatPasswordInputRef}
-                name="password2"
+                name="senhaRepetida"
                 icon="lock"
                 placeholder="Repita a sua senha"
                 secureTextEntry

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {useEffect, useRef, useImperativeHandle, forwardRef} from 'react';
+import React, {useEffect, useState, useCallback, useRef, useImperativeHandle, forwardRef} from 'react';
 import { TextInputProps } from 'react-native';
 import { Container, TextInput, Icon } from './styles';
 import {useField} from '@unform/core';
@@ -20,8 +20,22 @@ interface InputRef {
 // eslint-disable-next-line react/prop-types
 const Input: React.ForwardRefRenderFunction<InputRef,InputProps> = ({ name, icon, ...rest }, ref) => {
   const inputElementRef = useRef<any>(null);
+
   const {registerField, defaultValue = '', fieldName, error} = useField(name);
   const inputValueRef = useRef<InputValueReference>({value: defaultValue});
+
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+
+    setIsFilled(!!inputValueRef.current.value);
+  }, []);
 
   useImperativeHandle(ref, () => ({
     focus(){
@@ -46,14 +60,15 @@ const Input: React.ForwardRefRenderFunction<InputRef,InputProps> = ({ name, icon
   },[fieldName, registerField]);
 
 return(
-  <Container>
-    <Icon name={icon} size={16} color="#f76769" />
+  <Container isFocused={isFocused} isErrored={!!error}>
+    <Icon name={icon} size={16} color={isFocused || isFilled? "#f76769" : '#fff'} />
     <TextInput
-
       ref={inputElementRef}
       keyboardAppearance="dark"
-      placeholderTextColor="#f76769"
+      placeholderTextColor= '#fff'
       defaultValue={defaultValue}
+      onFocus={handleInputFocus}
+      onBlur={handleInputBlur}
       onChangeText={(value) => {inputValueRef.current.value = value}}
       {...rest}
     />
