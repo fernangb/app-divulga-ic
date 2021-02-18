@@ -10,6 +10,7 @@ import {Form} from '@unform/mobile';
 import {FormHandles} from '@unform/core';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 interface CadastroFormData {
   nome: string;
@@ -48,9 +49,13 @@ const CadastroAluno: React.FC = () => {
         abortEarly: false,
       });
 
-      // console.log('Dados: ', data);
+      console.log('Dados: ', data);
 
-      // await api.post('/users', data);
+      await api.post('/usuarios', {
+        email: data.email,
+        senha: data.senha,
+        id_nivel: "5a5e67d7-3b4b-420b-9b8b-bd5645d3cede"
+      });
 
       Alert.alert(
         'Cadastro realizado com sucesso!',
