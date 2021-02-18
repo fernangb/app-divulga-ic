@@ -2,7 +2,7 @@ import React, {useCallback, useRef} from 'react';
 import { Image, KeyboardAvoidingView, Platform, View, ScrollView, TextInput, Alert} from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import { Container, Title, EsqueceuSenha, EsqueceuSenhaText, CadastroText, CadastroButton } from './styles';
+import { Container, Title,CadastroText, CadastroButton, EsqueceuSenha, EsqueceuSenhaText } from './styles';
 import logoImg from '../../assets/logo1.png';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
@@ -10,16 +10,20 @@ import {Form} from '@unform/mobile';
 import {FormHandles} from '@unform/core';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
+import {useAuth} from '../../hooks/auth';
 
 interface LoginFormData {
   email: string;
-  senha: string;
+  password: string;
 }
 
 const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+  const {signIn, user} = useAuth();
+
+  console.log(user);
 
 
   const handleLogin = useCallback(async (data: LoginFormData) => {
@@ -30,17 +34,17 @@ const Login: React.FC = () => {
         email: Yup.string()
           .required('Email obrigatório')
           .email('Digite um e-mail válido'),
-        senha: Yup.string().required('Senha obrigatória'),
+        password: Yup.string().required('Senha obrigatória'),
       });
 
       await schema.validate(data, {
         abortEarly: false,
       });
 
-      // signIn({
-      //   email: data.email,
-      //   password: data.password,
-      // });
+      signIn({
+        email: data.email,
+        password: data.password,
+      });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -55,7 +59,7 @@ const Login: React.FC = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigation]);
 
 
 
@@ -90,7 +94,7 @@ const Login: React.FC = () => {
                />
               <Input
                 ref={passwordInputRef}
-                name="senha"
+                name="password"
                 icon="lock"
                 placeholder="Senha"
                 secureTextEntry
@@ -102,7 +106,7 @@ const Login: React.FC = () => {
               <Button onPress={() => formRef.current?.submitForm()}>Entrar</Button>
             </Form>
             <EsqueceuSenha>
-              <EsqueceuSenhaText>Esqueci minha senha</EsqueceuSenhaText>
+              <EsqueceuSenhaText>Esqueci minha password</EsqueceuSenhaText>
             </EsqueceuSenha>
           </Container>
         </ScrollView>

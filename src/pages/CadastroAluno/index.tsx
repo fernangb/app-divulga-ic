@@ -36,13 +36,16 @@ const CadastroAluno: React.FC = () => {
     try {
       const schema = Yup.object().shape({
         nome: Yup.string().required('Nome obrigatório'),
-        dre: Yup.string().required('DRE obrigatório'),
+        dre: Yup.string()
+        .required('DRE obrigatório')
+        .length(9, 'Numero de dígitos inválido'),
         curso: Yup.string().required('Curso obrigatório'),
         email: Yup.string()
           .required('Email obrigatório')
           .email('Digite um e-mail válido'),
         senha: Yup.string().min(6, 'Mínimo de 6 caracteres'),
-        senhaRepetida: Yup.string().min(6, 'Mínimo de 6 caracteres'),
+        senhaRepetida: Yup.string()
+          .min(6, 'Mínimo de 6 caracteres')
       });
 
       await schema.validate(data, {
@@ -77,7 +80,7 @@ const CadastroAluno: React.FC = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigation]);
 
 
 
