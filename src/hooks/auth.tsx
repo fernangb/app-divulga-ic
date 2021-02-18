@@ -47,12 +47,6 @@ const AuthProvider: React.FC = ({children}) => {
   }, []);
 
   const signIn = useCallback(async ({email, password}) => {
-    console.log("oi")
-
-    const niveis = await api.get('niveis');
-
-    console.log(niveis.data)
-
     console.log(email, password)
     const response = await api.post('sessions', {
       email,
