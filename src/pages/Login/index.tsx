@@ -4,7 +4,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { Container, Title,CadastroText, CadastroButton, EsqueceuSenha, EsqueceuSenhaText } from './styles';
 import logoImg from '../../assets/logo1.png';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import {Form} from '@unform/mobile';
 import {FormHandles} from '@unform/core';
@@ -85,7 +85,7 @@ const Login: React.FC = () => {
                 autoCapitalize="none"
                 keyboardType="email-address"
                 name="email"
-                icon="mail"
+                icon="email"
                 placeholder="E-mail"
                 returnKeyType="next"
                 onSubmitEditing={() => {
@@ -106,13 +106,13 @@ const Login: React.FC = () => {
               <Button onPress={() => formRef.current?.submitForm()}>Entrar</Button>
             </Form>
             <EsqueceuSenha>
-              <EsqueceuSenhaText>Esqueci minha password</EsqueceuSenhaText>
+              <EsqueceuSenhaText>Esqueci minha senha</EsqueceuSenhaText>
             </EsqueceuSenha>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
       <CadastroButton onPress={() => navigation.navigate('CadastroAluno')}>
-        <Icon name="log-in" size={20} color="#f76769" />
+        <Icon name="login" size={20} color="#f76769" />
         <CadastroText>Criar uma conta</CadastroText>
       </CadastroButton>
 

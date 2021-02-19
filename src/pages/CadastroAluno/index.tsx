@@ -2,9 +2,10 @@ import React, {useRef, useCallback} from 'react';
 import { Image, KeyboardAvoidingView, Platform, View, ScrollView, TextInput, Alert } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Select from '../../components/Select';
 import { Container, Title, VoltarSigInButton, VoltarSigInText, LogoView } from './styles';
 import logoImg from '../../assets/logo1.png';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import {Form} from '@unform/mobile';
 import {FormHandles} from '@unform/core';
@@ -15,23 +16,45 @@ import api from '../../services/api';
 interface CadastroFormData {
   nome: string;
   dre: string;
+  predio: string;
   curso: string;
   email: string;
   senha: string;
   senhaRepetida: string;
 }
 
+const predios = [
+  {id: 1, nome: 'CT'},
+  {id: 2, nome: 'CCMN'},
+  {id: 3, nome: 'Letras'},
+  {id: 4, nome: 'CCS'},
+  {id: 5, nome: 'EEFD'},
+];
+
+const cursos = [
+  {id: 1, nome: 'Eng Eletrônica'},
+  {id: 2, nome: 'Eng Elétrica'},
+  {id: 3, nome: 'Eng de Computação'},
+  {id: 4, nome: 'Física'},
+  {id: 5, nome: 'Física Médica'},
+  {id: 6, nome: 'Licenciatura em Física'},
+];
+
+
 const CadastroAluno: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const emailInputRef = useRef<TextInput>(null);
   const dreInputRef = useRef<TextInput>(null);
-  const courseInputRef = useRef<TextInput>(null);
-  const passwordInputRef = useRef<TextInput>(null);
-  const repeatPasswordInputRef = useRef<TextInput>(null);
+  const predioInputRef = useRef<TextInput>(null);
+  const cursoInputRef = useRef<TextInput>(null);
+  const periodoInputRef = useRef<TextInput>(null);
+  const senhaInputRef = useRef<TextInput>(null);
+  const confirmarSenhaInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
   const handleSignUp = useCallback(async (data: CadastroFormData) => {
     formRef.current?.setErrors({});
+
 
     try {
       const schema = Yup.object().shape({
@@ -39,7 +62,9 @@ const CadastroAluno: React.FC = () => {
         dre: Yup.string()
         .required('DRE obrigatório')
         .length(9, 'Numero de dígitos inválido'),
+        predio: Yup.string().required('Prédio obrigatório'),
         curso: Yup.string().required('Curso obrigatório'),
+        periodo: Yup.string().required('Período obrigatório'),
         email: Yup.string()
           .required('Email obrigatório')
           .email('Digite um e-mail válido'),
@@ -104,7 +129,7 @@ const CadastroAluno: React.FC = () => {
               <Input
                 autoCapitalize="words"
                 name="nome"
-                icon="user"
+                icon="account"
                 placeholder="Nome completo"
                 returnKeyType="next"
                 onSubmitEditing={() => {
@@ -115,18 +140,60 @@ const CadastroAluno: React.FC = () => {
                 ref={dreInputRef}
                 keyboardType='numeric'
                 name="dre"
-                icon="hash"
+                icon="card-account-details"
                 placeholder="DRE"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  courseInputRef.current?.focus()
+                  predioInputRef.current?.focus()
                 }}
               />
               <Input
-                ref={courseInputRef}
+                ref={predioInputRef}
+                name="predio"
+                icon="office-building"
+                placeholder="Prédio"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  cursoInputRef.current?.focus()
+                }}
+              />
+              <Input
+                ref={cursoInputRef}
                 name="curso"
-                icon="target"
+                icon="school"
                 placeholder="Curso"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  periodoInputRef.current?.focus()
+                }}
+              />
+              {/* <Select
+                itens={predios}
+                ref={predioInputRef}
+                name="predio"
+                icon="office-building"
+                placeholder="Prédio"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  cursoInputRef.current?.focus()
+                }}
+              />
+              <Select
+                itens={cursos}
+                ref={cursoInputRef}
+                name="curso"
+                icon="school"
+                placeholder="Curso"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  periodoInputRef.current?.focus()
+                }}
+              /> */}
+              <Input
+                ref={periodoInputRef}
+                name="curso"
+                icon="numeric"
+                placeholder="Período"
                 returnKeyType="next"
                 onSubmitEditing={() => {
                   emailInputRef.current?.focus()
@@ -136,16 +203,16 @@ const CadastroAluno: React.FC = () => {
                 ref={emailInputRef}
                 keyboardType="email-address"
                 name="email"
-                icon="mail"
+                icon="email"
                 placeholder="Email"
                 autoCapitalize="none"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  passwordInputRef.current?.focus()
+                  senhaInputRef.current?.focus()
                 }}
               />
               <Input
-                ref={passwordInputRef}
+                ref={senhaInputRef}
                 name="senha"
                 icon="lock"
                 placeholder="Senha"
@@ -153,14 +220,14 @@ const CadastroAluno: React.FC = () => {
                 textContentType="newPassword"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  repeatPasswordInputRef.current?.focus()
+                  confirmarSenhaInputRef.current?.focus()
                 }}
               />
               <Input
-                ref={repeatPasswordInputRef}
+                ref={confirmarSenhaInputRef}
                 name="senhaRepetida"
                 icon="lock"
-                placeholder="Repita a sua senha"
+                placeholder="Confirmar senha"
                 secureTextEntry
                 returnKeyType="send"
                 onSubmitEditing={() => {
