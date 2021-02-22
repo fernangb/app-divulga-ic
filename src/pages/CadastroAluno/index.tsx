@@ -29,7 +29,7 @@ import api from '../../services/api';
 interface CadastroFormData {
   nome: string;
   dre: string;
-  predio: string;
+  periodo: number;
   curso: string;
   email: string;
   senha: string;
@@ -56,7 +56,6 @@ const CadastroAluno: React.FC = () => {
           dre: Yup.string()
             .required('DRE obrigatório')
             .length(9, 'Numero de dígitos inválido'),
-          predio: Yup.string().required('Prédio obrigatório'),
           curso: Yup.string().required('Curso obrigatório'),
           periodo: Yup.string().required('Período obrigatório'),
           email: Yup.string()
@@ -72,11 +71,19 @@ const CadastroAluno: React.FC = () => {
 
         console.log('Dados: ', data);
 
-        await api.post('/usuarios', {
-          email: data.email,
-          senha: data.senha,
-          id_nivel: '5a5e67d7-3b4b-420b-9b8b-bd5645d3cede',
-        });
+        await api
+          .post('/alunos', {
+            email: data.email,
+            senha: data.senha,
+            nome: data.nome,
+            dre: data.dre,
+            periodo: data.periodo,
+            id_nivel: '5a5e67d7-3b4b-420b-9b8b-bd5645d3cede',
+            id_curso: 'eda38ec9-465b-4897-823d-f7c61ce7f771',
+          })
+          .then(response => {
+            console.log(response);
+          });
 
         Alert.alert(
           'Cadastro realizado com sucesso!',
@@ -152,7 +159,8 @@ const CadastroAluno: React.FC = () => {
               />
               <Input
                 ref={periodoInputRef}
-                name="curso"
+                keyboardType="numeric"
+                name="periodo"
                 icon="numeric"
                 placeholder="Período"
                 returnKeyType="next"
