@@ -85,7 +85,7 @@ const DashboardProfessor: React.FC = () => {
         keyExtractor={vaga => vaga.id}
         data={vagas}
         ListHeaderComponent={
-          <VagasListTitle>Vagas Recomendadas</VagasListTitle>
+          <VagasListTitle>Estudantes Inscritos</VagasListTitle>
         }
         renderItem={({ item: vaga }) => (
           <VagaCard onPress={() => navigateToProcurarVagas(vaga.id)}>

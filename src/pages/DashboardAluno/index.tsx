@@ -37,6 +37,7 @@ export interface IVagas {
   periodo_minimo: number;
   nr_vagas: number;
   laboratorio: { nome: string; sigla: string };
+  professor: { usuario: { avatar_url: string } };
 }
 
 const DashboardAluno: React.FC = () => {
