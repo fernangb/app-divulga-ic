@@ -21,7 +21,6 @@ import {
   VagaMeta,
   VagaMetaText,
   VagasListTitle,
-  VagaOtherInfo,
 } from './styles';
 
 export interface IVagas {
@@ -37,9 +36,10 @@ export interface IVagas {
   cr_minimo: number;
   periodo_minimo: number;
   nr_vagas: number;
+  laboratorio: { nome: string; sigla: string };
 }
 
-const Dashboard: React.FC = () => {
+const DashboardProfessor: React.FC = () => {
   const { signOut, user } = useAuth();
   const { navigate } = useNavigation();
   const [vagas, setVagas] = useState<IVagas[]>([]);
@@ -56,7 +56,7 @@ const Dashboard: React.FC = () => {
 
   const navigateToProcurarVagas = useCallback(
     (id: string) => {
-      navigate('ProcurarVagas', { id });
+      navigate('CriarVaga', { id });
     },
     [navigate],
   );
@@ -94,7 +94,7 @@ const Dashboard: React.FC = () => {
               <VagaNome>{vaga.nome}</VagaNome>
               <VagaMeta>
                 <Icon name="information" size={14} color="#f76769" />
-                <VagaMetaText>{vaga.descricao}</VagaMetaText>
+                <VagaMetaText>{vaga.laboratorio.sigla}</VagaMetaText>
               </VagaMeta>
               <VagaMeta>
                 <Icon name="currency-usd" size={14} color="#f76769" />
@@ -116,4 +116,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardProfessor;

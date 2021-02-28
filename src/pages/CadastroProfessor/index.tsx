@@ -29,21 +29,21 @@ import api from '../../services/api';
 interface CadastroFormData {
   nome: string;
   sobrenome: string;
-  dre: string;
-  periodo: number;
+  siape: string;
+  laboratorio: number;
   curso: string;
   email: string;
   senha: string;
   senhaRepetida: string;
 }
 
-const CadastroAluno: React.FC = () => {
+const CadastroProfessor: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const emailInputRef = useRef<TextInput>(null);
   const sobrenomeInputRef = useRef<TextInput>(null);
-  const dreInputRef = useRef<TextInput>(null);
+  const siapeInputRef = useRef<TextInput>(null);
   const cursoInputRef = useRef<TextInput>(null);
-  const periodoInputRef = useRef<TextInput>(null);
+  const laboratorioInputRef = useRef<TextInput>(null);
   const senhaInputRef = useRef<TextInput>(null);
   const confirmarSenhaInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
@@ -56,11 +56,11 @@ const CadastroAluno: React.FC = () => {
         const schema = Yup.object().shape({
           nome: Yup.string().required('Nome obrigatório'),
           sobrenome: Yup.string().required('Sobrenome obrigatório'),
-          dre: Yup.string()
-            .required('DRE obrigatório')
-            .length(9, 'Numero de dígitos inválido'),
+          siape: Yup.string()
+            .required('siape obrigatório')
+            .length(7, 'Numero de dígitos inválido'),
           curso: Yup.string().required('Curso obrigatório'),
-          periodo: Yup.string().required('Período obrigatório'),
+          laboratorio: Yup.string().required('Laboratório obrigatório'),
           email: Yup.string()
             .required('Email obrigatório')
             .email('Digite um e-mail válido'),
@@ -74,22 +74,24 @@ const CadastroAluno: React.FC = () => {
 
         console.log('Dados: ', data);
 
-        const nivel = await api.get('/niveis/aluno');
+        const nivel = await api.get('/niveis/professor');
+
+        console.log('Nivel: ', nivel.data.id);
 
         await api
-          .post('/alunos', {
+          .post('/professores', {
             email: data.email,
             senha: data.senha,
             confirmacao_senha: data.senhaRepetida,
             nome: data.nome,
             sobrenome: data.sobrenome,
-            dre: data.dre,
-            periodo: data.periodo,
+            siape: data.siape,
             id_nivel: nivel.data.id,
+            id_laboratorio: '4b746598-4ba8-4750-b670-4793b92ef39b',
             id_curso: '84324c98-2a90-4d90-b02a-7563bcbe9bef',
           })
           .then(response => {
-            console.log(response);
+            console.log('Resposta: ', response);
           });
 
         Alert.alert(
@@ -128,7 +130,6 @@ const CadastroAluno: React.FC = () => {
           keyboardShouldPersistTaps="handled"
         >
           <Container>
-            {/* <Image source={logoImg} style = {{ width: 150, height: 100 }}/> */}
             <View>
               <Title>Crie sua conta</Title>
             </View>
@@ -151,15 +152,15 @@ const CadastroAluno: React.FC = () => {
                 placeholder="Sobrenome"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  dreInputRef.current?.focus();
+                  siapeInputRef.current?.focus();
                 }}
               />
               <Input
-                ref={dreInputRef}
+                ref={siapeInputRef}
                 keyboardType="numeric"
-                name="dre"
+                name="siape"
                 icon="card-account-details"
-                placeholder="DRE"
+                placeholder="SIAPE"
                 returnKeyType="next"
                 onSubmitEditing={() => {
                   cursoInputRef.current?.focus();
@@ -172,20 +173,20 @@ const CadastroAluno: React.FC = () => {
                 placeholder="Curso"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  periodoInputRef.current?.focus();
+                  laboratorioInputRef.current?.focus();
                 }}
               />
               <Input
-                ref={periodoInputRef}
-                keyboardType="numeric"
-                name="periodo"
-                icon="numeric"
-                placeholder="Período"
+                ref={laboratorioInputRef}
+                name="laboratorio"
+                icon="warehouse"
+                placeholder="Laboratório"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  emailInputRef.current?.focus();
+                  laboratorioInputRef.current?.focus();
                 }}
               />
+
               <Input
                 ref={emailInputRef}
                 keyboardType="email-address"
@@ -236,4 +237,4 @@ const CadastroAluno: React.FC = () => {
   );
 };
 
-export default CadastroAluno;
+export default CadastroProfessor;

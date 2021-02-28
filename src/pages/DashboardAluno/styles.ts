@@ -33,6 +33,8 @@ export const UserAvatar = styled.Image`
   width: 64px;
   height: 64px;
   border-radius: 32px;
+  /* border: 1px;
+  border-color: #f76769; */
 `;
 
 export const VagasList = styled(FlatList as new () => FlatList<IVagas>)`
@@ -53,6 +55,8 @@ export const VagaAvatar = styled.Image`
   height: 64px;
   border-radius: 32px;
   margin-left: -8px;
+  /* border: 1px;
+  border-color: #f76769; */
 `;
 
 export const VagaInfo = styled.View`
@@ -85,11 +89,4 @@ export const VagasListTitle = styled.Text`
   color: #f76769;
   font-family: 'RobotoSlab-Medium';
   font-size: 24px;
-`;
-
-export const VagaOtherInfo = styled.View`
-  flex-direction: column;
-  align-items: center;
-  margin-top: 8px;
-  margin-left: 8px;
 `;

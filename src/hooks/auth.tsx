@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {
   createContext,
   useCallback,
@@ -11,9 +12,15 @@ import api from '../services/api';
 interface User {
   id: string;
   nome: string;
+  sobrenome: string;
   email: string;
-  // eslint-disable-next-line camelcase
+  nivel: Nivel;
   avatar_url: string;
+}
+
+interface Nivel {
+  nome: string;
+  id: string;
 }
 
 interface AuthState {
@@ -69,7 +76,7 @@ const AuthProvider: React.FC = ({ children }) => {
       ['@GoBarber:user', JSON.stringify(user)],
     ]);
 
-    api.defaults.headers.authorization = `Beare ${token}`;
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
     setData({ token, user });
   }, []);

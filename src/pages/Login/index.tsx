@@ -125,7 +125,7 @@ const Login: React.FC = () => {
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
-      <CadastroButton onPress={() => navigation.navigate('CadastroAluno')}>
+      <CadastroButton onPress={() => navigation.navigate('EscolherPerfil')}>
         <Icon name="login" size={20} color="#fff" />
         <CadastroText>Criar uma conta</CadastroText>
       </CadastroButton>
