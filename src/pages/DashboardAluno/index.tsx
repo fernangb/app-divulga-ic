@@ -45,8 +45,8 @@ const DashboardAluno: React.FC = () => {
   const { navigate } = useNavigation();
   const [vagas, setVagas] = useState<IVagas[]>([]);
 
-  const navigateToProfile = useCallback(() => {
-    navigate('Profile');
+  const navigateToPerfil = useCallback(() => {
+    navigate('Perfil');
   }, [navigate]);
 
   useEffect(() => {
@@ -57,14 +57,12 @@ const DashboardAluno: React.FC = () => {
 
   const navigateToProcurarVagas = useCallback(
     (id: string) => {
-      navigate('CriarVaga', { id });
+      // console.log("Id1: ",id);
+      // navigate('PesquisarVaga', { id });
+      navigate('PesquisarVaga');
     },
     [navigate],
   );
-
-  const oi = () => {
-    console.log('oi');
-  };
 
   return (
     <Container>
@@ -74,7 +72,8 @@ const DashboardAluno: React.FC = () => {
           {'\n'}
           <UserName>{user.nome}</UserName>
         </HeaderTitle>
-        <ProfileButton onPress={navigateToProfile}>
+        <ProfileButton onPress={navigateToPerfil}>
+          {/* <ProfileButton onPress={() => navigateToProcurarVagas(user.id)}> */}
           <UserAvatar
             source={{
               uri: user.avatar_url,

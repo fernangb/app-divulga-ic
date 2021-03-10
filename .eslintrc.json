@@ -5,13 +5,11 @@
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint",
         "plugin:prettier/recommended"
     ],
     "globals": {
       "__DEV__": "readonly"
-  },
+    },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {

@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Container,
   Header,
-  BackButton,
   HeaderTitle,
   UserAvatar,
   VagasListContainer,
@@ -36,7 +35,7 @@ interface RouteParams {
   professor: { usuario: { avatar_url: string } };
 }
 
-const CriarVaga: React.FC = () => {
+const PesquisarVaga: React.FC = () => {
   const route = useRoute();
   const { user } = useAuth();
   const { goBack } = useNavigation();
@@ -67,11 +66,13 @@ const CriarVaga: React.FC = () => {
         {/* <BackButton onPress={navigateBack}>
           <Icon name="arrow-left" size={24} color="#222680" />
         </BackButton> */}
-        <HeaderTitle>Criar uma Vaga</HeaderTitle>
+        <HeaderTitle>Pesquisar Vagas</HeaderTitle>
         <UserAvatar source={{ uri: user.avatar_url }} />
       </Header>
       <VagasListContainer>
         <VagasList
+          horizontal
+          showsHorizontalScrollIndicator={false}
           data={vagas}
           keyExtractor={(vaga) => vaga.id}
           renderItem={({item: vaga}) => (
@@ -83,4 +84,4 @@ const CriarVaga: React.FC = () => {
   );
 };
 
-export default CriarVaga;
+export default PesquisarVaga;

@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -7,12 +7,16 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
+import Autocomplete from 'react-native-autocomplete-input';
+
 import logoImg from '../../assets/logo1.png';
 import {
   Container,
@@ -37,6 +41,11 @@ interface CadastroFormData {
   senhaRepetida: string;
 }
 
+interface ICursos {
+  nome: string;
+  id: string;
+}
+
 const CadastroAluno: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const emailInputRef = useRef<TextInput>(null);
@@ -47,6 +56,16 @@ const CadastroAluno: React.FC = () => {
   const senhaInputRef = useRef<TextInput>(null);
   const confirmarSenhaInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+
+  const [cursos, setCursos] = useState<ICursos[]>([]);
+  const [cursosFiltrados, setCursosFiltrados] = useState<ICursos[]>([]);
+  const [cursoEscolhido, setCursoEscolhido] = useState<ICursos>();
+
+  useEffect(() => {
+    api.get('/cursos').then(response => {
+      setCursos(response.data);
+    });
+  }, []);
 
   const handleSignUp = useCallback(
     async (data: CadastroFormData) => {
@@ -86,7 +105,7 @@ const CadastroAluno: React.FC = () => {
             dre: data.dre,
             periodo: data.periodo,
             id_nivel: nivel.data.id,
-            id_curso: '84324c98-2a90-4d90-b02a-7563bcbe9bef',
+            id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
           })
           .then(response => {
             console.log(response);
@@ -116,6 +135,44 @@ const CadastroAluno: React.FC = () => {
     [navigation],
   );
 
+  useEffect(() => {
+    console.log('Cursos: ', cursos);
+  }, [cursos]);
+
+  useEffect(() => {
+    console.log('Cursos Filtrados: ', cursosFiltrados);
+  }, [cursosFiltrados]);
+
+  useEffect(() => {
+    console.log('Curso Escolhido: ', cursoEscolhido);
+  }, [cursoEscolhido]);
+
+  const findCursos = useCallback(e => {
+    const texto = e.currentTarget.value;
+
+    console.log(texto);
+
+    const resultados = cursos.filter(
+      c => c.nome.toLowerCase().indexOf(texto.toLowerCase()) > -1,
+    );
+    console.log(resultados);
+
+    // // Method called every time when we change the value of the input
+    // if (texto) {
+    //   // Making a case insensitive regular expression
+    //   const regex = new RegExp(texto, 'g');
+    //   console.log(regex);
+
+    //   cursos.match(regex);
+
+    //   // Setting the filtered film array according the query
+    //   setCursosFiltrados(cursos.filter(c => c.nome.search(regex) >= 0));
+    // } else {
+    //   // If the query is null then return blank
+    //   setCursosFiltrados([]);
+    // }
+  }, []);
+
   return (
     <>
       <KeyboardAvoidingView
@@ -132,6 +189,24 @@ const CadastroAluno: React.FC = () => {
             <View>
               <Title>Crie sua conta</Title>
             </View>
+            <Autocomplete
+              data={cursos}
+              defaultValue=""
+              onChangeText={texto => {
+                findCursos(texto);
+              }}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCursoEscolhido(item);
+                    setCursos([]);
+                  }}
+                >
+                  <Text>{item.nome}</Text>
+                </TouchableOpacity>
+              )}
+            />
+
             <Form ref={formRef} onSubmit={handleSignUp}>
               <Input
                 autoCapitalize="words"

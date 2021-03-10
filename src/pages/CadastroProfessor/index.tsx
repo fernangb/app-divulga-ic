@@ -87,8 +87,8 @@ const CadastroProfessor: React.FC = () => {
             sobrenome: data.sobrenome,
             siape: data.siape,
             id_nivel: nivel.data.id,
-            id_laboratorio: '4b746598-4ba8-4750-b670-4793b92ef39b',
-            id_curso: '84324c98-2a90-4d90-b02a-7563bcbe9bef',
+            id_laboratorio: '7d96ee08-fa15-43bb-b834-15db019b36a9',
+            id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
           })
           .then(response => {
             console.log('Resposta: ', response);

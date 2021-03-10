@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, {
   useEffect,
@@ -24,7 +25,6 @@ interface InputRef {
   focus(): void;
 }
 
-// eslint-disable-next-line react/prop-types
 const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   { name, icon, ...rest },
   ref,
