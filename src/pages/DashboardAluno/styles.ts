@@ -9,11 +9,13 @@ export const Container = styled.View`
 `;
 export const Header = styled.View`
   padding: 8px;
-  padding-top: ${getStatusBarHeight()}px;
+  /* padding-top: ${getStatusBarHeight()}px; */
   background: #222680;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-bottom-width: 1px;
+  border-color: #f76769;
 `;
 export const HeaderTitle = styled.Text`
   color: #fff;
@@ -90,3 +92,18 @@ export const VagasListTitle = styled.Text`
   font-family: 'RobotoSlab-Medium';
   font-size: 24px;
 `;
+
+export const Footer = styled.View`
+  padding: 8px;
+  /* padding-top: ${getStatusBarHeight()}px; */
+  background: #222680;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const LabButton = styled.TouchableOpacity``;
+
+export const BuscaButton = styled.TouchableOpacity``;
+
+export const InscricoesButton = styled.TouchableOpacity``;

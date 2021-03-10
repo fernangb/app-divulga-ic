@@ -14,14 +14,14 @@ import {
   ProfileButton,
   UserAvatar,
   VagasList,
-  VagaCard,
-  VagaAvatar,
-  VagaInfo,
-  VagaNome,
-  VagaMeta,
-  VagaMetaText,
   VagasListTitle,
+  Footer,
+  LabButton,
+  BuscaButton,
+  InscricoesButton,
 } from './styles';
+
+import VagaCard from '../../components/VagaCard';
 
 export interface IVagas {
   id: string;
@@ -38,6 +38,7 @@ export interface IVagas {
   nr_vagas: number;
   laboratorio: { nome: string; sigla: string };
   professor: { usuario: { avatar_url: string } };
+  avatar_url: string;
 }
 
 const DashboardAluno: React.FC = () => {
@@ -46,7 +47,7 @@ const DashboardAluno: React.FC = () => {
   const [vagas, setVagas] = useState<IVagas[]>([]);
 
   const navigateToPerfil = useCallback(() => {
-    navigate('Perfil');
+    navigate('Menu');
   }, [navigate]);
 
   useEffect(() => {
@@ -88,30 +89,28 @@ const DashboardAluno: React.FC = () => {
           <VagasListTitle>Vagas Recomendadas</VagasListTitle>
         }
         renderItem={({ item: vaga }) => (
-          <VagaCard onPress={() => navigateToProcurarVagas(vaga.id)}>
-            <VagaAvatar source={{ uri: user.avatar_url }} />
-            <VagaInfo>
-              <VagaNome>{vaga.nome}</VagaNome>
-              <VagaMeta>
-                <Icon name="information" size={14} color="#f76769" />
-                <VagaMetaText>{vaga.laboratorio.sigla}</VagaMetaText>
-              </VagaMeta>
-              <VagaMeta>
-                <Icon name="currency-usd" size={14} color="#f76769" />
-                <VagaMetaText>
-                  R$
-                  {vaga.vl_bolsa}
-                </VagaMetaText>
-              </VagaMeta>
-              <VagaMeta>
-                <Icon name="alarm" size={14} color="#f76769" />
-                <VagaMetaText>{vaga.hr_semana}h</VagaMetaText>
-              </VagaMeta>
-            </VagaInfo>
-          </VagaCard>
+          <VagaCard
+            vaga={vaga}
+            onPress={() => navigateToProcurarVagas(vaga.id)}
+          />
         )}
       />
-      <Button title="Sair" onPress={signOut} />
+      {/* <Footer>
+        <LabButton onPress={() => {}}>
+          <Icon
+            name="filter"
+            color="#f76769"
+            size={36}
+            style={{ transform: [{ rotateZ: '180deg' }] }}
+          />
+        </LabButton>
+        <BuscaButton onPress={() => {}}>
+          <Icon name="magnify" color="#f76769" size={36} />
+        </BuscaButton>
+        <InscricoesButton onPress={() => {}}>
+          <Icon name="clipboard-list" color="#f76769" size={36} />
+        </InscricoesButton>
+      </Footer> */}
     </Container>
   );
 };
