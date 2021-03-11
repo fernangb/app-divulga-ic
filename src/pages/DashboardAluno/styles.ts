@@ -1,8 +1,6 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import { IVagas } from './index';
 
 export const Container = styled.View`
   flex: 1;
@@ -40,16 +38,8 @@ export const UserAvatar = styled.Image`
 `;
 
 export const VagasList = styled(FlatList as new () => FlatList<IVagas>)`
-  padding: 32px 24px 16px;
-`;
-
-export const VagaCard = styled(RectButton)`
-  background: #222680;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 16px;
-  flex-direction: row;
-  align-items: center;
+  padding-bottom: 16px;
+  margin: 16px;
 `;
 
 export const VagaAvatar = styled.Image`

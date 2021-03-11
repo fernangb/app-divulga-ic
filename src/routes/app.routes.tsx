@@ -7,6 +7,7 @@ import { useAuth } from '../hooks/auth';
 import PesquisarVaga from '../pages/PesquisarVaga';
 import Perfil from '../pages/Perfil';
 import Menu from '../pages/Menu';
+import InscreverVaga from '../pages/InscreverVaga';
 
 const App = createStackNavigator();
 
@@ -25,6 +26,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen name="PesquisarVaga" component={PesquisarVaga} />
       <App.Screen name="Menu" component={Menu} />
       <App.Screen name="Perfil" component={Perfil} />
+      <App.Screen name="InscreverVaga" component={InscreverVaga} />
     </App.Navigator>
   ) : (
     <App.Navigator
@@ -38,6 +40,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen name="PesquisarVaga" component={PesquisarVaga} />
       <App.Screen name="Menu" component={Menu} />
       <App.Screen name="Perfil" component={Perfil} />
+      <App.Screen name="InscreverVaga" component={InscreverVaga} />
     </App.Navigator>
   );
 };
