@@ -28,9 +28,8 @@ export const OptionButton = styled.TouchableOpacity`
   padding: 16px 8px ${16 + getBottomSpace()}px;
   margin: 16px;
   align-items: center;
-  /* justify-content: space-around; */
   flex-direction: row;
-  width: 324px;
+  width: 90%;
   height: 64px;
 `;
 
@@ -59,4 +58,8 @@ export const SairText = styled.Text`
   color: #fff;
   font-size: 18px;
   font-family: 'RobotoSlab-Regular';
+`;
+
+export const ImageView = styled.View`
+  margin-top: 72px;
 `;

@@ -16,9 +16,11 @@ import {
   OptionText,
   SairButton,
   SairText,
+  ImageView,
 } from './styles';
 import { useAuth } from '../../hooks/auth';
 import logoImg from '../../assets/logo1.png';
+import Header from '../../components/Header';
 
 const Menu: React.FC = () => {
   const navigation = useNavigation();
@@ -31,6 +33,8 @@ const Menu: React.FC = () => {
 
   return (
     <>
+      <Header />
+
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -44,13 +48,16 @@ const Menu: React.FC = () => {
             <BackButton onPress={handleGoBack}>
               <Icon name="arrow-left" size={24} color="#222680" />
             </BackButton>
-            {/* <UserAvatarButton onPress={() => {}}>
-              <UserAvatar source={{ uri: user.avatar_url }} />
-            </UserAvatarButton> */}
-            <Image source={logoImg} />
+            <ImageView>
+              <Image source={logoImg} />
+            </ImageView>
             <View>
               <Title>Menu</Title>
             </View>
+            <OptionButton onPress={() => navigation.navigate('DashboardAluno')}>
+              <Icon name="home" size={36} color="#fff" />
+              <OptionText>Vagas recomendadas</OptionText>
+            </OptionButton>
             <OptionButton onPress={() => navigation.navigate('Perfil')}>
               <Icon name="account" size={36} color="#fff" />
               <OptionText>Ver perfil</OptionText>
@@ -63,7 +70,7 @@ const Menu: React.FC = () => {
               onPress={() => navigation.navigate('MinhasInscricoes')}
             >
               <Icon name="clipboard-list" size={36} color="#fff" />
-              <OptionText>Minhas vagas</OptionText>
+              <OptionText>Minhas inscrições</OptionText>
             </OptionButton>
           </Container>
         </ScrollView>

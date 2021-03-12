@@ -183,7 +183,7 @@ const CadastroAluno: React.FC = () => {
             <View>
               <Title>Crie sua conta</Title>
             </View>
-            <Autocomplete
+            {/* <Autocomplete
               data={cursos}
               defaultValue=""
               onChangeText={texto => {
@@ -199,7 +199,7 @@ const CadastroAluno: React.FC = () => {
                   <Text>{item.nome}</Text>
                 </TouchableOpacity>
               )}
-            />
+            /> */}
 
             <Form ref={formRef} onSubmit={handleSignUp}>
               <Input
