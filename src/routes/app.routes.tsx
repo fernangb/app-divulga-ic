@@ -8,6 +8,7 @@ import PesquisarVaga from '../pages/PesquisarVaga';
 import Perfil from '../pages/Perfil';
 import Menu from '../pages/Menu';
 import InscreverVaga from '../pages/InscreverVaga';
+import MinhasVagas from '../pages/MinhasVagas';
 
 const App = createStackNavigator();
 
@@ -27,6 +28,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen name="Menu" component={Menu} />
       <App.Screen name="Perfil" component={Perfil} />
       <App.Screen name="InscreverVaga" component={InscreverVaga} />
+      <App.Screen name="MinhasVagas" component={MinhasVagas} />
     </App.Navigator>
   ) : (
     <App.Navigator
@@ -41,6 +43,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen name="Menu" component={Menu} />
       <App.Screen name="Perfil" component={Perfil} />
       <App.Screen name="InscreverVaga" component={InscreverVaga} />
+      <App.Screen name="MinhasVagas" component={MinhasVagas} />
     </App.Navigator>
   );
 };

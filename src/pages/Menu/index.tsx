@@ -23,7 +23,7 @@ import logoImg from '../../assets/logo1.png';
 const Menu: React.FC = () => {
   const navigation = useNavigation();
 
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();
@@ -59,7 +59,7 @@ const Menu: React.FC = () => {
               <Icon name="magnify" size={36} color="#fff" />
               <OptionText>Buscar mais vagas</OptionText>
             </OptionButton>
-            <OptionButton onPress={() => navigation.navigate('Perfil')}>
+            <OptionButton onPress={() => navigation.navigate('MinhasVagas')}>
               <Icon name="clipboard-list" size={36} color="#fff" />
               <OptionText>Minhas vagas</OptionText>
             </OptionButton>
