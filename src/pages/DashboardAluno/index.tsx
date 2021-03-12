@@ -18,6 +18,7 @@ import { IVaga } from '../../interfaces/IVaga';
 
 const DashboardAluno: React.FC = () => {
   const { user } = useAuth();
+
   const { navigate } = useNavigation();
   const [vagas, setVagas] = useState<IVaga[]>([]);
 

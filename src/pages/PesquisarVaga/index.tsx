@@ -18,7 +18,7 @@ interface RouteParams {
   id: string;
 }
 
- interface IVagas {
+interface IVagas {
   id: string;
   id_curso: string;
   id_area: string;
@@ -41,11 +41,6 @@ const PesquisarVaga: React.FC = () => {
   const { goBack } = useNavigation();
   const [vagas, setVagas] = useState<IVagas[]>([]);
 
-
-  // const { id } = route.params as RouteParams;
-
-  // console.log("Id: ",id);
-
   const navigateBack = useCallback(() => {
     goBack();
   }, [goBack]);
@@ -55,10 +50,6 @@ const PesquisarVaga: React.FC = () => {
       setVagas(response.data);
     });
   }, []);
-
-  useEffect(() => {
-    console.log(vagas)
-  }, [vagas]);
 
   return (
     <Container>
@@ -74,10 +65,8 @@ const PesquisarVaga: React.FC = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           data={vagas}
-          keyExtractor={(vaga) => vaga.id}
-          renderItem={({item: vaga}) => (
-            <UserName>{vaga.nome}</UserName>
-          )}
+          keyExtractor={vaga => vaga.id}
+          renderItem={({ item: vaga }) => <UserName>{vaga.nome}</UserName>}
         />
       </VagasListContainer>
     </Container>

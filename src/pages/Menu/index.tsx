@@ -59,7 +59,9 @@ const Menu: React.FC = () => {
               <Icon name="magnify" size={36} color="#fff" />
               <OptionText>Buscar mais vagas</OptionText>
             </OptionButton>
-            <OptionButton onPress={() => navigation.navigate('MinhasVagas')}>
+            <OptionButton
+              onPress={() => navigation.navigate('MinhasInscricoes')}
+            >
               <Icon name="clipboard-list" size={36} color="#fff" />
               <OptionText>Minhas vagas</OptionText>
             </OptionButton>

@@ -9,17 +9,17 @@ import {
   UserName,
   ProfileButton,
   UserAvatar,
-  VagasList,
+  InscricoesList,
   VagasListTitle,
 } from './styles';
 
-import VagaCard from '../../components/VagaCard';
-import { IVaga } from '../../interfaces/IVaga';
+import { IInscricao } from '../../interfaces/IInscricao';
+import InscricaoCard from '../../components/InscricaoCard';
 
-const MinhasVagas: React.FC = () => {
+const MinhasInscricoes: React.FC = () => {
   const { user } = useAuth();
   const { navigate } = useNavigation();
-  const [vagas, setVagas] = useState<IVaga[]>([]);
+  const [inscricoes, setInscricoes] = useState<IInscricao[]>([]);
 
   const navigateToPerfil = useCallback(() => {
     navigate('Menu');
@@ -27,15 +27,9 @@ const MinhasVagas: React.FC = () => {
 
   useEffect(() => {
     api.get('/inscricoes_ic/me').then(response => {
-      console.log('Inscricoes: ', response.data);
-
-      setVagas(response.data.vaga_ic);
+      setInscricoes(response.data);
     });
   }, []);
-
-  useEffect(() => {
-    console.log('Vagas Inscritas: ', vagas);
-  }, [vagas]);
 
   return (
     <Container>
@@ -46,7 +40,6 @@ const MinhasVagas: React.FC = () => {
           <UserName>{user.nome}</UserName>
         </HeaderTitle>
         <ProfileButton onPress={navigateToPerfil}>
-          {/* <ProfileButton onPress={() => navigateToProcurarVagas(user.id)}> */}
           <UserAvatar
             source={{
               uri: user.avatar_url,
@@ -54,19 +47,16 @@ const MinhasVagas: React.FC = () => {
           />
         </ProfileButton>
       </Header>
-      <VagasList
-        keyExtractor={vaga => vaga.id}
-        data={vagas}
-        ListHeaderComponent={<VagasListTitle>Minhas Vagas</VagasListTitle>}
-        renderItem={({ item: vaga }) => (
-          <VagaCard
-            vaga={vaga}
-            // onPress={() => navigateToProcurarVagas(vaga.id)}
-          />
+      <InscricoesList
+        keyExtractor={inscricao => inscricao.id}
+        data={inscricoes}
+        ListHeaderComponent={<VagasListTitle>Minhas Inscrições</VagasListTitle>}
+        renderItem={({ item: inscricao }) => (
+          <InscricaoCard inscricao={inscricao} />
         )}
       />
     </Container>
   );
 };
 
-export default MinhasVagas;
+export default MinhasInscricoes;

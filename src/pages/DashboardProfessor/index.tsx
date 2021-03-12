@@ -61,10 +61,6 @@ const DashboardProfessor: React.FC = () => {
     [navigate],
   );
 
-  const oi = () => {
-    console.log('oi');
-  };
-
   return (
     <Container>
       <Header>

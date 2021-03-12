@@ -23,7 +23,8 @@ export const Description = styled.Text`
   margin-top: 16px;
 `;
 
-export const OkButton = styled(RectButton)`
+export const RedirectButton = styled(RectButton)`
+  width: 90%;
   background: #f76769;
   justify-content: center;
   align-items: center;
@@ -32,7 +33,7 @@ export const OkButton = styled(RectButton)`
   padding: 12px 24px;
 `;
 
-export const OkButtonText = styled.Text`
+export const RedirectButtonText = styled.Text`
   font-family: 'RobotoSlab-Medium';
   color: #222680;
   font-size: 18px;

@@ -91,25 +91,19 @@ const CadastroAluno: React.FC = () => {
           abortEarly: false,
         });
 
-        console.log('Dados: ', data);
-
         const nivel = await api.get('/niveis/aluno');
 
-        await api
-          .post('/alunos', {
-            email: data.email,
-            senha: data.senha,
-            confirmacao_senha: data.senhaRepetida,
-            nome: data.nome,
-            sobrenome: data.sobrenome,
-            dre: data.dre,
-            periodo: data.periodo,
-            id_nivel: nivel.data.id,
-            id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
-          })
-          .then(response => {
-            console.log(response);
-          });
+        await api.post('/alunos', {
+          email: data.email,
+          senha: data.senha,
+          confirmacao_senha: data.senhaRepetida,
+          nome: data.nome,
+          sobrenome: data.sobrenome,
+          dre: data.dre,
+          periodo: data.periodo,
+          id_nivel: nivel.data.id,
+          id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
+        });
 
         Alert.alert(
           'Cadastro realizado com sucesso!',

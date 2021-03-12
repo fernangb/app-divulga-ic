@@ -5,23 +5,30 @@ import {
   Container,
   Title,
   Description,
-  OkButton,
-  OkButtonText,
+  RedirectButton,
+  RedirectButtonText,
 } from './styles';
 
 interface RouteParams {
   nome: string;
 }
 
-const InscreverVaga: React.FC = () => {
+const ConfirmarInscricaoVaga: React.FC = () => {
   const { reset } = useNavigation();
   const { params } = useRoute();
 
   const routeParams = params as RouteParams;
 
-  const handleConfirmarInscricao = useCallback(() => {
+  const handleVagasRecomendadas = useCallback(() => {
     reset({
       routes: [{ name: 'DashboardAluno' }],
+      index: 0,
+    });
+  }, [reset]);
+
+  const handleMinhasInscricoes = useCallback(() => {
+    reset({
+      routes: [{ name: 'MinhasInscricoes' }],
       index: 0,
     });
   }, [reset]);
@@ -31,11 +38,14 @@ const InscreverVaga: React.FC = () => {
       <Icon name="check" size={80} color="#04d361" />
       <Title>Inscrição realizada com sucesso</Title>
       <Description>{routeParams.nome}</Description>
-      <OkButton onPress={handleConfirmarInscricao}>
-        <OkButtonText>Ok</OkButtonText>
-      </OkButton>
+      <RedirectButton onPress={handleMinhasInscricoes}>
+        <RedirectButtonText>Ver minhas inscrições</RedirectButtonText>
+      </RedirectButton>
+      <RedirectButton onPress={handleVagasRecomendadas}>
+        <RedirectButtonText>Voltar para vagas recomendadas</RedirectButtonText>
+      </RedirectButton>
     </Container>
   );
 };
 
-export default InscreverVaga;
+export default ConfirmarInscricaoVaga;

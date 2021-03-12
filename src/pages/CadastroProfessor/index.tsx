@@ -72,27 +72,19 @@ const CadastroProfessor: React.FC = () => {
           abortEarly: false,
         });
 
-        console.log('Dados: ', data);
-
         const nivel = await api.get('/niveis/professor');
 
-        console.log('Nivel: ', nivel.data.id);
-
-        await api
-          .post('/professores', {
-            email: data.email,
-            senha: data.senha,
-            confirmacao_senha: data.senhaRepetida,
-            nome: data.nome,
-            sobrenome: data.sobrenome,
-            siape: data.siape,
-            id_nivel: nivel.data.id,
-            id_laboratorio: '7d96ee08-fa15-43bb-b834-15db019b36a9',
-            id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
-          })
-          .then(response => {
-            console.log('Resposta: ', response);
-          });
+        await api.post('/professores', {
+          email: data.email,
+          senha: data.senha,
+          confirmacao_senha: data.senhaRepetida,
+          nome: data.nome,
+          sobrenome: data.sobrenome,
+          siape: data.siape,
+          id_nivel: nivel.data.id,
+          id_laboratorio: '7d96ee08-fa15-43bb-b834-15db019b36a9',
+          id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
+        });
 
         Alert.alert(
           'Cadastro realizado com sucesso!',

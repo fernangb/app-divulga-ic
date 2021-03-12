@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
-import { IVaga } from '../../interfaces/IVaga';
+import { IInscricao } from '../../interfaces/IInscricao';
 
 export const Container = styled.View`
   flex: 1;
@@ -38,7 +38,9 @@ export const UserAvatar = styled.Image`
   border-color: #f76769; */
 `;
 
-export const VagasList = styled(FlatList as new () => FlatList<IVaga>)`
+export const InscricoesList = styled(
+  FlatList as new () => FlatList<IInscricao>,
+)`
   padding-bottom: 16px;
   margin: 16px;
 `;
