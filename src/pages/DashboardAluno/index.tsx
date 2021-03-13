@@ -11,7 +11,7 @@ const DashboardAluno: React.FC = () => {
   const [vagas, setVagas] = useState<IVaga[]>([]);
 
   useEffect(() => {
-    api.get('/vagas_ic/me').then(response => {
+    api.get('/vagas_ic/aluno/me').then(response => {
       setVagas(response.data);
     });
   }, []);
