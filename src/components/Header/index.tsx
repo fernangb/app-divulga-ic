@@ -19,10 +19,6 @@ const Header: React.FC = () => {
     navigate('Menu');
   }, [navigate]);
 
-  useEffect(() => {
-    console.log(user.avatar_url);
-  }, []);
-
   if (!user.avatar_url) {
     return (
       <Container>

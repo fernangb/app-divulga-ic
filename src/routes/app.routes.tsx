@@ -9,6 +9,7 @@ import Perfil from '../pages/Perfil';
 import Menu from '../pages/Menu';
 import MinhasInscricoes from '../pages/MinhasInscricoes';
 import ConfirmarInscricaoVaga from '../pages/ConfirmarInscricaoVaga';
+import CancelarInscricaoVaga from '../pages/CancelarInscricaoVaga';
 
 const App = createStackNavigator();
 
@@ -31,6 +32,10 @@ const AppRoutes: React.FC = () => {
         name="ConfirmarInscricaoVaga"
         component={ConfirmarInscricaoVaga}
       />
+      <App.Screen
+        name="CancelarInscricaoVaga"
+        component={CancelarInscricaoVaga}
+      />
       <App.Screen name="MinhasInscricoes" component={MinhasInscricoes} />
     </App.Navigator>
   ) : (
@@ -48,6 +53,10 @@ const AppRoutes: React.FC = () => {
       <App.Screen
         name="ConfirmarInscricaoVaga"
         component={ConfirmarInscricaoVaga}
+      />
+      <App.Screen
+        name="CancelarInscricaoVaga"
+        component={CancelarInscricaoVaga}
       />
       <App.Screen name="MinhasInscricoes" component={MinhasInscricoes} />
     </App.Navigator>

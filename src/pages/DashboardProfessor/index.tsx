@@ -16,10 +16,6 @@ const DashboardProfessor: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log('Vagas Professor: ', vagas);
-  }, [vagas]);
-
   return (
     <Container>
       <Header />

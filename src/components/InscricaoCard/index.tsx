@@ -15,7 +15,6 @@ import {
   InscricaoText,
 } from './styles';
 import api from '../../services/api';
-import { useAuth } from '../../hooks/auth';
 import { IInscricao } from '../../interfaces/IInscricao';
 
 interface ICardProps {
@@ -28,7 +27,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
 
   const handleInscricao = useCallback(async (id: string) => {
     await api.delete(`/inscricoes_ic/${id}`);
-    navigate('InscreverVaga', { nome: inscricao.vaga_ic.nome });
+    navigate('CancelarInscricaoVaga', { nome: inscricao.vaga_ic.nome });
   }, []);
 
   if (cardAberto) {
