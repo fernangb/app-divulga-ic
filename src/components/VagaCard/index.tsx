@@ -65,6 +65,10 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
             <VagaMetaText>{vaga.laboratorio.sigla}</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
+            <Icon name="lightbulb-on" size={14} color="#f76769" />
+            <VagaMetaText>Área: {vaga.area.nome}</VagaMetaText>
+          </VagaMeta>
+          <VagaMeta>
             <Icon name="account-tie" size={14} color="#f76769" />
             <VagaMetaText>
               {vaga.professor.usuario.nome} {vaga.professor.usuario.sobrenome}
@@ -73,10 +77,6 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
           <VagaMeta>
             <Icon name="school" size={14} color="#f76769" />
             <VagaMetaText>{vaga.curso.nome}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
-            <Icon name="lightbulb-on" size={14} color="#f76769" />
-            <VagaMetaText>{vaga.area.nome}</VagaMetaText>
           </VagaMeta>
 
           <VagaMeta>
@@ -92,7 +92,7 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
           </VagaMeta>
           <VagaMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <VagaMetaText>{vaga.cr_minimo}</VagaMetaText>
+            <VagaMetaText>CR: {vaga.cr_minimo}</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="progress-check" size={14} color="#f76769" />

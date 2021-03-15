@@ -8,24 +8,15 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
-
-interface User {
-  id: string;
-  nome: string;
-  sobrenome: string;
-  email: string;
-  nivel: Nivel;
-  avatar_url: string;
-}
-
-interface Nivel {
-  nome: string;
-  id: string;
-}
+import { IAluno } from '../interfaces/IAluno';
+import { IProfessor } from '../interfaces/IProfessor';
+import { IUsuario } from '../interfaces/IUsuario';
 
 interface AuthState {
   token: string;
-  user: User;
+  user: IUsuario;
+  aluno: IAluno;
+  professor: IProfessor;
 }
 
 interface SignInCredentials {
@@ -34,11 +25,13 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  user: User;
+  user: IUsuario;
+  aluno: IAluno;
+  professor: IProfessor;
   loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
-  updateUser(user: User): Promise<void>;
+  updateUser(user: IUsuario): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -49,15 +42,22 @@ const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
-      const [token, user] = await AsyncStorage.multiGet([
+      const [token, user, aluno, professor] = await AsyncStorage.multiGet([
         '@GoBarber:token',
         '@GoBarber:user',
+        '@GoBarber:aluno',
+        '@GoBarber:professor',
       ]);
 
-      if (token[1] && user[1]) {
+      if (token[1] && user[1] && aluno[1] && professor[1]) {
         api.defaults.headers.authorization = `Bearer ${token[1]}`;
 
-        setData({ token: token[1], user: JSON.parse(user[1]) });
+        setData({
+          token: token[1],
+          user: JSON.parse(user[1]),
+          aluno: JSON.parse(aluno[1]),
+          professor: JSON.parse(professor[1]),
+        });
       }
       setLoading(false);
     }
@@ -70,15 +70,17 @@ const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { user, token } = response.data;
+    const { user, token, aluno, professor } = response.data;
 
     await AsyncStorage.multiSet([
       ['@GoBarber:token', token],
       ['@GoBarber:user', JSON.stringify(user)],
+      ['@GoBarber:aluno', JSON.stringify(aluno)],
+      ['@GoBarber:professor', JSON.stringify(professor)],
     ]);
 
     api.defaults.headers.authorization = `Bearer ${token}`;
-    setData({ token, user });
+    setData({ token, user, aluno, professor });
   }, []);
 
   const signOut = useCallback(async () => {
@@ -88,17 +90,26 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const updateUser = useCallback(
-    async (user: User) => {
+    async (user: IUsuario) => {
       await AsyncStorage.setItem('@GoBarber:user', JSON.stringify(user));
+      const { aluno, professor } = data;
 
-      setData({ token: data.token, user });
+      setData({ token: data.token, user, aluno, professor });
     },
-    [setData, data.token],
+    [data],
   );
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, loading, signIn, signOut, updateUser }}
+      value={{
+        user: data.user,
+        aluno: data.aluno,
+        professor: data.professor,
+        loading,
+        signIn,
+        signOut,
+        updateUser,
+      }}
     >
       {children}
     </AuthContext.Provider>
