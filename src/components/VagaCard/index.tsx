@@ -16,6 +16,7 @@ import {
 } from './styles';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
+import getFormattedCurrency from '../../utils/getFormattedCurrency';
 
 interface ICardProps {
   vaga: IVaga;
@@ -81,7 +82,7 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
 
           <VagaMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
-            <VagaMetaText>R$ {vaga.vl_bolsa}</VagaMetaText>
+            <VagaMetaText>{getFormattedCurrency(vaga.vl_bolsa)}</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="alarm" size={14} color="#f76769" />
@@ -147,7 +148,7 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
 
         <VagaMeta>
           <Icon name="currency-usd" size={14} color="#f76769" />
-          <VagaMetaText>R$ {vaga.vl_bolsa}</VagaMetaText>
+          <VagaMetaText>{getFormattedCurrency(vaga.vl_bolsa)}</VagaMetaText>
         </VagaMeta>
         <VagaMeta>
           <Icon name="alarm" size={14} color="#f76769" />

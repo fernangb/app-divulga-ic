@@ -17,6 +17,7 @@ import {
 import api from '../../services/api';
 import { IInscricao } from '../../interfaces/IInscricao';
 import getFormattedDate from '../../utils/getFormattedDate';
+import getFormattedCurrency from '../../utils/getFormattedCurrency';
 
 interface ICardProps {
   inscricao: IInscricao;
@@ -79,8 +80,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           <InscricaoMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
             <InscricaoMetaText>
-              R$
-              {inscricao.vaga_ic.vl_bolsa}
+              {getFormattedCurrency(inscricao.vaga_ic.vl_bolsa)}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
