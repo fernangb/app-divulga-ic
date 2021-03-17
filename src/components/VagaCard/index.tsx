@@ -90,7 +90,7 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
           </VagaMeta>
           <VagaMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <VagaMetaText>CR: {vaga.cr_minimo}</VagaMetaText>
+            <VagaMetaText>CR: {vaga.cr_minimo.toFixed(1)}</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="progress-check" size={14} color="#f76769" />
