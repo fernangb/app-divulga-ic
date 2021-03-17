@@ -47,6 +47,7 @@ export const InscricaoButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  margin-top: 8px;
 `;
 
 export const InscricaoText = styled.Text`
@@ -54,4 +55,5 @@ export const InscricaoText = styled.Text`
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
   align-self: center;
+  padding-left: 4px;
 `;

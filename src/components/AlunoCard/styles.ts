@@ -1,4 +1,3 @@
-import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -13,8 +12,8 @@ export const Container = styled.View`
 export const VagaTitleContainer = styled.View`
   width: 100%;
   flex-direction: row;
-  /* align-items: center; */
   justify-content: space-between;
+  display: flex;
 `;
 
 export const MaisInfoButton = styled.TouchableOpacity``;
@@ -27,6 +26,9 @@ export const AlunoNome = styled.Text`
   color: #f76769;
   margin-left: 8px;
   margin-bottom: 16px;
+  display: flex;
+  flex: 1;
+  padding-left: 4px;
 `;
 
 export const VagaMeta = styled.View`
@@ -55,13 +57,4 @@ export const AlunoText = styled.Text`
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
   align-self: center;
-`;
-
-export const VagaAvatar = styled.Image`
-  width: 64px;
-  height: 64px;
-  border-radius: 32px;
-  margin-left: -8px;
-  /* border: 1px;
-  border-color: #f76769; */
 `;

@@ -16,6 +16,7 @@ import {
 } from './styles';
 import api from '../../services/api';
 import { IInscricao } from '../../interfaces/IInscricao';
+import getFormattedDate from '../../utils/getFormattedDate';
 
 interface ICardProps {
   inscricao: IInscricao;
@@ -101,7 +102,9 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </VagaMeta>
           <VagaMeta>
             <Icon name="calendar-check" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.dt_inscricao}</VagaMetaText>
+            <VagaMetaText>
+              {getFormattedDate(inscricao.dt_inscricao)}
+            </VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="information" size={14} color="#f76769" />
@@ -150,7 +153,9 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
 
         <VagaMeta>
           <Icon name="calendar-check" size={14} color="#f76769" />
-          <VagaMetaText>{inscricao.dt_inscricao}</VagaMetaText>
+          <VagaMetaText>
+            {getFormattedDate(inscricao.dt_inscricao)}
+          </VagaMetaText>
         </VagaMeta>
       </VagaInfo>
       <InscricaoButton onPress={() => handleInscricao(inscricao.id)}>

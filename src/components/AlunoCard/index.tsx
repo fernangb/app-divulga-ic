@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import getFormattedDate from '../../utils/getFormattedDate';
 
 import {
   Container,
@@ -10,9 +10,10 @@ import {
   VagaMetaText,
   MaisInfoButton,
   VagaTitleContainer,
-  VagaAvatar,
+  NomeBox,
 } from './styles';
 import { IInscricao } from '../../interfaces/IInscricao';
+import CardAvatar from '../CardAvatar';
 
 interface ICardProps {
   inscricao: IInscricao;
@@ -25,7 +26,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
     return (
       <Container>
         <VagaTitleContainer>
-          <VagaAvatar source={{ uri: inscricao.aluno.usuario.avatar_url }} />
+          <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
           <AlunoNome>
             {inscricao.aluno.usuario.nome} {inscricao.aluno.usuario.sobrenome}
           </AlunoNome>
@@ -49,7 +50,10 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </VagaMeta>
           <VagaMeta>
             <Icon name="calendar" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.dt_inscricao}</VagaMetaText>
+            <VagaMetaText>
+              {getFormattedDate(inscricao.dt_inscricao)}
+              {/* {format(inscricao.dt_inscricao, 'dd/MM/yyyy HH:mm:ss')} */}
+            </VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="email" size={14} color="#f76769" />
@@ -75,7 +79,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   return (
     <Container>
       <VagaTitleContainer>
-        <VagaAvatar source={{ uri: inscricao.aluno.usuario.avatar_url }} />
+        <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
         <AlunoNome>
           {inscricao.aluno.usuario.nome} {inscricao.aluno.usuario.sobrenome}
         </AlunoNome>
@@ -99,7 +103,10 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
         </VagaMeta>
         <VagaMeta>
           <Icon name="calendar" size={14} color="#f76769" />
-          <VagaMetaText>{inscricao.dt_inscricao}</VagaMetaText>
+          <VagaMetaText>
+            {getFormattedDate(inscricao.dt_inscricao)}
+            {/* {format(inscricao.dt_inscricao, 'dd/MM/yyyy HH:mm:ss')} */}
+          </VagaMetaText>
         </VagaMeta>
       </VagaInfo>
     </Container>
