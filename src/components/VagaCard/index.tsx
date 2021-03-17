@@ -81,10 +81,7 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
 
           <VagaMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
-            <VagaMetaText>
-              R$
-              {vaga.vl_bolsa}
-            </VagaMetaText>
+            <VagaMetaText>R$ {vaga.vl_bolsa}</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="alarm" size={14} color="#f76769" />

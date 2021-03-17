@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../../hooks/auth';
 import {
@@ -15,8 +15,8 @@ const Header: React.FC = () => {
 
   const { navigate } = useNavigation();
 
-  const navigateToPerfil = useCallback(() => {
-    navigate('Menu');
+  const navigateToMenu = useCallback(() => {
+    navigate('MenuAluno');
   }, [navigate]);
 
   if (!user.avatar_url) {
@@ -27,7 +27,7 @@ const Header: React.FC = () => {
           {'\n'}
           <UserName>{user.nome}</UserName>
         </HeaderTitle>
-        <ProfileButton onPress={navigateToPerfil}>
+        <ProfileButton onPress={navigateToMenu}>
           <Icon name="account-circle" size={64} color="#f76769" />
         </ProfileButton>
       </Container>
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
         {'\n'}
         <UserName>{user.nome}</UserName>
       </HeaderTitle>
-      <ProfileButton onPress={navigateToPerfil}>
+      <ProfileButton onPress={navigateToMenu}>
         <UserAvatar
           source={{
             uri: user.avatar_url,

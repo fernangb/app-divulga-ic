@@ -1,6 +1,5 @@
 import React, { useCallback, useRef } from 'react';
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
   View,
@@ -34,7 +33,7 @@ interface ProfileFormData {
   confirmacaoNovaSenha: string;
 }
 
-const Perfil: React.FC = () => {
+const PerfilAluno: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const nomeInputRef = useRef<TextInput>(null);
   const sobrenomeInputRef = useRef<TextInput>(null);
@@ -237,4 +236,4 @@ const Perfil: React.FC = () => {
   );
 };
 
-export default Perfil;
+export default PerfilAluno;

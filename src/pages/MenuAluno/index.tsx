@@ -22,7 +22,7 @@ import { useAuth } from '../../hooks/auth';
 import logoImg from '../../assets/logo1.png';
 import Header from '../../components/Header';
 
-const Menu: React.FC = () => {
+const MenuAluno: React.FC = () => {
   const navigation = useNavigation();
 
   const { signOut } = useAuth();
@@ -58,7 +58,7 @@ const Menu: React.FC = () => {
               <Icon name="home" size={36} color="#fff" />
               <OptionText>Vagas recomendadas</OptionText>
             </OptionButton>
-            <OptionButton onPress={() => navigation.navigate('Perfil')}>
+            <OptionButton onPress={() => navigation.navigate('PerfilAluno')}>
               <Icon name="account" size={36} color="#fff" />
               <OptionText>Ver perfil</OptionText>
             </OptionButton>
@@ -83,4 +83,4 @@ const Menu: React.FC = () => {
   );
 };
 
-export default Menu;
+export default MenuAluno;
