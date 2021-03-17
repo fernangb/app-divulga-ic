@@ -5,7 +5,7 @@ import { Container, VagasList, VagasListTitle } from './styles';
 import Header from '../../components/Header';
 
 import VagaCard from '../../components/VagaCard';
-import { IVaga } from '../../interfaces/IVaga';
+import IVaga from '../../interfaces/IVaga';
 
 const DashboardAluno: React.FC = () => {
   const [vagas, setVagas] = useState<IVaga[]>([]);

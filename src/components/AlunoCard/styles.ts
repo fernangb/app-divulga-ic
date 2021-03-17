@@ -9,7 +9,7 @@ export const Container = styled.View`
   align-items: flex-start;
 `;
 
-export const VagaTitleContainer = styled.View`
+export const AlunoTitleContainer = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
@@ -18,7 +18,7 @@ export const VagaTitleContainer = styled.View`
 
 export const MaisInfoButton = styled.TouchableOpacity``;
 
-export const VagaInfo = styled.View``;
+export const AlunoInfo = styled.View``;
 
 export const AlunoNome = styled.Text`
   font-family: 'RobotoSlab-Medium';
@@ -31,14 +31,14 @@ export const AlunoNome = styled.Text`
   padding-left: 4px;
 `;
 
-export const VagaMeta = styled.View`
+export const AlunoMeta = styled.View`
   flex-direction: row;
   align-items: center;
   margin-top: 8px;
   margin-left: 8px;
 `;
 
-export const VagaMetaText = styled.Text`
+export const AlunoMetaText = styled.Text`
   margin-left: 12px;
   color: #fff;
   font-family: 'RobotoSlab-Regular';

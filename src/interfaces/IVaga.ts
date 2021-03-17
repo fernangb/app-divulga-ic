@@ -21,7 +21,7 @@ interface ICurso {
   nome: string;
 }
 
-export interface IVaga {
+export default interface IVaga {
   id: string;
   nome: string;
   descricao: string;

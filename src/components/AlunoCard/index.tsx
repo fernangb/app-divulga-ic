@@ -4,12 +4,12 @@ import getFormattedDate from '../../utils/getFormattedDate';
 
 import {
   Container,
-  VagaInfo,
+  AlunoInfo,
   AlunoNome,
-  VagaMeta,
-  VagaMetaText,
+  AlunoMeta,
+  AlunoMetaText,
   MaisInfoButton,
-  VagaTitleContainer,
+  AlunoTitleContainer,
   NomeBox,
 } from './styles';
 import { IInscricao } from '../../interfaces/IInscricao';
@@ -25,7 +25,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   if (cardAberto) {
     return (
       <Container>
-        <VagaTitleContainer>
+        <AlunoTitleContainer>
           <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
           <AlunoNome>
             {inscricao.aluno.usuario.nome} {inscricao.aluno.usuario.sobrenome}
@@ -37,48 +37,48 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           >
             <Icon name="chevron-up" size={24} color="#f76769" />
           </MaisInfoButton>
-        </VagaTitleContainer>
-        <VagaInfo>
-          <VagaMeta>
+        </AlunoTitleContainer>
+        <AlunoInfo>
+          <AlunoMeta>
             <Icon
               name="filter"
               color="#f76769"
               size={14}
               style={{ transform: [{ rotateZ: '180deg' }] }}
             />
-            <VagaMetaText>{inscricao.vaga_ic.nome}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <AlunoMetaText>{inscricao.vaga_ic.nome}</AlunoMetaText>
+          </AlunoMeta>
+          <AlunoMeta>
             <Icon name="calendar" size={14} color="#f76769" />
-            <VagaMetaText>
+            <AlunoMetaText>
               {getFormattedDate(inscricao.dt_inscricao)}
               {/* {format(inscricao.dt_inscricao, 'dd/MM/yyyy HH:mm:ss')} */}
-            </VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            </AlunoMetaText>
+          </AlunoMeta>
+          <AlunoMeta>
             <Icon name="email" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.aluno.usuario.email}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <AlunoMetaText>{inscricao.aluno.usuario.email}</AlunoMetaText>
+          </AlunoMeta>
+          <AlunoMeta>
             <Icon name="school" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.aluno.curso.nome}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <AlunoMetaText>{inscricao.aluno.curso.nome}</AlunoMetaText>
+          </AlunoMeta>
+          <AlunoMeta>
             <Icon name="progress-check" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.aluno.periodo}° período</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <AlunoMetaText>{inscricao.aluno.periodo}° período</AlunoMetaText>
+          </AlunoMeta>
+          <AlunoMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <VagaMetaText>CR: {inscricao.aluno.cr}</VagaMetaText>
-          </VagaMeta>
-        </VagaInfo>
+            <AlunoMetaText>CR: {inscricao.aluno.cr}</AlunoMetaText>
+          </AlunoMeta>
+        </AlunoInfo>
       </Container>
     );
   }
 
   return (
     <Container>
-      <VagaTitleContainer>
+      <AlunoTitleContainer>
         <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
         <AlunoNome>
           {inscricao.aluno.usuario.nome} {inscricao.aluno.usuario.sobrenome}
@@ -90,25 +90,25 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
         >
           <Icon name="chevron-down" size={24} color="#f76769" />
         </MaisInfoButton>
-      </VagaTitleContainer>
-      <VagaInfo>
-        <VagaMeta>
+      </AlunoTitleContainer>
+      <AlunoInfo>
+        <AlunoMeta>
           <Icon
             name="filter"
             color="#f76769"
             size={14}
             style={{ transform: [{ rotateZ: '180deg' }] }}
           />
-          <VagaMetaText>{inscricao.vaga_ic.nome}</VagaMetaText>
-        </VagaMeta>
-        <VagaMeta>
+          <AlunoMetaText>{inscricao.vaga_ic.nome}</AlunoMetaText>
+        </AlunoMeta>
+        <AlunoMeta>
           <Icon name="calendar" size={14} color="#f76769" />
-          <VagaMetaText>
+          <AlunoMetaText>
             {getFormattedDate(inscricao.dt_inscricao)}
             {/* {format(inscricao.dt_inscricao, 'dd/MM/yyyy HH:mm:ss')} */}
-          </VagaMetaText>
-        </VagaMeta>
-      </VagaInfo>
+          </AlunoMetaText>
+        </AlunoMeta>
+      </AlunoInfo>
     </Container>
   );
 };

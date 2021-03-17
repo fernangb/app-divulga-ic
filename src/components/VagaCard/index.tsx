@@ -11,8 +11,8 @@ import {
   VagaMetaText,
   MaisInfoButton,
   VagaTitleContainer,
-  InscricaoButton,
-  InscricaoText,
+  ConfirmarInscricaoButton,
+  ConfirmarInscricaoText,
 } from './styles';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
@@ -109,10 +109,10 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
             <VagaMetaText>{vaga.descricao}</VagaMetaText>
           </VagaMeta>
         </VagaInfo>
-        <InscricaoButton onPress={() => handleInscricao(vaga.id)}>
+        <ConfirmarInscricaoButton onPress={() => handleInscricao(vaga.id)}>
           <Icon name="plus-circle" color="#f76769" size={16} />
-          <InscricaoText>Inscreva-se</InscricaoText>
-        </InscricaoButton>
+          <ConfirmarInscricaoText>Inscreva-se</ConfirmarInscricaoText>
+        </ConfirmarInscricaoButton>
       </Container>
     );
   }
@@ -157,10 +157,10 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
           <VagaMetaText>{vaga.hr_semana} h</VagaMetaText>
         </VagaMeta>
       </VagaInfo>
-      <InscricaoButton onPress={() => handleInscricao(vaga.id)}>
+      <ConfirmarInscricaoButton onPress={() => handleInscricao(vaga.id)}>
         <Icon name="plus-circle" color="#f76769" size={16} />
-        <InscricaoText>Inscreva-se</InscricaoText>
-      </InscricaoButton>
+        <ConfirmarInscricaoText>Inscreva-se</ConfirmarInscricaoText>
+      </ConfirmarInscricaoButton>
     </Container>
   );
 };

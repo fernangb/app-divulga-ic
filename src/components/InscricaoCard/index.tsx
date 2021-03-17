@@ -5,14 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 
 import {
   Container,
-  VagaInfo,
-  VagaNome,
-  VagaMeta,
-  VagaMetaText,
+  InscricaoInfo,
+  InscricaoNome,
+  InscricaoMeta,
+  InscricaoMetaText,
   MaisInfoButton,
-  VagaTitleContainer,
-  InscricaoButton,
-  InscricaoText,
+  InscricaoTitleContainer,
+  CancelarInscricaoButton,
+  CancelarInscricaoText,
 } from './styles';
 import api from '../../services/api';
 import { IInscricao } from '../../interfaces/IInscricao';
@@ -28,14 +28,14 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
 
   const handleInscricao = useCallback(async (id: string) => {
     await api.delete(`/inscricoes_ic/${id}`);
-    navigate('CancelarInscricaoVaga', { nome: inscricao.vaga_ic.nome });
+    navigate('CancelarInscricaoInscricao', { nome: inscricao.vaga_ic.nome });
   }, []);
 
   if (cardAberto) {
     return (
       <Container>
-        <VagaTitleContainer>
-          <VagaNome>{inscricao.vaga_ic.nome}</VagaNome>
+        <InscricaoTitleContainer>
+          <InscricaoNome>{inscricao.vaga_ic.nome}</InscricaoNome>
 
           <MaisInfoButton
             onPress={() => {
@@ -44,85 +44,91 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           >
             <Icon name="chevron-up" size={24} color="#f76769" />
           </MaisInfoButton>
-        </VagaTitleContainer>
+        </InscricaoTitleContainer>
 
-        <VagaInfo>
-          <VagaMeta>
+        <InscricaoInfo>
+          <InscricaoMeta>
             <Icon
               name="filter"
               color="#f76769"
               size={14}
               style={{ transform: [{ rotateZ: '180deg' }] }}
             />
-            <VagaMetaText>{inscricao.vaga_ic.laboratorio.sigla}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <InscricaoMetaText>
+              {inscricao.vaga_ic.laboratorio.sigla}
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="account-tie" size={14} color="#f76769" />
-            <VagaMetaText>
+            <InscricaoMetaText>
               {inscricao.vaga_ic.professor.usuario.nome}{' '}
               {inscricao.vaga_ic.professor.usuario.sobrenome}
-            </VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="school" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.vaga_ic.curso.nome}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <InscricaoMetaText>
+              {inscricao.vaga_ic.curso.nome}
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="lightbulb-on" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.vaga_ic.area.nome}</VagaMetaText>
-          </VagaMeta>
+            <InscricaoMetaText>{inscricao.vaga_ic.area.nome}</InscricaoMetaText>
+          </InscricaoMeta>
 
-          <VagaMeta>
+          <InscricaoMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
-            <VagaMetaText>
+            <InscricaoMetaText>
               R$
               {inscricao.vaga_ic.vl_bolsa}
-            </VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="alarm" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.vaga_ic.hr_semana}h</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <InscricaoMetaText>
+              {inscricao.vaga_ic.hr_semana}h
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.vaga_ic.cr_minimo}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            <InscricaoMetaText>{inscricao.vaga_ic.cr_minimo}</InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="progress-check" size={14} color="#f76769" />
-            <VagaMetaText>
+            <InscricaoMetaText>
               {inscricao.vaga_ic.periodo_minimo}° período
-            </VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="pound" size={14} color="#f76769" />
-            <VagaMetaText>
+            <InscricaoMetaText>
               {inscricao.vaga_ic.nr_vagas}{' '}
               {inscricao.vaga_ic.nr_vagas === 1 ? 'vaga' : 'vagas'}
-            </VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="calendar-check" size={14} color="#f76769" />
-            <VagaMetaText>
+            <InscricaoMetaText>
               {getFormattedDate(inscricao.dt_inscricao)}
-            </VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
+            </InscricaoMetaText>
+          </InscricaoMeta>
+          <InscricaoMeta>
             <Icon name="information" size={14} color="#f76769" />
-            <VagaMetaText>{inscricao.vaga_ic.descricao}</VagaMetaText>
-          </VagaMeta>
-        </VagaInfo>
-        <InscricaoButton onPress={() => handleInscricao(inscricao.id)}>
+            <InscricaoMetaText>{inscricao.vaga_ic.descricao}</InscricaoMetaText>
+          </InscricaoMeta>
+        </InscricaoInfo>
+        <CancelarInscricaoButton onPress={() => handleInscricao(inscricao.id)}>
           <Icon name="trash-can" color="#f76769" size={16} />
-          <InscricaoText>Cancelar inscrição</InscricaoText>
-        </InscricaoButton>
+          <CancelarInscricaoText>Cancelar inscrição</CancelarInscricaoText>
+        </CancelarInscricaoButton>
       </Container>
     );
   }
 
   return (
     <Container>
-      <VagaTitleContainer>
-        <VagaNome>{inscricao.vaga_ic.nome}</VagaNome>
+      <InscricaoTitleContainer>
+        <InscricaoNome>{inscricao.vaga_ic.nome}</InscricaoNome>
 
         <MaisInfoButton
           onPress={() => {
@@ -131,37 +137,39 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
         >
           <Icon name="chevron-down" size={24} color="#f76769" />
         </MaisInfoButton>
-      </VagaTitleContainer>
+      </InscricaoTitleContainer>
 
-      <VagaInfo>
-        <VagaMeta>
+      <InscricaoInfo>
+        <InscricaoMeta>
           <Icon
             name="filter"
             color="#f76769"
             size={14}
             style={{ transform: [{ rotateZ: '180deg' }] }}
           />
-          <VagaMetaText>{inscricao.vaga_ic.laboratorio.sigla}</VagaMetaText>
-        </VagaMeta>
-        <VagaMeta>
+          <InscricaoMetaText>
+            {inscricao.vaga_ic.laboratorio.sigla}
+          </InscricaoMetaText>
+        </InscricaoMeta>
+        <InscricaoMeta>
           <Icon name="account-tie" size={14} color="#f76769" />
-          <VagaMetaText>
+          <InscricaoMetaText>
             {inscricao.vaga_ic.professor.usuario.nome}{' '}
             {inscricao.vaga_ic.professor.usuario.sobrenome}
-          </VagaMetaText>
-        </VagaMeta>
+          </InscricaoMetaText>
+        </InscricaoMeta>
 
-        <VagaMeta>
+        <InscricaoMeta>
           <Icon name="calendar-check" size={14} color="#f76769" />
-          <VagaMetaText>
+          <InscricaoMetaText>
             {getFormattedDate(inscricao.dt_inscricao)}
-          </VagaMetaText>
-        </VagaMeta>
-      </VagaInfo>
-      <InscricaoButton onPress={() => handleInscricao(inscricao.id)}>
+          </InscricaoMetaText>
+        </InscricaoMeta>
+      </InscricaoInfo>
+      <CancelarInscricaoButton onPress={() => handleInscricao(inscricao.id)}>
         <Icon name="trash-can" color="#f76769" size={16} />
-        <InscricaoText>Cancelar inscrição</InscricaoText>
-      </InscricaoButton>
+        <CancelarInscricaoText>Cancelar inscrição</CancelarInscricaoText>
+      </CancelarInscricaoButton>
     </Container>
   );
 };

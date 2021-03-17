@@ -9,7 +9,7 @@ export const Container = styled.View`
   align-items: flex-start;
 `;
 
-export const VagaTitleContainer = styled.View`
+export const InscricaoTitleContainer = styled.View`
   width: 100%;
   flex-direction: row;
   /* align-items: center; */
@@ -18,9 +18,9 @@ export const VagaTitleContainer = styled.View`
 
 export const MaisInfoButton = styled.TouchableOpacity``;
 
-export const VagaInfo = styled.View``;
+export const InscricaoInfo = styled.View``;
 
-export const VagaNome = styled.Text`
+export const InscricaoNome = styled.Text`
   font-family: 'RobotoSlab-Medium';
   font-size: 24px;
   color: #f76769;
@@ -28,21 +28,22 @@ export const VagaNome = styled.Text`
   margin-bottom: 16px;
 `;
 
-export const VagaMeta = styled.View`
+export const InscricaoMeta = styled.View`
   flex-direction: row;
   align-items: center;
   margin-top: 8px;
   margin-left: 8px;
 `;
 
-export const VagaMetaText = styled.Text`
+export const InscricaoMetaText = styled.Text`
   margin-left: 12px;
   color: #fff;
   font-family: 'RobotoSlab-Regular';
   font-size: 14px;
+  margin-right: 8px;
 `;
 
-export const InscricaoButton = styled.TouchableOpacity`
+export const CancelarInscricaoButton = styled.TouchableOpacity`
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -50,7 +51,7 @@ export const InscricaoButton = styled.TouchableOpacity`
   margin-top: 8px;
 `;
 
-export const InscricaoText = styled.Text`
+export const CancelarInscricaoText = styled.Text`
   color: #f76769;
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
