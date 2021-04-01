@@ -69,7 +69,12 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </AlunoMeta>
           <AlunoMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <AlunoMetaText>CR: {inscricao.aluno.cr?.toFixed(1)}</AlunoMetaText>
+            <AlunoMetaText>
+              CR:{' '}
+              {inscricao.aluno.cr
+                ? inscricao.aluno.cr?.toFixed(1)
+                : 'Não informado'}
+            </AlunoMetaText>
           </AlunoMeta>
         </AlunoInfo>
       </Container>

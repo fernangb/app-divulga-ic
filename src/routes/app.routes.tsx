@@ -7,6 +7,8 @@ import { useAuth } from '../hooks/auth';
 import PesquisarVaga from '../pages/PesquisarVaga';
 import PerfilAluno from '../pages/PerfilAluno';
 import MenuAluno from '../pages/MenuAluno';
+import PerfilProfessor from '../pages/PerfilProfessor';
+import MenuProfessor from '../pages/MenuProfessor';
 import MinhasInscricoes from '../pages/MinhasInscricoes';
 import ConfirmarInscricaoVaga from '../pages/ConfirmarInscricaoVaga';
 import CancelarInscricaoVaga from '../pages/CancelarInscricaoVaga';
@@ -19,15 +21,17 @@ const AppRoutes: React.FC = () => {
   return user.nivel.nome === 'professor' ? (
     <App.Navigator
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
         cardStyle: { backgroundColor: '#fff' },
       }}
     >
       <App.Screen name="DashboardProfessor" component={DashboardProfessor} />
       <App.Screen name="CriarVaga" component={CriarVaga} />
       <App.Screen name="PesquisarVaga" component={PesquisarVaga} />
+      <App.Screen name="MenuProfessor" component={MenuProfessor} />
       <App.Screen name="MenuAluno" component={MenuAluno} />
-      <App.Screen name="PerfilAluno" component={PerfilAluno} />
+
+      <App.Screen name="PerfilProfessor" component={PerfilProfessor} />
       <App.Screen
         name="ConfirmarInscricaoVaga"
         component={ConfirmarInscricaoVaga}
@@ -41,7 +45,7 @@ const AppRoutes: React.FC = () => {
   ) : (
     <App.Navigator
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
         cardStyle: { backgroundColor: '#fff' },
       }}
     >
@@ -49,6 +53,7 @@ const AppRoutes: React.FC = () => {
       <App.Screen name="CriarVaga" component={CriarVaga} />
       <App.Screen name="PesquisarVaga" component={PesquisarVaga} />
       <App.Screen name="MenuAluno" component={MenuAluno} />
+      <App.Screen name="MenuProfessor" component={MenuProfessor} />
       <App.Screen name="PerfilAluno" component={PerfilAluno} />
       <App.Screen
         name="ConfirmarInscricaoVaga"

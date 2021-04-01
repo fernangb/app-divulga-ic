@@ -16,8 +16,9 @@ const Header: React.FC = () => {
   const { navigate } = useNavigation();
 
   const navigateToMenu = useCallback(() => {
-    navigate('MenuAluno');
-  }, [navigate]);
+    if (user.nivel.nome === 'professor') navigate('MenuProfessor');
+    else navigate('MenuAluno');
+  }, [navigate, user.nivel.nome]);
 
   if (!user.avatar_url) {
     return (

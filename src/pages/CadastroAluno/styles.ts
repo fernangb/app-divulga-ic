@@ -40,3 +40,36 @@ export const VoltarSigInText = styled.Text`
   font-size: 18px;
   font-family: 'RobotoSlab-Regular';
 `;
+
+export const ListCursos = styled.Picker`
+  flex: 1;
+  color: #fff;
+  font-size: 16px;
+  font-family: 'RobotoSlab-Regular';
+`;
+
+export const CursoContainer = styled.View`
+  width: 90%;
+  height: 60px;
+  padding: 0 16px;
+  background: #222680;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 8px;
+  border-width: 2px;
+  border-color: #222680;
+  /*
+  ${props =>
+    props.isErrored &&
+    css`
+      border-color: #cc0000;
+    `}
+
+  ${props =>
+    props.isFocused &&
+    css`
+      border-color: #f76769;
+    `} */
+`;

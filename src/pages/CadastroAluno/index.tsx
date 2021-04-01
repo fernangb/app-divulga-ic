@@ -1,13 +1,13 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-labels */
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
   View,
   ScrollView,
   TextInput,
   Alert,
-  TouchableOpacity,
   Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,15 +15,19 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import Autocomplete from 'react-native-autocomplete-input';
 
-import logoImg from '../../assets/logo1.png';
+import Autocomplete from 'react-native-autocomplete-input';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import RNPickerSelect from 'react-native-picker-select';
+// import { Picker } from '@react-native-picker/picker';
+import { Picker } from '@react-native-community/picker';
 import {
   Container,
-  Title,
   VoltarSigInButton,
   VoltarSigInText,
-  LogoView,
+  ListCursos,
+  CursoContainer,
+  Title,
 } from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -58,8 +62,7 @@ const CadastroAluno: React.FC = () => {
   const navigation = useNavigation();
 
   const [cursos, setCursos] = useState<ICursos[]>([]);
-  const [cursosFiltrados, setCursosFiltrados] = useState<ICursos[]>([]);
-  const [cursoEscolhido, setCursoEscolhido] = useState<ICursos>();
+  const [cursoEscolhido, setCursoEscolhido] = useState('');
 
   useEffect(() => {
     api.get('/cursos').then(response => {
@@ -67,8 +70,12 @@ const CadastroAluno: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log('Cursos: ', cursos);
+  }, [cursos]);
+
   const handleSignUp = useCallback(
-    async (data: CadastroFormData) => {
+    async (dados: CadastroFormData) => {
       formRef.current?.setErrors({});
 
       try {
@@ -87,30 +94,39 @@ const CadastroAluno: React.FC = () => {
           senhaRepetida: Yup.string().min(6, 'Mínimo de 6 caracteres'),
         });
 
-        await schema.validate(data, {
+        await schema.validate(dados, {
           abortEarly: false,
         });
 
         const nivel = await api.get('/niveis/aluno');
 
-        await api.post('/alunos', {
-          email: data.email,
-          senha: data.senha,
-          confirmacao_senha: data.senhaRepetida,
-          nome: data.nome,
-          sobrenome: data.sobrenome,
-          dre: data.dre,
-          periodo: data.periodo,
-          id_nivel: nivel.data.id,
-          id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
-        });
+        await api
+          .post('/alunos', {
+            email: dados.email,
+            senha: dados.senha,
+            confirmacao_senha: dados.senhaRepetida,
+            nome: dados.nome,
+            sobrenome: dados.sobrenome,
+            dre: dados.dre,
+            periodo: dados.periodo,
+            id_nivel: nivel.data.id,
+            id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
+          })
+          .then(response => {
+            Alert.alert(
+              'Cadastro realizado com sucesso!',
+              'Você já pode fazer login na aplicação.',
+            );
 
-        Alert.alert(
-          'Cadastro realizado com sucesso!',
-          'Você já pode fazer login na aplicação.',
-        );
+            navigation.navigate('Login');
+          })
+          .catch(err => {
+            console.log(err);
 
-        navigation.navigate('Login');
+            const { data } = err.response;
+
+            Alert.alert('Erro ao realizar o cadastro', data.message);
+          });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -124,48 +140,13 @@ const CadastroAluno: React.FC = () => {
           );
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [navigation],
   );
 
   useEffect(() => {
-    console.log('Cursos: ', cursos);
-  }, [cursos]);
-
-  useEffect(() => {
-    console.log('Cursos Filtrados: ', cursosFiltrados);
-  }, [cursosFiltrados]);
-
-  useEffect(() => {
     console.log('Curso Escolhido: ', cursoEscolhido);
   }, [cursoEscolhido]);
-
-  const findCursos = useCallback(e => {
-    const texto = e.currentTarget.value;
-
-    console.log(texto);
-
-    const resultados = cursos.filter(
-      c => c.nome.toLowerCase().indexOf(texto.toLowerCase()) > -1,
-    );
-    console.log(resultados);
-
-    // // Method called every time when we change the value of the input
-    // if (texto) {
-    //   // Making a case insensitive regular expression
-    //   const regex = new RegExp(texto, 'g');
-    //   console.log(regex);
-
-    //   cursos.match(regex);
-
-    //   // Setting the filtered film array according the query
-    //   setCursosFiltrados(cursos.filter(c => c.nome.search(regex) >= 0));
-    // } else {
-    //   // If the query is null then return blank
-    //   setCursosFiltrados([]);
-    // }
-  }, []);
 
   return (
     <>
@@ -179,27 +160,9 @@ const CadastroAluno: React.FC = () => {
           keyboardShouldPersistTaps="handled"
         >
           <Container>
-            {/* <Image source={logoImg} style = {{ width: 150, height: 100 }}/> */}
             <View>
               <Title>Crie sua conta</Title>
             </View>
-            {/* <Autocomplete
-              data={cursos}
-              defaultValue=""
-              onChangeText={texto => {
-                findCursos(texto);
-              }}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    setCursoEscolhido(item);
-                    setCursos([]);
-                  }}
-                >
-                  <Text>{item.nome}</Text>
-                </TouchableOpacity>
-              )}
-            /> */}
 
             <Form ref={formRef} onSubmit={handleSignUp}>
               <Input
@@ -234,7 +197,24 @@ const CadastroAluno: React.FC = () => {
                   cursoInputRef.current?.focus();
                 }}
               />
-              <Input
+              <CursoContainer>
+                <ListCursos
+                  selectedValue={cursoEscolhido}
+                  onValueChange={itemValue => setCursoEscolhido(itemValue)}
+                >
+                  {cursos.map(curso => {
+                    return (
+                      <Picker.Item
+                        key={curso.id}
+                        label={curso.nome}
+                        value={curso.nome}
+                      />
+                    );
+                  })}
+                </ListCursos>
+              </CursoContainer>
+
+              {/* <Input
                 ref={cursoInputRef}
                 name="curso"
                 icon="school"
@@ -243,7 +223,7 @@ const CadastroAluno: React.FC = () => {
                 onSubmitEditing={() => {
                   periodoInputRef.current?.focus();
                 }}
-              />
+              /> */}
               <Input
                 ref={periodoInputRef}
                 keyboardType="numeric"
