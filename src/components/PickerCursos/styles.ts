@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Picker } from 'react-native';
+// import { Picker } from 'react-native';
+import Picker from 'react-native-picker-select';
 
 interface ContainerProps {
   isFilled: boolean;

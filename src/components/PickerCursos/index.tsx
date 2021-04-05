@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import { PickerProps } from 'react-native';
 import { useField } from '@unform/core';
-import Picker, { PickerSelectProps } from 'react-native-picker-select';
 import { Container, Icon, PickerCurso } from './styles';
 import api from '../../services/api';
 
@@ -102,16 +101,21 @@ const RNPickerSelect: React.ForwardRefRenderFunction<
     });
   }, [fieldName, registerField]);
 
-  const handleValueChange = useCallback((itemValue: string) => {
-    if (itemValue === '') {
-      setCursoEscolhido('');
-      setIsFilled(false);
-    } else {
-      pickerValueRef.current.value = itemValue;
-      setCursoEscolhido(itemValue);
-      setIsFilled(true);
-    }
-  }, []);
+  const handleValueChange = useCallback(
+    (itemValue: string) => {
+      if (itemValue === '') {
+        setCursoEscolhido('');
+        setIsFilled(false);
+      } else {
+        pickerValueRef.current.value = itemValue;
+        setCursoEscolhido(itemValue);
+        setIsFilled(true);
+      }
+
+      return itemValue;
+    },
+    [cursoEscolhido],
+  );
 
   useEffect(() => {
     console.log('curso: ', cursoEscolhido);
@@ -124,7 +128,7 @@ const RNPickerSelect: React.ForwardRefRenderFunction<
       <PickerCurso
         selectedValue={cursoEscolhido}
         onValueChange={itemValue => handleValueChange(itemValue)}
-        ref={ref}
+        ref={pickerElementRef}
       >
         <PickerCurso.Item label="Curso" value="" />
         {items.map(curso => {
