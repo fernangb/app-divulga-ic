@@ -8,6 +8,7 @@ export const Container = styled(RectButton)`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 4px;
 `;
 
 export const ButtonText = styled.Text`

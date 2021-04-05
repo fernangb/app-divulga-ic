@@ -7,12 +7,7 @@ export const Container = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  padding: 0 30px ${Platform.OS === 'android' ? 125 : 40}px;
-`;
-
-export const LogoView = styled.View`
-  flex: 1;
-  width: 10%;
+  padding: 0 30px ${Platform.OS === 'android' ? 124 : 40}px;
 `;
 
 export const Title = styled.Text`
@@ -30,7 +25,7 @@ export const VoltarSigInButton = styled.TouchableOpacity`
   border-top-width: 1px;
   border-color: #f76769;
   background: #222680;
-  padding: 16px 0 ${16 + getBottomSpace()}px;
+  padding: 8px 0 ${8 + getBottomSpace()}px;
   align-items: center;
   justify-content: center;
   flex-direction: row;

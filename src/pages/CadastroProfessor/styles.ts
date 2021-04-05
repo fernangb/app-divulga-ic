@@ -29,7 +29,7 @@ export const VoltarSigInButton = styled.TouchableOpacity`
   border-top-width: 1px;
   border-color: #f76769;
   background: #222680;
-  padding: 16px 0 ${16 + getBottomSpace()}px;
+  padding: 8px 0 ${8 + getBottomSpace()}px;
   align-items: center;
   justify-content: center;
   flex-direction: row;
