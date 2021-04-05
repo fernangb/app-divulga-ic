@@ -67,8 +67,6 @@ const CadastroAluno: React.FC = () => {
           abortEarly: false,
         });
 
-        console.log('Curso escolhido no final: ', dados.curso);
-
         await api
           .post('/alunos', {
             nome: dados.nome,
@@ -78,7 +76,6 @@ const CadastroAluno: React.FC = () => {
             confirmacao_senha: dados.senhaRepetida,
             dre: dados.dre,
             periodo: dados.periodo,
-            nivel: 'aluno',
             curso: dados.curso,
           })
           .then(() => {
@@ -97,8 +94,6 @@ const CadastroAluno: React.FC = () => {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
-
-          console.log(errors);
 
           Alert.alert(
             'Erro no cadastro',

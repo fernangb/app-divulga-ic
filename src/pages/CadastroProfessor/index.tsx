@@ -1,6 +1,5 @@
 import React, { useRef, useCallback } from 'react';
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
   View,
@@ -13,24 +12,19 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import logoImg from '../../assets/logo1.png';
-import {
-  Container,
-  Title,
-  VoltarSigInButton,
-  VoltarSigInText,
-  LogoView,
-} from './styles';
+import { Container, Title, VoltarSigInButton, VoltarSigInText } from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+import PickerCursos from '../../components/PickerCursos';
+import PickerLaboratorios from '../../components/PickerLaboratorios';
 
 interface CadastroFormData {
   nome: string;
   sobrenome: string;
   siape: string;
-  laboratorio: number;
+  laboratorio: string;
   curso: string;
   email: string;
   senha: string;
@@ -49,7 +43,7 @@ const CadastroProfessor: React.FC = () => {
   const navigation = useNavigation();
 
   const handleSignUp = useCallback(
-    async (data: CadastroFormData) => {
+    async (dados: CadastroFormData) => {
       formRef.current?.setErrors({});
 
       try {
@@ -68,36 +62,37 @@ const CadastroProfessor: React.FC = () => {
           senhaRepetida: Yup.string().min(6, 'Mínimo de 6 caracteres'),
         });
 
-        await schema.validate(data, {
+        await schema.validate(dados, {
           abortEarly: false,
         });
 
-        const nivel = await api.get('/niveis/professor');
+        await api
+          .post('/professores', {
+            email: dados.email,
+            senha: dados.senha,
+            confirmacao_senha: dados.senhaRepetida,
+            nome: dados.nome,
+            sobrenome: dados.sobrenome,
+            siape: dados.siape,
+            laboratorio: dados.laboratorio,
+            curso: dados.curso,
+          })
+          .then(() => {
+            Alert.alert(
+              'Cadastro realizado com sucesso!',
+              'Você já pode fazer login na aplicação.',
+            );
+            navigation.navigate('Login');
+          })
+          .catch(err => {
+            const { data } = err.response;
 
-        await api.post('/professores', {
-          email: data.email,
-          senha: data.senha,
-          confirmacao_senha: data.senhaRepetida,
-          nome: data.nome,
-          sobrenome: data.sobrenome,
-          siape: data.siape,
-          id_nivel: nivel.data.id,
-          id_laboratorio: '7d96ee08-fa15-43bb-b834-15db019b36a9',
-          id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
-        });
-
-        Alert.alert(
-          'Cadastro realizado com sucesso!',
-          'Você já pode fazer login na aplicação.',
-        );
-
-        navigation.navigate('Login');
+            Alert.alert('Erro no cadastro', data.message);
+          });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
-
-          console.log(errors);
 
           Alert.alert(
             'Erro no cadastro',
@@ -105,7 +100,6 @@ const CadastroProfessor: React.FC = () => {
           );
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [navigation],
   );
@@ -158,7 +152,13 @@ const CadastroProfessor: React.FC = () => {
                   cursoInputRef.current?.focus();
                 }}
               />
-              <Input
+              <PickerCursos name="curso" ref={cursoInputRef} />
+              <PickerLaboratorios
+                name="laboratorio"
+                ref={laboratorioInputRef}
+              />
+
+              {/* <Input
                 ref={cursoInputRef}
                 name="curso"
                 icon="school"
@@ -167,8 +167,8 @@ const CadastroProfessor: React.FC = () => {
                 onSubmitEditing={() => {
                   laboratorioInputRef.current?.focus();
                 }}
-              />
-              <Input
+              /> */}
+              {/* <Input
                 ref={laboratorioInputRef}
                 name="laboratorio"
                 icon="warehouse"
@@ -177,7 +177,7 @@ const CadastroProfessor: React.FC = () => {
                 onSubmitEditing={() => {
                   laboratorioInputRef.current?.focus();
                 }}
-              />
+              /> */}
 
               <Input
                 ref={emailInputRef}

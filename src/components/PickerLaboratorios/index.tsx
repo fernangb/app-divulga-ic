@@ -9,38 +9,40 @@ import React, {
 } from 'react';
 import { PickerProps } from 'react-native';
 import { useField } from '@unform/core';
-import { Container, Icon, PickerCurso } from './styles';
+import { Container, Icon, PickerLaboratorio } from './styles';
 import api from '../../services/api';
 
-interface ICurso {
-  nome: string;
+interface ILaboratorio {
+  sigla: string;
   id: string;
 }
 
-interface PickerCursosValueReference {
+interface PickerLaboratoriosValueReference {
   value: string;
 }
 
-interface PickerCursosRef {
+interface PickerLaboratoriosRef {
   focus(): void;
 }
 
-interface PickerCursosProps extends PickerProps {
+interface PickerLaboratoriosProps extends PickerProps {
   name: string;
   containerStyle?: {};
 }
 
-const PickerCursos: React.ForwardRefRenderFunction<
-  PickerCursosRef,
-  PickerCursosProps
+const PickerLaboratorios: React.ForwardRefRenderFunction<
+  PickerLaboratoriosRef,
+  PickerLaboratoriosProps
 > = ({ name }, ref) => {
   const { fieldName, registerField, defaultValue = '', error } = useField(name);
-  const [cursoEscolhido, setCursoEscolhido] = useState<string>(defaultValue);
+  const [laboratorioEscolhido, setLaboratorioEscolhido] = useState<string>(
+    defaultValue,
+  );
   const [isFilled, setIsFilled] = useState(false);
-  const [cursos, setCursos] = useState<ICurso[]>([]);
+  const [laboratorios, setLaboratorios] = useState<ILaboratorio[]>([]);
 
   const pickerElementRef = useRef<any>(null);
-  const pickerValueRef = useRef<PickerCursosValueReference>({
+  const pickerValueRef = useRef<PickerLaboratoriosValueReference>({
     value: defaultValue,
   });
 
@@ -51,8 +53,8 @@ const PickerCursos: React.ForwardRefRenderFunction<
   }));
 
   useEffect(() => {
-    api.get('/cursos').then(response => {
-      setCursos(response.data);
+    api.get('/laboratorios').then(response => {
+      setLaboratorios(response.data);
     });
   }, []);
 
@@ -74,12 +76,12 @@ const PickerCursos: React.ForwardRefRenderFunction<
 
   const handleValueChange = useCallback((itemValue: string) => {
     if (itemValue === '') {
-      setCursoEscolhido('');
+      setLaboratorioEscolhido('');
       setIsFilled(false);
       pickerValueRef.current.value = itemValue;
     } else {
       pickerValueRef.current.value = itemValue;
-      setCursoEscolhido(itemValue);
+      setLaboratorioEscolhido(itemValue);
       setIsFilled(true);
     }
 
@@ -87,31 +89,38 @@ const PickerCursos: React.ForwardRefRenderFunction<
   }, []);
 
   useEffect(() => {
-    pickerValueRef.current.value = cursoEscolhido;
-  }, [cursoEscolhido]);
+    pickerValueRef.current.value = laboratorioEscolhido;
+
+    console.log('lab1: ', laboratorioEscolhido);
+    console.log('lab2: ', pickerValueRef.current.value);
+  }, [laboratorioEscolhido]);
 
   return (
     <Container isErrored={!!error}>
-      <Icon name="school" size={16} color={isFilled ? '#f76769' : '#f1faee'} />
-
-      <PickerCurso
-        selectedValue={cursoEscolhido}
+      <Icon
+        name="filter"
+        color={isFilled ? '#f76769' : '#f1faee'}
+        size={16}
+        style={{ transform: [{ rotateZ: '180deg' }] }}
+      />
+      <PickerLaboratorio
+        selectedValue={laboratorioEscolhido}
         onValueChange={itemValue => handleValueChange(itemValue)}
         ref={pickerElementRef}
       >
-        <PickerCurso.Item label="Curso" value="" />
-        {cursos.map(curso => {
+        <PickerLaboratorio.Item label="Laboratório" value="" />
+        {laboratorios.map(laboratorio => {
           return (
-            <PickerCurso.Item
-              key={curso.id}
-              label={curso.nome}
-              value={curso.nome}
+            <PickerLaboratorio.Item
+              key={laboratorio.id}
+              label={laboratorio.sigla}
+              value={laboratorio.sigla}
             />
           );
         })}
-      </PickerCurso>
+      </PickerLaboratorio>
     </Container>
   );
 };
 
-export default forwardRef(PickerCursos);
+export default forwardRef(PickerLaboratorios);
