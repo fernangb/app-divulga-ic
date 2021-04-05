@@ -1,10 +1,9 @@
 import styled, { css } from 'styled-components/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import { Picker } from 'react-native';
 import Picker from 'react-native-picker-select';
 
 interface ContainerProps {
-  isFilled: boolean;
+  isErrored: boolean;
 }
 
 export const Container = styled.View<ContainerProps>`
@@ -21,9 +20,9 @@ export const Container = styled.View<ContainerProps>`
   border-color: #222680;
 
   ${props =>
-    props.isFilled &&
+    props.isErrored &&
     css`
-      border-color: #f76769;
+      border-color: #c53030;
     `}
 `;
 

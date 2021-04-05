@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useRef, useCallback, useEffect, useState } from 'react';
+import React, { useRef, useCallback } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,35 +14,22 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
-import {
-  Container,
-  Title,
-  VoltarSigInButton,
-  VoltarSigInText,
-  CursoContainer,
-  PickerCursos,
-} from './styles';
+import { Container, Title, VoltarSigInButton, VoltarSigInText } from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
-
-import RNPickerSelect from '../../components/PickerCursos';
+import PickerCursos from '../../components/PickerCursos';
 
 interface CadastroFormData {
   nome: string;
   sobrenome: string;
   dre: string;
   periodo: number;
-  // curso: string;
+  curso: string;
   email: string;
   senha: string;
   senhaRepetida: string;
-}
-
-interface ICursos {
-  nome: string;
-  id: string;
 }
 
 const CadastroAluno: React.FC = () => {
@@ -56,24 +43,10 @@ const CadastroAluno: React.FC = () => {
   const confirmarSenhaInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
-  const [cursos, setCursos] = useState<ICursos[]>([]);
-  const [cursoEscolhido, setCursoEscolhido] = useState('');
-  const [isFilled, setIsFilled] = useState(false);
-  const [isErrored, setIsErrored] = useState(false);
-
-  useEffect(() => {
-    api.get('/cursos').then(response => {
-      setCursos(response.data);
-    });
-  }, []);
-
   const handleSignUp = useCallback(
     async (dados: CadastroFormData) => {
       formRef.current?.setErrors({});
 
-      console.log('Dados: ', dados);
-
-      // console.log('Curso selecionado: ', cursoInputRef.current.value);
       try {
         const schema = Yup.object().shape({
           nome: Yup.string().required('Nome obrigatório'),
@@ -81,7 +54,7 @@ const CadastroAluno: React.FC = () => {
           dre: Yup.string()
             .required('DRE obrigatório')
             .length(9, 'Numero de dígitos inválido'),
-          // curso: Yup.string().required('Curso obrigatório'),
+          curso: Yup.string().required('Curso obrigatório'),
           periodo: Yup.string().required('Período obrigatório'),
           email: Yup.string()
             .required('Email obrigatório')
@@ -94,41 +67,32 @@ const CadastroAluno: React.FC = () => {
           abortEarly: false,
         });
 
-        const nivel = await api.get('/niveis/aluno');
+        console.log('Curso escolhido no final: ', dados.curso);
 
-        console.log('Curso escolhido no final: ', cursoEscolhido);
+        await api
+          .post('/alunos', {
+            nome: dados.nome,
+            sobrenome: dados.sobrenome,
+            email: dados.email,
+            senha: dados.senha,
+            confirmacao_senha: dados.senhaRepetida,
+            dre: dados.dre,
+            periodo: dados.periodo,
+            nivel: 'aluno',
+            curso: dados.curso,
+          })
+          .then(() => {
+            Alert.alert(
+              'Cadastro realizado com sucesso!',
+              'Você já pode fazer login na aplicação.',
+            );
+            navigation.navigate('Login');
+          })
+          .catch(err => {
+            const { data } = err.response;
 
-        const cursoAluno = cursos.filter(c => c.nome === cursoEscolhido);
-
-        console.log('curso do aluno: ', cursoAluno);
-
-        if (cursoAluno) {
-          await api
-            .post('/alunos', {
-              nome: dados.nome,
-              sobrenome: dados.sobrenome,
-              email: dados.email,
-              senha: dados.senha,
-              confirmacao_senha: dados.senhaRepetida,
-              dre: dados.dre,
-              periodo: dados.periodo,
-              id_nivel: nivel.data.id,
-              id_curso: cursoAluno[0].id,
-            })
-            .catch(err => {
-              const { data } = err.response;
-
-              console.log(data.eror);
-            });
-
-          Alert.alert(
-            'Cadastro realizado com sucesso!',
-            'Você já pode fazer login na aplicação.',
-          );
-          navigation.navigate('Login');
-        } else {
-          Alert.alert('Erro', 'Curso não encontrado');
-        }
+            Alert.alert('Erro no cadastro', data.message);
+          });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -142,32 +106,9 @@ const CadastroAluno: React.FC = () => {
           );
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [navigation],
   );
-
-  useEffect(() => {
-    console.log('curso escolhido: ', cursoEscolhido);
-    // if (cursoEscolhido == '') {
-    //   setIsFilled(false);
-    // } else {
-    //   setIsFilled(true);
-    // }
-  }, [cursoEscolhido]);
-
-  const handleValueChange = useCallback(itemValue => {
-    console.log('item: ', itemValue);
-    if (itemValue == '') {
-      setCursoEscolhido(itemValue);
-      setIsFilled(false);
-    } else {
-      setCursoEscolhido(itemValue);
-      setIsFilled(true);
-    }
-
-    // return itemValue;
-  }, []);
 
   return (
     <>
@@ -181,7 +122,6 @@ const CadastroAluno: React.FC = () => {
           keyboardShouldPersistTaps="handled"
         >
           <Container>
-            {/* <Image source={logoImg} style = {{ width: 150, height: 100 }}/> */}
             <View>
               <Title>Crie sua conta</Title>
             </View>
@@ -214,46 +154,8 @@ const CadastroAluno: React.FC = () => {
                 icon="card-account-details"
                 placeholder="DRE"
                 returnKeyType="next"
-                // onSubmitEditing={() => {
-                //   cursoInputRef.current?.focus();
-                // }}
               />
-              <CursoContainer isFilled={isFilled} isErrored={isErrored}>
-                <Icon
-                  name="school"
-                  size={16}
-                  color={isFilled ? '#f76769' : '#f1faee'}
-                />
-
-                <PickerCursos
-                  selectedValue={cursoEscolhido}
-                  onValueChange={itemValue => handleValueChange(itemValue)}
-                  // ref={cursoInputRef}
-                >
-                  <PickerCursos.Item label="Curso" value="" />
-                  {cursos.map(curso => {
-                    return (
-                      <PickerCursos.Item
-                        key={curso.id}
-                        label={curso.nome}
-                        value={curso.nome}
-                      />
-                    );
-                  })}
-                </PickerCursos>
-              </CursoContainer>
-              {/* <Input
-                ref={cursoInputRef}
-                name="curso"
-                icon="school"
-                placeholder="Curso"
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  periodoInputRef.current?.focus();
-                }}
-              /> */}
-              {/* <PickerCursos name="curso" ref={cursoInputRef} /> */}
-              {/* <RNPickerSelect name="curso" items={cursos} ref={cursoInputRef} /> */}
+              <PickerCursos name="curso" ref={cursoInputRef} />
               <Input
                 ref={periodoInputRef}
                 keyboardType="numeric"

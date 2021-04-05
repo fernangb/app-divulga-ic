@@ -1,13 +1,7 @@
-import styled, { css } from 'styled-components/native';
+import styled from 'styled-components/native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { Platform } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Picker from 'react-native-picker-select';
-
-interface PickerProps {
-  isFilled: boolean;
-  isErrored: boolean;
-}
 
 export const Container = styled.View`
   flex: 1;
@@ -46,37 +40,6 @@ export const VoltarSigInText = styled.Text`
   color: #fff;
   font-size: 18px;
   font-family: 'RobotoSlab-Regular';
-`;
-
-export const PickerCursos = styled.Picker`
-  flex: 1;
-  color: #fff;
-  font-size: 16px;
-  font-family: 'RobotoSlab-Regular';
-`;
-
-export const CursoContainer = styled.View<PickerProps>`
-  width: 90%;
-  height: 60px;
-  padding: 0 16px;
-  background: #222680;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 8px;
-  border-width: 2px;
-  border-color: #222680;
-
-  ${props =>
-    props.isErrored &&
-    css`
-      border-color: #cc0000;
-    `}/* ${props =>
-    props.isFilled &&
-    css`
-      border-color: #f76769;
-    `} */
 `;
 
 export const Icon = styled(MaterialIcon)`
