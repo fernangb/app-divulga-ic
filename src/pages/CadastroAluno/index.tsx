@@ -57,7 +57,7 @@ const CadastroAluno: React.FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const sobrenomeInputRef = useRef<TextInput>(null);
   const dreInputRef = useRef<TextInput>(null);
-  const cursoInputRef = useRef<Picker>(null);
+  const cursoInputRef = useRef(null);
   const periodoInputRef = useRef<TextInput>(null);
   const senhaInputRef = useRef<TextInput>(null);
   const confirmarSenhaInputRef = useRef<TextInput>(null);
@@ -212,7 +212,7 @@ const CadastroAluno: React.FC = () => {
                 }}
               /> */}
               {/* <PickerCursos name="curso" ref={cursoInputRef} /> */}
-              <RNPickerSelect name="curso" items={cursos} />
+              <RNPickerSelect name="curso" items={cursos} ref={cursoInputRef} />
               <Input
                 ref={periodoInputRef}
                 keyboardType="numeric"

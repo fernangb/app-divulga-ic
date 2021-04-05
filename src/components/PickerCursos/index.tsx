@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, {
   useState,
   useEffect,
@@ -17,11 +18,6 @@ interface ICurso {
   id: string;
 }
 
-interface PickerCursosProps extends PickerProps {
-  name: string;
-  containerStyle?: {};
-}
-
 interface PickerCursosValueReference {
   value: string;
 }
@@ -30,20 +26,27 @@ interface PickerCursosRef {
   focus(): void;
 }
 
-interface Props {
+interface PickerCursosProps extends PickerProps {
   name: string;
   items: ICurso[];
+  containerStyle?: {};
 }
 
-const RNPickerSelect: React.FC<Props> = ({ name, items, ...rest }: Props) => {
+const RNPickerSelect: React.ForwardRefRenderFunction<
+  PickerCursosRef,
+  PickerCursosProps
+> = ({ name, items, ...rest }, ref) => {
+  // const RNPickerSelect: React.FC<Props> = ({ name, items, ...rest }: Props) => {
   // function RNPickerSelect({ name, items, ...rest }: Props) {
 
   const { fieldName, registerField, defaultValue = '' } = useField(name);
   const [cursoEscolhido, setCursoEscolhido] = useState<string>(defaultValue);
   const [isFilled, setIsFilled] = useState(false);
 
-  // const pickerRef = useRef(null);
-  const pickerRef = useRef<PickerCursosValueReference>({ value: defaultValue });
+  const pickerElementRef = useRef<any>(null);
+  const pickerValueRef = useRef<PickerCursosValueReference>({
+    value: defaultValue,
+  });
 
   // useEffect(() => {
   //   registerField({
@@ -61,18 +64,40 @@ const RNPickerSelect: React.FC<Props> = ({ name, items, ...rest }: Props) => {
   //   });
   // }, [fieldName, registerField]);
 
+  // useEffect(() => {
+  //   registerField<string>({
+  //     name: fieldName,
+  //     ref: pickerRef.current,
+  //     path: 'value',
+  //     setValue(ref: any, value) {
+  //       pickerRef.current.value = value;
+  //       // pickerRef.current.setNativeProps({ text: value });
+  //     },
+  //     clearValue: ref => {
+  //       pickerRef.current.value = '';
+  //       ref.props.onValueChange(ref.props.placeholder.value);
+  //     },
+  //   });
+  // }, [fieldName, registerField]);
+
+  useImperativeHandle(ref, () => ({
+    focus() {
+      pickerElementRef.current?.focus();
+    },
+  }));
+
   useEffect(() => {
     registerField<string>({
       name: fieldName,
-      ref: pickerRef.current,
+      ref: pickerValueRef.current,
       path: 'value',
       setValue(ref: any, value) {
-        pickerRef.current.value = value;
-        // pickerRef.current.setNativeProps({ text: value });
+        pickerValueRef.current.value = value;
+        pickerElementRef.current.setNativeProps({ text: value });
       },
-      clearValue: ref => {
-        pickerRef.current.value = '';
-        ref.props.onValueChange(ref.props.placeholder.value);
+      clearValue() {
+        pickerValueRef.current.value = '';
+        pickerElementRef.current.clear();
       },
     });
   }, [fieldName, registerField]);
@@ -82,6 +107,7 @@ const RNPickerSelect: React.FC<Props> = ({ name, items, ...rest }: Props) => {
       setCursoEscolhido('');
       setIsFilled(false);
     } else {
+      pickerValueRef.current.value = itemValue;
       setCursoEscolhido(itemValue);
       setIsFilled(true);
     }
@@ -98,7 +124,7 @@ const RNPickerSelect: React.FC<Props> = ({ name, items, ...rest }: Props) => {
       <PickerCurso
         selectedValue={cursoEscolhido}
         onValueChange={itemValue => handleValueChange(itemValue)}
-        ref={pickerRef}
+        ref={ref}
       >
         <PickerCurso.Item label="Curso" value="" />
         {items.map(curso => {
