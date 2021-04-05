@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Picker } from 'react-native';
 
 interface ContainerProps {
-  isFocused: boolean;
-  isErrored: boolean;
+  isFilled: boolean;
 }
 
 export const Container = styled.View<ContainerProps>`
-  width: 90%;
+  /* width: 90%; */
   height: 60px;
   padding: 0 16px;
   background: #222680;
@@ -20,25 +20,19 @@ export const Container = styled.View<ContainerProps>`
   border-color: #222680;
 
   ${props =>
-    props.isErrored &&
-    css`
-      border-color: #cc0000;
-    `}
-
-  ${props =>
-    props.isFocused &&
+    props.isFilled &&
     css`
       border-color: #f76769;
     `}
 `;
 
-export const TextInput = styled.TextInput`
+export const Icon = styled(MaterialIcon)`
+  margin-right: 16px;
+`;
+
+export const PickerCurso = styled.Picker`
   flex: 1;
   color: #fff;
   font-size: 16px;
   font-family: 'RobotoSlab-Regular';
-`;
-
-export const Icon = styled(MaterialIcon)`
-  margin-right: 16px;
 `;

@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { Platform } from 'react-native';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const Container = styled.View`
   flex: 1;
@@ -72,4 +73,8 @@ export const CursoContainer = styled.View`
     css`
       border-color: #f76769;
     `} */
+`;
+
+export const Icon = styled(MaterialIcon)`
+  margin-right: 16px;
 `;

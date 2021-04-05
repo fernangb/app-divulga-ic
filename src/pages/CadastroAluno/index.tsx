@@ -1,38 +1,40 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable no-unused-labels */
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   View,
   ScrollView,
   TextInput,
   Alert,
+  TouchableOpacity,
   Text,
+  Picker,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-
 import Autocomplete from 'react-native-autocomplete-input';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import RNPickerSelect from 'react-native-picker-select';
-// import { Picker } from '@react-native-picker/picker';
-import { Picker } from '@react-native-community/picker';
+
+import logoImg from '../../assets/logo1.png';
 import {
   Container,
+  Title,
   VoltarSigInButton,
   VoltarSigInText,
-  ListCursos,
+  LogoView,
   CursoContainer,
-  Title,
+  ListCursos,
 } from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+
+import PickerCursos from '../../components/PickerCursos';
+import RNPickerSelect from '../../components/PickerCursos';
 
 interface CadastroFormData {
   nome: string;
@@ -55,7 +57,7 @@ const CadastroAluno: React.FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const sobrenomeInputRef = useRef<TextInput>(null);
   const dreInputRef = useRef<TextInput>(null);
-  const cursoInputRef = useRef<TextInput>(null);
+  const cursoInputRef = useRef<Picker>(null);
   const periodoInputRef = useRef<TextInput>(null);
   const senhaInputRef = useRef<TextInput>(null);
   const confirmarSenhaInputRef = useRef<TextInput>(null);
@@ -70,14 +72,11 @@ const CadastroAluno: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log('Cursos: ', cursos);
-  }, [cursos]);
-
   const handleSignUp = useCallback(
     async (dados: CadastroFormData) => {
       formRef.current?.setErrors({});
 
+      console.log('Curso selecionado: ', cursoInputRef);
       try {
         const schema = Yup.object().shape({
           nome: Yup.string().required('Nome obrigatório'),
@@ -85,7 +84,7 @@ const CadastroAluno: React.FC = () => {
           dre: Yup.string()
             .required('DRE obrigatório')
             .length(9, 'Numero de dígitos inválido'),
-          curso: Yup.string().required('Curso obrigatório'),
+          // curso: Yup.string().required('Curso obrigatório'),
           periodo: Yup.string().required('Período obrigatório'),
           email: Yup.string()
             .required('Email obrigatório')
@@ -100,33 +99,37 @@ const CadastroAluno: React.FC = () => {
 
         const nivel = await api.get('/niveis/aluno');
 
-        await api
-          .post('/alunos', {
-            email: dados.email,
-            senha: dados.senha,
-            confirmacao_senha: dados.senhaRepetida,
-            nome: dados.nome,
-            sobrenome: dados.sobrenome,
-            dre: dados.dre,
-            periodo: dados.periodo,
-            id_nivel: nivel.data.id,
-            id_curso: '2cda4b64-2820-47b2-8dfb-fb518c6b8807',
-          })
-          .then(response => {
-            Alert.alert(
-              'Cadastro realizado com sucesso!',
-              'Você já pode fazer login na aplicação.',
-            );
+        const cursoAluno = cursos.filter(c => c.nome === cursoEscolhido);
 
-            navigation.navigate('Login');
-          })
-          .catch(err => {
-            console.log(err);
+        console.log('curso do aluno: ', cursoAluno);
 
-            const { data } = err.response;
+        if (cursoAluno) {
+          await api
+            .post('/alunos', {
+              nome: dados.nome,
+              sobrenome: dados.sobrenome,
+              email: dados.email,
+              senha: dados.senha,
+              confirmacao_senha: dados.senhaRepetida,
+              dre: dados.dre,
+              periodo: dados.periodo,
+              id_nivel: nivel.data.id,
+              id_curso: cursoAluno[0].id,
+            })
+            .catch(err => {
+              const { data } = err.response;
 
-            Alert.alert('Erro ao realizar o cadastro', data.message);
-          });
+              console.log(data.eror);
+            });
+
+          Alert.alert(
+            'Cadastro realizado com sucesso!',
+            'Você já pode fazer login na aplicação.',
+          );
+          navigation.navigate('Login');
+        } else {
+          Alert.alert('Erro', 'Curso não encontrado');
+        }
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -140,6 +143,7 @@ const CadastroAluno: React.FC = () => {
           );
         }
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [navigation],
   );
@@ -160,10 +164,10 @@ const CadastroAluno: React.FC = () => {
           keyboardShouldPersistTaps="handled"
         >
           <Container>
+            {/* <Image source={logoImg} style = {{ width: 150, height: 100 }}/> */}
             <View>
               <Title>Crie sua conta</Title>
             </View>
-
             <Form ref={formRef} onSubmit={handleSignUp}>
               <Input
                 autoCapitalize="words"
@@ -197,23 +201,6 @@ const CadastroAluno: React.FC = () => {
                   cursoInputRef.current?.focus();
                 }}
               />
-              <CursoContainer>
-                <ListCursos
-                  selectedValue={cursoEscolhido}
-                  onValueChange={itemValue => setCursoEscolhido(itemValue)}
-                >
-                  {cursos.map(curso => {
-                    return (
-                      <Picker.Item
-                        key={curso.id}
-                        label={curso.nome}
-                        value={curso.nome}
-                      />
-                    );
-                  })}
-                </ListCursos>
-              </CursoContainer>
-
               {/* <Input
                 ref={cursoInputRef}
                 name="curso"
@@ -224,6 +211,8 @@ const CadastroAluno: React.FC = () => {
                   periodoInputRef.current?.focus();
                 }}
               /> */}
+              {/* <PickerCursos name="curso" ref={cursoInputRef} /> */}
+              <RNPickerSelect name="curso" items={cursos} />
               <Input
                 ref={periodoInputRef}
                 keyboardType="numeric"
