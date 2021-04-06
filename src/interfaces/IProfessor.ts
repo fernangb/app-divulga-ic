@@ -1,5 +1,6 @@
 interface ICurso {
   nome: string;
+  id: string;
 }
 
 interface IUsuario {
@@ -10,6 +11,7 @@ interface IUsuario {
 
 interface ILab {
   nome: string;
+  id: string;
 }
 
 export interface IProfessor {

@@ -21,7 +21,7 @@ const AppRoutes: React.FC = () => {
   return user.nivel.nome === 'professor' ? (
     <App.Navigator
       screenOptions={{
-        // headerShown: false,
+        headerShown: false,
         cardStyle: { backgroundColor: '#fff' },
       }}
     >
@@ -45,7 +45,7 @@ const AppRoutes: React.FC = () => {
   ) : (
     <App.Navigator
       screenOptions={{
-        // headerShown: false,
+        headerShown: false,
         cardStyle: { backgroundColor: '#fff' },
       }}
     >
