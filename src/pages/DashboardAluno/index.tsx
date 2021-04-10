@@ -27,7 +27,7 @@ const DashboardAluno: React.FC = () => {
         keyExtractor={vaga => vaga.id}
         data={vagas}
         ListHeaderComponent={
-          <VagasListTitle>Vagas recomendadas</VagasListTitle>
+          <VagasListTitle>Vagas recomendadas: {vagas.length}</VagasListTitle>
         }
         renderItem={({ item: vaga }) => (
           <VagaCard

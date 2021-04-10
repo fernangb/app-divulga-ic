@@ -23,7 +23,9 @@ const MinhasInscricoes: React.FC = () => {
         keyExtractor={inscricao => inscricao.id}
         data={inscricoes}
         ListHeaderComponent={
-          <InscricoesListTitle>Minhas Inscrições</InscricoesListTitle>
+          <InscricoesListTitle>
+            Minhas Inscrições: {inscricoes.length}
+          </InscricoesListTitle>
         }
         renderItem={({ item: inscricao }) => (
           <InscricaoCard inscricao={inscricao} />

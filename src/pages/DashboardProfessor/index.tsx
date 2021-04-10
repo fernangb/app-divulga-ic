@@ -30,7 +30,11 @@ const DashboardProfessor: React.FC = () => {
       <VagasList
         keyExtractor={inscricao => inscricao.id}
         data={inscricoes}
-        ListHeaderComponent={<VagasListTitle>Alunos inscritos</VagasListTitle>}
+        ListHeaderComponent={
+          <VagasListTitle>
+            Inscrições pendentes: {inscricoes.length}
+          </VagasListTitle>
+        }
         renderItem={({ item: inscricao }) => (
           <AlunoCard
             inscricao={inscricao}
