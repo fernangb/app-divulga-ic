@@ -82,7 +82,7 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
               <VagaMetaText>Cursos:</VagaMetaText>
             </VagaMeta>
             {vaga.cursos.map(curso => (
-              <VagaInfoListText>- {curso.nome}</VagaInfoListText>
+              <VagaInfoListText key={curso.id}>- {curso.nome}</VagaInfoListText>
             ))}
           </VagaInfoListMeta>
           <VagaInfoListMeta>
@@ -91,7 +91,7 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
               <VagaMetaText>Áreas:</VagaMetaText>
             </VagaMeta>
             {vaga.areas.map(area => (
-              <VagaInfoListText>- {area.nome}</VagaInfoListText>
+              <VagaInfoListText key={area.id}>- {area.nome}</VagaInfoListText>
             ))}
           </VagaInfoListMeta>
 

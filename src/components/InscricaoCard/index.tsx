@@ -13,6 +13,8 @@ import {
   InscricaoTitleContainer,
   CancelarInscricaoButton,
   CancelarInscricaoText,
+  InscricaoInfoListMeta,
+  IncricaoInfoListText,
 } from './styles';
 import api from '../../services/api';
 import { IInscricao } from '../../interfaces/IInscricao';
@@ -27,10 +29,13 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
   const [cardAberto, setCardAberto] = useState(false);
   const { navigate } = useNavigation();
 
-  const handleInscricao = useCallback(async (id: string) => {
-    await api.delete(`/inscricoes_ic/${id}`);
-    navigate('CancelarInscricaoInscricao', { nome: inscricao.vaga_ic.nome });
-  }, []);
+  const handleInscricao = useCallback(
+    async (id: string) => {
+      await api.delete(`/inscricoes_ic/${id}`);
+      navigate('CancelarInscricaoInscricao', { nome: inscricao.vaga_ic.nome });
+    },
+    [inscricao.vaga_ic.nome, navigate],
+  );
 
   if (cardAberto) {
     return (
@@ -56,7 +61,8 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
               style={{ transform: [{ rotateZ: '180deg' }] }}
             />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.laboratorio.sigla}
+              {inscricao.vaga_ic.laboratorio.sigla} -{' '}
+              {inscricao.vaga_ic.laboratorio.nome}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
@@ -68,14 +74,23 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="school" size={14} color="#f76769" />
-            <InscricaoMetaText>
-              {inscricao.vaga_ic.curso.nome}
-            </InscricaoMetaText>
+            <InscricaoMetaText>{inscricao.aluno.curso.nome}</InscricaoMetaText>
           </InscricaoMeta>
-          <InscricaoMeta>
+          <InscricaoInfoListMeta>
+            <InscricaoMeta>
+              <Icon name="lightbulb-on" size={14} color="#f76769" />
+              <InscricaoMetaText>Áreas:</InscricaoMetaText>
+            </InscricaoMeta>
+            {inscricao.vaga_ic.areas.map(area => (
+              <IncricaoInfoListText key={area.id}>
+                - {area.nome}
+              </IncricaoInfoListText>
+            ))}
+          </InscricaoInfoListMeta>
+          {/* <InscricaoMeta>
             <Icon name="lightbulb-on" size={14} color="#f76769" />
             <InscricaoMetaText>{inscricao.vaga_ic.area.nome}</InscricaoMetaText>
-          </InscricaoMeta>
+          </InscricaoMeta> */}
 
           <InscricaoMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
@@ -85,9 +100,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="alarm" size={14} color="#f76769" />
-            <InscricaoMetaText>
-              {inscricao.vaga_ic.hrSemana}h
-            </InscricaoMetaText>
+            <InscricaoMetaText>{inscricao.vaga_ic.hrSemana}h</InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
@@ -148,7 +161,8 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
             style={{ transform: [{ rotateZ: '180deg' }] }}
           />
           <InscricaoMetaText>
-            {inscricao.vaga_ic.laboratorio.sigla}
+            {inscricao.vaga_ic.laboratorio.sigla} -{' '}
+            {inscricao.vaga_ic.laboratorio.nome}
           </InscricaoMetaText>
         </InscricaoMeta>
         <InscricaoMeta>

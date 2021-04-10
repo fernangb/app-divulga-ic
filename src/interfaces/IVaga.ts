@@ -15,10 +15,12 @@ interface IProfessor {
 
 interface IArea {
   nome: string;
+  id: string;
 }
 
 interface ICurso {
   nome: string;
+  id: string;
 }
 
 export default interface IVaga {

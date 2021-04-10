@@ -58,3 +58,16 @@ export const CancelarInscricaoText = styled.Text`
   align-self: center;
   padding-left: 4px;
 `;
+
+export const InscricaoInfoListMeta = styled.View`
+  flex-direction: column;
+`;
+
+export const IncricaoInfoListText = styled.Text`
+  display: flex;
+  flex-direction: row;
+  margin-left: 48px;
+  color: #fff;
+  font-family: 'RobotoSlab-Regular';
+  font-size: 14px;
+`;

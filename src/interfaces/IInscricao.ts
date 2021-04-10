@@ -1,5 +1,5 @@
 import { IAluno } from './IAluno';
-import { IVaga } from './IVaga';
+import IVaga from './IVaga';
 
 export interface IInscricao {
   id: string;
