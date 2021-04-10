@@ -24,11 +24,11 @@ import { useAuth } from '../../hooks/auth';
 interface CriarVagaFormData {
   nome: string;
   descricao: string;
-  vl_bolsa?: number;
-  hr_semana?: number;
-  cr_minimo?: number;
-  nr_vagas: number;
-  periodo_minimo: number;
+  vlBolsa?: number;
+  hrSemana?: number;
+  crMinimo?: number;
+  nrVagas: number;
+  periodoMinimo: number;
   // area: string;
 }
 
@@ -52,11 +52,11 @@ const CriarVaga: React.FC = () => {
         const schema = Yup.object().shape({
           nome: Yup.string().required('Nome obrigatório'),
           descricao: Yup.string().required('Descrição obrigatória'),
-          vl_bolsa: Yup.string().required('Valor da bolsa obrigatório'),
-          hr_semana: Yup.string().required('Horas semana obrigatório'),
-          cr_minimo: Yup.string().required('CR mínimo obrigatório'),
-          nr_vagas: Yup.string().required('Número de vagas obrigatório'),
-          periodo_minimo: Yup.string().required('Núemro de vagas obrigatório'),
+          vlBolsa: Yup.string().required('Valor da bolsa obrigatório'),
+          hrSemana: Yup.string().required('Horas semana obrigatório'),
+          crMinimo: Yup.string().required('CR mínimo obrigatório'),
+          nrVagas: Yup.string().required('Número de vagas obrigatório'),
+          periodoMinimo: Yup.string().required('Núemro de vagas obrigatório'),
         });
 
         await schema.validate(dados, {
@@ -67,15 +67,15 @@ const CriarVaga: React.FC = () => {
           .post('/vagas_ic', {
             nome: dados.nome,
             descricao: dados.descricao,
-            vl_bolsa: dados.vl_bolsa,
-            hr_semana: dados.hr_semana,
-            cr_minimo: dados.cr_minimo,
-            nr_vagas: dados.nr_vagas,
-            periodo_minimo: dados.periodo_minimo,
-            id_laboratorio: professor.laboratorio.id,
-            id_curso: professor.curso.id,
-            id_professor: professor.id,
-            id_area: '0198a630-1fb3-4fe5-bdcc-2708993382b0',
+            vlBolsa: dados.vlBolsa,
+            hrSemana: dados.hrSemana,
+            crMinimo: dados.crMinimo,
+            nrVagas: dados.nrVagas,
+            periodoMinimo: dados.periodoMinimo,
+            laboratorioId: professor.laboratorio.id,
+            cursoId: professor.curso.id,
+            professorId: professor.id,
+            areaId: '0198a630-1fb3-4fe5-bdcc-2708993382b0',
           })
           .then(() => {
             Alert.alert(
@@ -144,7 +144,7 @@ const CriarVaga: React.FC = () => {
               <Input
                 ref={vlBolsaInputRef}
                 keyboardType="numeric"
-                name="vl_bolsa"
+                name="vlBolsa"
                 icon="currency-usd"
                 placeholder="Valor da bolsa"
                 returnKeyType="next"
@@ -155,7 +155,7 @@ const CriarVaga: React.FC = () => {
               <Input
                 ref={hrSemanaInputRef}
                 keyboardType="numeric"
-                name="hr_semana"
+                name="hrSemana"
                 icon="alarm"
                 placeholder="Horas semanais"
                 returnKeyType="next"
@@ -166,7 +166,7 @@ const CriarVaga: React.FC = () => {
               <Input
                 ref={crMinimoInputRef}
                 keyboardType="numeric"
-                name="cr_minimo"
+                name="crMinimo"
                 icon="alpha-c-box"
                 placeholder="CR mínimo"
                 returnKeyType="next"
@@ -177,7 +177,7 @@ const CriarVaga: React.FC = () => {
               <Input
                 ref={periodoMinimoInputRef}
                 keyboardType="numeric"
-                name="periodo_minimo"
+                name="periodoMinimo"
                 icon="progress-check"
                 placeholder="Período mínimo"
                 returnKeyType="next"
@@ -188,7 +188,7 @@ const CriarVaga: React.FC = () => {
               <Input
                 ref={nrVagasInputRef}
                 keyboardType="numeric"
-                name="nr_vagas"
+                name="nrVagas"
                 icon="pound"
                 placeholder="Número de vagas"
                 returnKeyType="send"

@@ -25,13 +25,13 @@ export default interface IVaga {
   id: string;
   nome: string;
   descricao: string;
-  vl_bolsa: number;
-  hr_semana: number;
-  cr_minimo: number;
-  periodo_minimo: number;
-  nr_vagas: number;
+  vlBolsa: number;
+  hrSemana: number;
+  crMinimo: number;
+  periodoMinimo: number;
+  nrVagas: number;
   laboratorio: ILab;
   professor: IProfessor;
-  area: IArea;
-  curso: ICurso;
+  areas: IArea[];
+  cursos: ICurso[];
 }

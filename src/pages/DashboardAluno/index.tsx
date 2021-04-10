@@ -16,6 +16,10 @@ const DashboardAluno: React.FC = () => {
     });
   }, []);
 
+  // useEffect(() => {
+  //   console.log(vagas);
+  // }, [vagas]);
+
   return (
     <Container>
       <Header />

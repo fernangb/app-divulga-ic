@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+/* eslint-disable array-callback-return */
+import React, { useCallback, useState } from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
-import { IVaga } from '../../interfaces/IVaga';
+import IVaga from '../../interfaces/IVaga';
 import {
   Container,
   VagaInfo,
@@ -13,6 +14,8 @@ import {
   VagaTitleContainer,
   ConfirmarInscricaoButton,
   ConfirmarInscricaoText,
+  VagaInfoListText,
+  VagaInfoListMeta,
 } from './styles';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
@@ -31,8 +34,8 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
     async (id: string) => {
       const responseAluno = await api.get(`/alunos/${user.id}`);
       await api.post('/inscricoes_ic', {
-        id_vaga: id,
-        id_aluno: responseAluno.data.id,
+        vagaIcId: id,
+        alunoId: responseAluno.data.id,
       });
 
       navigate('ConfirmarInscricaoVaga', { nome: vaga.nome });
@@ -63,11 +66,9 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
               size={14}
               style={{ transform: [{ rotateZ: '180deg' }] }}
             />
-            <VagaMetaText>{vaga.laboratorio.sigla}</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
-            <Icon name="lightbulb-on" size={14} color="#f76769" />
-            <VagaMetaText>Área: {vaga.area.nome}</VagaMetaText>
+            <VagaMetaText>
+              {vaga.laboratorio.sigla} - {vaga.laboratorio.nome}
+            </VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="account-tie" size={14} color="#f76769" />
@@ -75,31 +76,45 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
               {vaga.professor.usuario.nome} {vaga.professor.usuario.sobrenome}
             </VagaMetaText>
           </VagaMeta>
-          <VagaMeta>
-            <Icon name="school" size={14} color="#f76769" />
-            <VagaMetaText>{vaga.curso.nome}</VagaMetaText>
-          </VagaMeta>
+          <VagaInfoListMeta>
+            <VagaMeta>
+              <Icon name="school" size={14} color="#f76769" />
+              <VagaMetaText>Cursos:</VagaMetaText>
+            </VagaMeta>
+            {vaga.cursos.map(curso => (
+              <VagaInfoListText>- {curso.nome}</VagaInfoListText>
+            ))}
+          </VagaInfoListMeta>
+          <VagaInfoListMeta>
+            <VagaMeta>
+              <Icon name="lightbulb-on" size={14} color="#f76769" />
+              <VagaMetaText>Áreas:</VagaMetaText>
+            </VagaMeta>
+            {vaga.areas.map(area => (
+              <VagaInfoListText>- {area.nome}</VagaInfoListText>
+            ))}
+          </VagaInfoListMeta>
 
           <VagaMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
-            <VagaMetaText>{getFormattedCurrency(vaga.vl_bolsa)}</VagaMetaText>
+            <VagaMetaText>{getFormattedCurrency(vaga.vlBolsa)}</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="alarm" size={14} color="#f76769" />
-            <VagaMetaText>{vaga.hr_semana}h</VagaMetaText>
+            <VagaMetaText>{vaga.hrSemana}h</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <VagaMetaText>CR: {vaga.cr_minimo.toFixed(1)}</VagaMetaText>
+            <VagaMetaText>CR: {vaga.crMinimo.toFixed(1)}</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="progress-check" size={14} color="#f76769" />
-            <VagaMetaText>{vaga.periodo_minimo}° período</VagaMetaText>
+            <VagaMetaText>{vaga.periodoMinimo}° período</VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="pound" size={14} color="#f76769" />
             <VagaMetaText>
-              {vaga.nr_vagas} {vaga.nr_vagas === 1 ? 'vaga' : 'vagas'}
+              {vaga.nrVagas} {vaga.nrVagas === 1 ? 'vaga' : 'vagas'}
             </VagaMetaText>
           </VagaMeta>
           <VagaMeta>
@@ -137,7 +152,9 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
             size={14}
             style={{ transform: [{ rotateZ: '180deg' }] }}
           />
-          <VagaMetaText>{vaga.laboratorio.sigla}</VagaMetaText>
+          <VagaMetaText>
+            {vaga.laboratorio.sigla} - {vaga.laboratorio.nome}
+          </VagaMetaText>
         </VagaMeta>
         <VagaMeta>
           <Icon name="account-tie" size={14} color="#f76769" />
@@ -148,11 +165,11 @@ const VagaCard: React.FC<ICardProps> = ({ vaga }) => {
 
         <VagaMeta>
           <Icon name="currency-usd" size={14} color="#f76769" />
-          <VagaMetaText>{getFormattedCurrency(vaga.vl_bolsa)}</VagaMetaText>
+          <VagaMetaText>{getFormattedCurrency(vaga.vlBolsa)}</VagaMetaText>
         </VagaMeta>
         <VagaMeta>
           <Icon name="alarm" size={14} color="#f76769" />
-          <VagaMetaText>{vaga.hr_semana} h</VagaMetaText>
+          <VagaMetaText>{vaga.hrSemana} h</VagaMetaText>
         </VagaMeta>
       </VagaInfo>
       <ConfirmarInscricaoButton onPress={() => handleInscricao(vaga.id)}>

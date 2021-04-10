@@ -20,17 +20,17 @@ interface RouteParams {
 
 interface IVagas {
   id: string;
-  id_curso: string;
-  id_area: string;
-  id_professor: string;
-  id_laboratorio: string;
+  cursoId: string;
+  areaId: string;
+  professorId: string;
+  laboratorioId: string;
   nome: string;
   descricao: string;
-  vl_bolsa: number;
-  hr_semana: number;
-  cr_minimo: number;
-  periodo_minimo: number;
-  nr_vagas: number;
+  vlBolsa: number;
+  hrSemana: number;
+  crMinimo: number;
+  periodoMinimo: number;
+  nrVagas: number;
   laboratorio: { nome: string; sigla: string };
   professor: { usuario: { avatar_url: string } };
 }

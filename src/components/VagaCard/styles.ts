@@ -36,6 +36,8 @@ export const VagaMeta = styled.View`
 `;
 
 export const VagaMetaText = styled.Text`
+  display: flex;
+  flex-direction: column;
   margin-left: 12px;
   color: #fff;
   font-family: 'RobotoSlab-Regular';
@@ -57,4 +59,17 @@ export const ConfirmarInscricaoText = styled.Text`
   font-size: 16px;
   align-self: center;
   padding-left: 4px;
+`;
+
+export const VagaInfoListMeta = styled.View`
+  flex-direction: column;
+`;
+
+export const VagaInfoListText = styled.Text`
+  display: flex;
+  flex-direction: row;
+  margin-left: 48px;
+  color: #fff;
+  font-family: 'RobotoSlab-Regular';
+  font-size: 14px;
 `;

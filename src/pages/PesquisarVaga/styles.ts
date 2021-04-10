@@ -4,20 +4,19 @@ import { FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 // import { IVagas } from './index';
 
-
 interface IVagas {
   id: string;
-  id_curso: string;
-  id_area: string;
-  id_professor: string;
-  id_laboratorio: string;
+  cursoId: string;
+  areaId: string;
+  professorId: string;
+  laboratorioId: string;
   nome: string;
   descricao: string;
-  vl_bolsa: number;
-  hr_semana: number;
-  cr_minimo: number;
-  periodo_minimo: number;
-  nr_vagas: number;
+  vlBolsa: number;
+  hrSemana: number;
+  crMinimo: number;
+  periodoMinimo: number;
+  nrVagas: number;
   laboratorio: { nome: string; sigla: string };
   professor: { usuario: { avatar_url: string } };
 }
@@ -58,7 +57,6 @@ export const UserAvatar = styled.Image`
 export const VagasListContainer = styled.View`
   height: 112px;
 `;
-
 
 export const VagasList = styled(FlatList as new () => FlatList<IVagas>)`
   padding: 32px 24px;

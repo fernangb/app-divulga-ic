@@ -80,30 +80,30 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           <InscricaoMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {getFormattedCurrency(inscricao.vaga_ic.vl_bolsa)}
+              {getFormattedCurrency(inscricao.vaga_ic.vlBolsa)}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="alarm" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.hr_semana}h
+              {inscricao.vaga_ic.hrSemana}h
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <InscricaoMetaText>{inscricao.vaga_ic.cr_minimo}</InscricaoMetaText>
+            <InscricaoMetaText>{inscricao.vaga_ic.crMinimo}</InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="progress-check" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.periodo_minimo}° período
+              {inscricao.vaga_ic.periodoMinimo}° período
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="pound" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.nr_vagas}{' '}
-              {inscricao.vaga_ic.nr_vagas === 1 ? 'vaga' : 'vagas'}
+              {inscricao.vaga_ic.nrVagas}{' '}
+              {inscricao.vaga_ic.nrVagas === 1 ? 'vaga' : 'vagas'}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
