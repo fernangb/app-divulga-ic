@@ -45,15 +45,17 @@ export const VagaMetaText = styled.Text`
   margin-right: 8px;
 `;
 
-export const ConfirmarInscricaoButton = styled.TouchableOpacity`
+export const VagaButton = styled.TouchableOpacity`
   width: 100%;
   align-items: center;
   justify-content: center;
   flex-direction: row;
   margin-top: 8px;
+  /* border-top-width: 1px;
+  border-color: #f76769; */
 `;
 
-export const ConfirmarInscricaoText = styled.Text`
+export const VagaButtonText = styled.Text`
   color: #f76769;
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;

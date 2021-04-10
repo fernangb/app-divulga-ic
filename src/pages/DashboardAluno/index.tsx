@@ -16,10 +16,6 @@ const DashboardAluno: React.FC = () => {
     });
   }, []);
 
-  // useEffect(() => {
-  //   console.log(vagas);
-  // }, [vagas]);
-
   return (
     <Container>
       <Header />
@@ -29,12 +25,7 @@ const DashboardAluno: React.FC = () => {
         ListHeaderComponent={
           <VagasListTitle>Vagas recomendadas: {vagas.length}</VagasListTitle>
         }
-        renderItem={({ item: vaga }) => (
-          <VagaCard
-            vaga={vaga}
-            // onPress={() => navigateToProcurarVagas(vaga.id)}
-          />
-        )}
+        renderItem={({ item: vaga }) => <VagaCard vaga={vaga} />}
       />
     </Container>
   );
