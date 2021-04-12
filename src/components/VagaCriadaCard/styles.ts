@@ -45,20 +45,27 @@ export const VagaMetaText = styled.Text`
   margin-right: 8px;
 `;
 
-export const VagaButton = styled.TouchableOpacity`
+export const ViewOptions = styled.View``;
+
+export const ButtonFooter = styled.View`
+  display: flex;
   width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+`;
+
+export const VagaButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-  margin-top: 8px;
-  /* border-top-width: 1px;
-  border-color: #f76769; */
+  flex-direction: column;
 `;
 
 export const VagaButtonText = styled.Text`
   color: #f76769;
   font-family: 'RobotoSlab-Regular';
-  font-size: 16px;
+  font-size: 12px;
   align-self: center;
   padding-left: 4px;
 `;
@@ -75,5 +82,3 @@ export const VagaInfoListText = styled.Text`
   font-family: 'RobotoSlab-Regular';
   font-size: 14px;
 `;
-
-export const ViewOptions = styled.View``;

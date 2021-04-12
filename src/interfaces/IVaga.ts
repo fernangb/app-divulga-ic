@@ -36,4 +36,6 @@ export default interface IVaga {
   professor: IProfessor;
   areas: IArea[];
   cursos: ICurso[];
+  nrInscritos: number;
+  esAtiva: boolean;
 }

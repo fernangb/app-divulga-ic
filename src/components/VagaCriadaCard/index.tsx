@@ -16,6 +16,7 @@ import {
   VagaButtonText,
   VagaInfoListText,
   VagaInfoListMeta,
+  ButtonFooter,
 } from './styles';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
@@ -71,9 +72,10 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
             </VagaMetaText>
           </VagaMeta>
           <VagaMeta>
-            <Icon name="account-tie" size={14} color="#f76769" />
+            <Icon name="ticket" size={14} color="#f76769" />
             <VagaMetaText>
-              {vaga.professor.usuario.nome} {vaga.professor.usuario.sobrenome}
+              {vaga.nrInscritos}{' '}
+              {vaga.nrInscritos === 1 ? 'inscrito' : 'inscritos'}
             </VagaMetaText>
           </VagaMeta>
           <VagaInfoListMeta>
@@ -122,10 +124,20 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
             <VagaMetaText>{vaga.descricao}</VagaMetaText>
           </VagaMeta>
         </VagaInfo>
-        <VagaButton onPress={() => handleInscricao(vaga.id)}>
-          <Icon name="pencil" color="#f76769" size={16} />
-          <VagaButtonText>Editar vaga</VagaButtonText>
-        </VagaButton>
+        <ButtonFooter>
+          <VagaButton onPress={() => handleInscricao(vaga.id)}>
+            <Icon name="pencil" color="#f76769" size={16} />
+            <VagaButtonText>Editar vaga</VagaButtonText>
+          </VagaButton>
+          <VagaButton onPress={() => handleInscricao(vaga.id)}>
+            <Icon name="close-octagon" color="#f76769" size={16} />
+            <VagaButtonText>Fechar vaga</VagaButtonText>
+          </VagaButton>
+          <VagaButton onPress={() => handleInscricao(vaga.id)}>
+            <Icon name="delete" color="#f76769" size={16} />
+            <VagaButtonText>Excluir vaga</VagaButtonText>
+          </VagaButton>
+        </ButtonFooter>
       </Container>
     );
   }
@@ -157,9 +169,10 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
           </VagaMetaText>
         </VagaMeta>
         <VagaMeta>
-          <Icon name="account-tie" size={14} color="#f76769" />
+          <Icon name="ticket" size={14} color="#f76769" />
           <VagaMetaText>
-            {vaga.professor.usuario.nome} {vaga.professor.usuario.sobrenome}
+            {vaga.nrInscritos}{' '}
+            {vaga.nrInscritos === 1 ? 'inscrito' : 'inscritos'}
           </VagaMetaText>
         </VagaMeta>
 
@@ -172,14 +185,20 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
           <VagaMetaText>{vaga.hrSemana} h</VagaMetaText>
         </VagaMeta>
       </VagaInfo>
-      <VagaButton onPress={() => handleInscricao(vaga.id)}>
-        <Icon name="pencil" color="#f76769" size={16} />
-        <VagaButtonText>Editar vaga</VagaButtonText>
-      </VagaButton>
-      <VagaButton onPress={() => handleInscricao(vaga.id)}>
-        <Icon name="delete" color="#f76769" size={16} />
-        <VagaButtonText>Excluir vaga</VagaButtonText>
-      </VagaButton>
+      <ButtonFooter>
+        <VagaButton onPress={() => handleInscricao(vaga.id)}>
+          <Icon name="pencil" color="#f76769" size={16} />
+          <VagaButtonText>Editar vaga</VagaButtonText>
+        </VagaButton>
+        <VagaButton onPress={() => handleInscricao(vaga.id)}>
+          <Icon name="close-octagon" color="#f76769" size={16} />
+          <VagaButtonText>Fechar vaga</VagaButtonText>
+        </VagaButton>
+        <VagaButton onPress={() => handleInscricao(vaga.id)}>
+          <Icon name="delete" color="#f76769" size={16} />
+          <VagaButtonText>Excluir vaga</VagaButtonText>
+        </VagaButton>
+      </ButtonFooter>
     </Container>
   );
 };

@@ -122,7 +122,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           <InscricaoMeta>
             <Icon name="calendar-check" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {getFormattedDate(inscricao.dt_inscricao)}
+              {getFormattedDate(inscricao.dtInscricao)}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
@@ -176,7 +176,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
         <InscricaoMeta>
           <Icon name="calendar-check" size={14} color="#f76769" />
           <InscricaoMetaText>
-            {getFormattedDate(inscricao.dt_inscricao)}
+            {getFormattedDate(inscricao.dtInscricao)}
           </InscricaoMetaText>
         </InscricaoMeta>
       </InscricaoInfo>

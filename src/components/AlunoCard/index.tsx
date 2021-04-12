@@ -51,8 +51,8 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           <AlunoMeta>
             <Icon name="calendar" size={14} color="#f76769" />
             <AlunoMetaText>
-              {getFormattedDate(inscricao.dt_inscricao)}
-              {/* {format(inscricao.dt_inscricao, 'dd/MM/yyyy HH:mm:ss')} */}
+              {getFormattedDate(inscricao.dtInscricao)}
+              {/* {format(inscricao.dtInscricao, 'dd/MM/yyyy HH:mm:ss')} */}
             </AlunoMetaText>
           </AlunoMeta>
           <AlunoMeta>
@@ -109,8 +109,8 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
         <AlunoMeta>
           <Icon name="calendar" size={14} color="#f76769" />
           <AlunoMetaText>
-            {getFormattedDate(inscricao.dt_inscricao)}
-            {/* {format(inscricao.dt_inscricao, 'dd/MM/yyyy HH:mm:ss')} */}
+            {getFormattedDate(inscricao.dtInscricao)}
+            {/* {format(inscricao.dtInscricao, 'dd/MM/yyyy HH:mm:ss')} */}
           </AlunoMetaText>
         </AlunoMeta>
       </AlunoInfo>
