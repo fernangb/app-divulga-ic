@@ -54,9 +54,15 @@ const MenuProfessor: React.FC = () => {
             <View>
               <Title>Menu</Title>
             </View>
-            <OptionButton onPress={() => navigation.navigate('DashboardAluno')}>
+            <OptionButton
+              onPress={() => navigation.navigate('DashboardProfessor')}
+            >
               <Icon name="home" size={36} color="#fff" />
-              <OptionText>Alunos inscritos</OptionText>
+              <OptionText>Minhas vagas criadas</OptionText>
+            </OptionButton>
+            <OptionButton onPress={() => navigation.navigate('CriarVaga')}>
+              <Icon name="plus-circle" size={36} color="#fff" />
+              <OptionText>Criar vaga de IC</OptionText>
             </OptionButton>
             <OptionButton
               onPress={() => navigation.navigate('PerfilProfessor')}
@@ -64,15 +70,12 @@ const MenuProfessor: React.FC = () => {
               <Icon name="account" size={36} color="#fff" />
               <OptionText>Ver perfil</OptionText>
             </OptionButton>
-            <OptionButton onPress={() => navigation.navigate('CriarVaga')}>
-              <Icon name="plus-circle" size={36} color="#fff" />
-              <OptionText>Criar vaga de IC</OptionText>
-            </OptionButton>
+
             <OptionButton
-              onPress={() => navigation.navigate('MinhasVagasCriadas')}
+              onPress={() => navigation.navigate('DashboardProfessor')}
             >
               <Icon name="clipboard-list" size={36} color="#fff" />
-              <OptionText>Minhas vagas criadas</OptionText>
+              <OptionText>Todos alunos inscritos</OptionText>
             </OptionButton>
           </Container>
         </ScrollView>

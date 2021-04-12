@@ -3,8 +3,8 @@ import IVaga from './IVaga';
 
 export interface IInscricao {
   id: string;
-  es_ativa: boolean;
+  esAtiva: boolean;
   dtInscricao: Date;
-  vaga_ic: IVaga;
+  vagaIc: IVaga;
   aluno: IAluno;
 }

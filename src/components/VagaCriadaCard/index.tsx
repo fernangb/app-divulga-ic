@@ -18,8 +18,6 @@ import {
   VagaInfoListMeta,
   ButtonFooter,
 } from './styles';
-import api from '../../services/api';
-import { useAuth } from '../../hooks/auth';
 import getFormattedCurrency from '../../utils/getFormattedCurrency';
 
 interface ICardProps {
@@ -27,21 +25,33 @@ interface ICardProps {
 }
 
 const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
-  const { user } = useAuth();
   const [cardAberto, setCardAberto] = useState(false);
   const { navigate } = useNavigation();
 
-  const handleInscricao = useCallback(
-    async (id: string) => {
-      const responseAluno = await api.get(`/alunos/${user.id}`);
-      await api.post('/inscricoes_ic', {
-        vagaIcId: id,
-        alunoId: responseAluno.data.id,
-      });
-
-      navigate('VagaVaga', { nome: vaga.nome });
+  const handleVerInscricoes = useCallback(
+    (id: string) => {
+      navigate('VerInscricoes', { vagaId: id });
     },
-    [navigate, user.id, vaga.nome],
+    [navigate],
+  );
+
+  const handleEditarVaga = useCallback(
+    (id: string) => {
+      navigate('VerInscricoes', { vagaId: id });
+    },
+    [navigate],
+  );
+  const handleExcluirVaga = useCallback(
+    (id: string) => {
+      navigate('VerInscricoes', { vagaId: id });
+    },
+    [navigate],
+  );
+  const handleFecharVaga = useCallback(
+    (id: string) => {
+      navigate('VerInscricoes', { vagaId: id });
+    },
+    [navigate],
   );
 
   if (cardAberto) {
@@ -125,15 +135,19 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
           </VagaMeta>
         </VagaInfo>
         <ButtonFooter>
-          <VagaButton onPress={() => handleInscricao(vaga.id)}>
+          <VagaButton onPress={() => handleVerInscricoes(vaga.id)}>
+            <Icon name="clipboard-list" color="#f76769" size={16} />
+            <VagaButtonText>Ver inscrições</VagaButtonText>
+          </VagaButton>
+          <VagaButton onPress={() => handleEditarVaga(vaga.id)}>
             <Icon name="pencil" color="#f76769" size={16} />
             <VagaButtonText>Editar vaga</VagaButtonText>
           </VagaButton>
-          <VagaButton onPress={() => handleInscricao(vaga.id)}>
+          <VagaButton onPress={() => handleFecharVaga(vaga.id)}>
             <Icon name="close-octagon" color="#f76769" size={16} />
             <VagaButtonText>Fechar vaga</VagaButtonText>
           </VagaButton>
-          <VagaButton onPress={() => handleInscricao(vaga.id)}>
+          <VagaButton onPress={() => handleExcluirVaga(vaga.id)}>
             <Icon name="delete" color="#f76769" size={16} />
             <VagaButtonText>Excluir vaga</VagaButtonText>
           </VagaButton>
@@ -186,15 +200,19 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
         </VagaMeta>
       </VagaInfo>
       <ButtonFooter>
-        <VagaButton onPress={() => handleInscricao(vaga.id)}>
+        <VagaButton onPress={() => handleVerInscricoes(vaga.id)}>
+          <Icon name="clipboard-list" color="#f76769" size={16} />
+          <VagaButtonText>Ver inscrições</VagaButtonText>
+        </VagaButton>
+        <VagaButton onPress={() => handleEditarVaga(vaga.id)}>
           <Icon name="pencil" color="#f76769" size={16} />
           <VagaButtonText>Editar vaga</VagaButtonText>
         </VagaButton>
-        <VagaButton onPress={() => handleInscricao(vaga.id)}>
+        <VagaButton onPress={() => handleFecharVaga(vaga.id)}>
           <Icon name="close-octagon" color="#f76769" size={16} />
           <VagaButtonText>Fechar vaga</VagaButtonText>
         </VagaButton>
-        <VagaButton onPress={() => handleInscricao(vaga.id)}>
+        <VagaButton onPress={() => handleExcluirVaga(vaga.id)}>
           <Icon name="delete" color="#f76769" size={16} />
           <VagaButtonText>Excluir vaga</VagaButtonText>
         </VagaButton>

@@ -32,16 +32,16 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
   const handleInscricao = useCallback(
     async (id: string) => {
       await api.delete(`/inscricoes_ic/${id}`);
-      navigate('CancelarInscricaoInscricao', { nome: inscricao.vaga_ic.nome });
+      navigate('CancelarInscricaoInscricao', { nome: inscricao.vagaIc.nome });
     },
-    [inscricao.vaga_ic.nome, navigate],
+    [inscricao.vagaIc.nome, navigate],
   );
 
   if (cardAberto) {
     return (
       <Container>
         <InscricaoTitleContainer>
-          <InscricaoNome>{inscricao.vaga_ic.nome}</InscricaoNome>
+          <InscricaoNome>{inscricao.vagaIc.nome}</InscricaoNome>
 
           <MaisInfoButton
             onPress={() => {
@@ -61,15 +61,15 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
               style={{ transform: [{ rotateZ: '180deg' }] }}
             />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.laboratorio.sigla} -{' '}
-              {inscricao.vaga_ic.laboratorio.nome}
+              {inscricao.vagaIc.laboratorio.sigla} -{' '}
+              {inscricao.vagaIc.laboratorio.nome}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="account-tie" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.professor.usuario.nome}{' '}
-              {inscricao.vaga_ic.professor.usuario.sobrenome}
+              {inscricao.vagaIc.professor.usuario.nome}{' '}
+              {inscricao.vagaIc.professor.usuario.sobrenome}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
@@ -81,7 +81,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
               <Icon name="lightbulb-on" size={14} color="#f76769" />
               <InscricaoMetaText>Áreas:</InscricaoMetaText>
             </InscricaoMeta>
-            {inscricao.vaga_ic.areas.map(area => (
+            {inscricao.vagaIc.areas.map(area => (
               <IncricaoInfoListText key={area.id}>
                 - {area.nome}
               </IncricaoInfoListText>
@@ -89,34 +89,34 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </InscricaoInfoListMeta>
           {/* <InscricaoMeta>
             <Icon name="lightbulb-on" size={14} color="#f76769" />
-            <InscricaoMetaText>{inscricao.vaga_ic.area.nome}</InscricaoMetaText>
+            <InscricaoMetaText>{inscricao.vagaIc.area.nome}</InscricaoMetaText>
           </InscricaoMeta> */}
 
           <InscricaoMeta>
             <Icon name="currency-usd" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {getFormattedCurrency(inscricao.vaga_ic.vlBolsa)}
+              {getFormattedCurrency(inscricao.vagaIc.vlBolsa)}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="alarm" size={14} color="#f76769" />
-            <InscricaoMetaText>{inscricao.vaga_ic.hrSemana}h</InscricaoMetaText>
+            <InscricaoMetaText>{inscricao.vagaIc.hrSemana}h</InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="alpha-c-box" size={14} color="#f76769" />
-            <InscricaoMetaText>{inscricao.vaga_ic.crMinimo}</InscricaoMetaText>
+            <InscricaoMetaText>{inscricao.vagaIc.crMinimo}</InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="progress-check" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.periodoMinimo}° período
+              {inscricao.vagaIc.periodoMinimo}° período
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="pound" size={14} color="#f76769" />
             <InscricaoMetaText>
-              {inscricao.vaga_ic.nrVagas}{' '}
-              {inscricao.vaga_ic.nrVagas === 1 ? 'vaga' : 'vagas'}
+              {inscricao.vagaIc.nrVagas}{' '}
+              {inscricao.vagaIc.nrVagas === 1 ? 'vaga' : 'vagas'}
             </InscricaoMetaText>
           </InscricaoMeta>
           <InscricaoMeta>
@@ -127,7 +127,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </InscricaoMeta>
           <InscricaoMeta>
             <Icon name="information" size={14} color="#f76769" />
-            <InscricaoMetaText>{inscricao.vaga_ic.descricao}</InscricaoMetaText>
+            <InscricaoMetaText>{inscricao.vagaIc.descricao}</InscricaoMetaText>
           </InscricaoMeta>
         </InscricaoInfo>
         <CancelarInscricaoButton onPress={() => handleInscricao(inscricao.id)}>
@@ -141,7 +141,7 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
   return (
     <Container>
       <InscricaoTitleContainer>
-        <InscricaoNome>{inscricao.vaga_ic.nome}</InscricaoNome>
+        <InscricaoNome>{inscricao.vagaIc.nome}</InscricaoNome>
 
         <MaisInfoButton
           onPress={() => {
@@ -161,15 +161,15 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
             style={{ transform: [{ rotateZ: '180deg' }] }}
           />
           <InscricaoMetaText>
-            {inscricao.vaga_ic.laboratorio.sigla} -{' '}
-            {inscricao.vaga_ic.laboratorio.nome}
+            {inscricao.vagaIc.laboratorio.sigla} -{' '}
+            {inscricao.vagaIc.laboratorio.nome}
           </InscricaoMetaText>
         </InscricaoMeta>
         <InscricaoMeta>
           <Icon name="account-tie" size={14} color="#f76769" />
           <InscricaoMetaText>
-            {inscricao.vaga_ic.professor.usuario.nome}{' '}
-            {inscricao.vaga_ic.professor.usuario.sobrenome}
+            {inscricao.vagaIc.professor.usuario.nome}{' '}
+            {inscricao.vagaIc.professor.usuario.sobrenome}
           </InscricaoMetaText>
         </InscricaoMeta>
 

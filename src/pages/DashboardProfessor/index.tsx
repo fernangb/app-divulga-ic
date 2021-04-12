@@ -4,43 +4,30 @@ import { Container, VagasList, VagasListTitle } from './styles';
 
 import Header from '../../components/Header';
 
-import AlunoCard from '../../components/AlunoCard';
-import { IInscricao } from '../../interfaces/IInscricao';
-import { useAuth } from '../../hooks/auth';
+import IVaga from '../../interfaces/IVaga';
+import VagaCriadaCard from '../../components/VagaCriadaCard';
 
 const DashboardProfessor: React.FC = () => {
-  const [inscricoes, setInscricoes] = useState<IInscricao[]>([]);
-  const { professor } = useAuth();
+  const [Vagas, setVagas] = useState<IVaga[]>([]);
 
   useEffect(() => {
-    async function loadData() {
-      await api
-        .get(`/inscricoes_ic/professor/${professor.id}`)
-        .then(response => {
-          setInscricoes(response.data);
-        });
-    }
-
-    loadData();
-  }, [professor]);
+    api.get('/vagas_ic/professor/me').then(response => {
+      setVagas(response.data);
+    });
+  }, []);
 
   return (
     <Container>
       <Header />
       <VagasList
-        keyExtractor={inscricao => inscricao.id}
-        data={inscricoes}
+        keyExtractor={Vaga => Vaga.id}
+        data={Vagas}
         ListHeaderComponent={
           <VagasListTitle>
-            Inscrições pendentes: {inscricoes.length}
+            Minhas vagas de IC criadas: {Vagas.length}
           </VagasListTitle>
         }
-        renderItem={({ item: inscricao }) => (
-          <AlunoCard
-            inscricao={inscricao}
-            // onPress={() => navigateToProcurarVagas(vaga.id)}
-          />
-        )}
+        renderItem={({ item: Vaga }) => <VagaCriadaCard vaga={Vaga} />}
       />
     </Container>
   );
