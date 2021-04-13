@@ -8,7 +8,7 @@ import IVaga from '../../interfaces/IVaga';
 import VagaCriadaCard from '../../components/VagaCriadaCard';
 
 const DashboardProfessor: React.FC = () => {
-  const [Vagas, setVagas] = useState<IVaga[]>([]);
+  const [vagas, setVagas] = useState<IVaga[]>([]);
 
   useEffect(() => {
     api.get('/vagas_ic/professor/me').then(response => {
@@ -20,14 +20,14 @@ const DashboardProfessor: React.FC = () => {
     <Container>
       <Header />
       <VagasList
-        keyExtractor={Vaga => Vaga.id}
-        data={Vagas}
+        keyExtractor={vaga => vaga.id}
+        data={vagas}
         ListHeaderComponent={
           <VagasListTitle>
-            Minhas vagas de IC criadas: {Vagas.length}
+            Minhas vagas de IC criadas: {vagas.length}
           </VagasListTitle>
         }
-        renderItem={({ item: Vaga }) => <VagaCriadaCard vaga={Vaga} />}
+        renderItem={({ item: vaga }) => <VagaCriadaCard vaga={vaga} />}
       />
     </Container>
   );

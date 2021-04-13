@@ -12,7 +12,6 @@ import MenuProfessor from '../pages/MenuProfessor';
 import MinhasInscricoes from '../pages/MinhasInscricoes';
 import ConfirmarInscricaoVaga from '../pages/ConfirmarInscricaoVaga';
 import CancelarInscricaoVaga from '../pages/CancelarInscricaoVaga';
-import MinhasVagasCriadas from '../pages/MinhasVagasCriadas';
 import VerInscricoes from '../pages/VerInscricoes';
 
 const App = createStackNavigator();

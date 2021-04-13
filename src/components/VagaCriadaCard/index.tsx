@@ -29,54 +29,42 @@ interface ICardProps {
 const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
   const [cardAberto, setCardAberto] = useState(false);
   const navigation = useNavigation();
-  const [isVisible, setIsVisible] = useState(true);
 
-  const handleVerInscricoes = useCallback(
-    (id: string) => {
-      navigation.navigate('VerInscricoes', { vagaId: id });
-    },
-    [navigation],
-  );
+  const handleVerInscricoes = useCallback(() => {
+    if (vaga.nrInscritos === 0)
+      Alert.alert('Inscrições', 'Nenhum aluno foi inscrito nessa vaga.');
+    else navigation.navigate('VerInscricoes', { vagaId: vaga.id });
+  }, [navigation, vaga.id, vaga.nrInscritos]);
 
-  const handleEditarVaga = useCallback(
-    (id: string) => {
-      navigation.navigate('VerInscricoes', { vagaId: id });
-    },
-    [navigation],
-  );
-  const handleEncerrarVaga = useCallback(
-    (id: string) => {
-      navigation.navigate('VerInscricoes', { vagaId: id });
-    },
-    [navigation],
-  );
-  const handleExcluirVaga = useCallback(
-    (id: string) => {
-      async function sendData() {
-        await api
-          .delete(`/vagas_ic/${id}`)
-          .then(response => {
-            Alert.alert('Excluir vaga de IC', response.data.message);
-            // navigation.navigate('DashboardProfessor');
-            setIsVisible(false);
-          })
-          .catch(err => {
-            const { data } = err.response;
-            Alert.alert('Erro ao excluir vaga de IC', data.message);
-          });
-      }
+  const handleEditarVaga = useCallback(() => {
+    Alert.alert('Editar Vaga', 'Tela ainda não está pronta.');
 
-      Alert.alert('Excluir vaga de IC', 'Você tem certeza disso?', [
-        { text: 'Sim', onPress: () => sendData() },
-        { text: 'Não', onPress: () => {} },
-      ]);
-    },
-    [navigation],
-  );
+    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
+  }, []);
 
-  if (!isVisible) {
-    return <Container />;
-  }
+  const handleEncerrarVaga = useCallback(() => {
+    Alert.alert('Encerrar Vaga', 'Tela ainda não está pronta.');
+  }, []);
+
+  const handleExcluirVaga = useCallback(() => {
+    async function sendData() {
+      await api
+        .delete(`/vagas_ic/${vaga.id}`)
+        .then(response => {
+          Alert.alert('Excluir vaga de IC', response.data.message);
+          // navigation.navigate('DashboardProfessor');
+        })
+        .catch(err => {
+          const { data } = err.response;
+          Alert.alert('Erro ao excluir vaga de IC', data.message);
+        });
+    }
+
+    Alert.alert('Excluir vaga de IC', 'Você tem certeza disso?', [
+      { text: 'Sim', onPress: () => sendData() },
+      { text: 'Não', onPress: () => {} },
+    ]);
+  }, [vaga.id]);
 
   if (cardAberto) {
     return (
@@ -159,19 +147,19 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
           </VagaMeta>
         </VagaInfo>
         <ButtonFooter>
-          <VagaButton onPress={() => handleVerInscricoes(vaga.id)}>
+          <VagaButton onPress={() => handleVerInscricoes()}>
             <Icon name="clipboard-list" color="#f76769" size={16} />
             <VagaButtonText>Inscrições</VagaButtonText>
           </VagaButton>
-          <VagaButton onPress={() => handleEditarVaga(vaga.id)}>
+          <VagaButton onPress={() => handleEditarVaga()}>
             <Icon name="pencil" color="#f76769" size={16} />
             <VagaButtonText>Editar</VagaButtonText>
           </VagaButton>
-          <VagaButton onPress={() => handleEncerrarVaga(vaga.id)}>
+          <VagaButton onPress={() => handleEncerrarVaga()}>
             <Icon name="close-octagon" color="#f76769" size={16} />
             <VagaButtonText>Encerrar</VagaButtonText>
           </VagaButton>
-          <VagaButton onPress={() => handleExcluirVaga(vaga.id)}>
+          <VagaButton onPress={() => handleExcluirVaga()}>
             <Icon name="delete" color="#f76769" size={16} />
             <VagaButtonText>Excluir</VagaButtonText>
           </VagaButton>
@@ -224,19 +212,19 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga }) => {
         </VagaMeta>
       </VagaInfo>
       <ButtonFooter>
-        <VagaButton onPress={() => handleVerInscricoes(vaga.id)}>
+        <VagaButton onPress={() => handleVerInscricoes()}>
           <Icon name="clipboard-list" color="#f76769" size={16} />
           <VagaButtonText>Inscrições</VagaButtonText>
         </VagaButton>
-        <VagaButton onPress={() => handleEditarVaga(vaga.id)}>
+        <VagaButton onPress={() => handleEditarVaga()}>
           <Icon name="pencil" color="#f76769" size={16} />
           <VagaButtonText>Editar</VagaButtonText>
         </VagaButton>
-        <VagaButton onPress={() => handleEncerrarVaga(vaga.id)}>
+        <VagaButton onPress={() => handleEncerrarVaga()}>
           <Icon name="close-octagon" color="#f76769" size={16} />
           <VagaButtonText>Encerrar</VagaButtonText>
         </VagaButton>
-        <VagaButton onPress={() => handleExcluirVaga(vaga.id)}>
+        <VagaButton onPress={() => handleExcluirVaga()}>
           <Icon name="delete" color="#f76769" size={16} />
           <VagaButtonText>Excluir</VagaButtonText>
         </VagaButton>
