@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import api from '../../services/api';
 import { Container, VagasList, VagasListTitle } from './styles';
 
@@ -16,6 +17,33 @@ const DashboardProfessor: React.FC = () => {
     });
   }, []);
 
+  const deleteVaga = useCallback(
+    (id: string) => {
+      async function sendData() {
+        await api
+          .delete(`/vagas_ic/${id}`)
+          .then(response => {
+            Alert.alert('Excluir vaga de IC', response.data.message);
+
+            // navigation.navigate('DashboardProfessor');
+            const novasVagas = vagas.filter(vaga => vaga.id !== id);
+
+            setVagas(novasVagas);
+          })
+          .catch(err => {
+            const { data } = err.response;
+            Alert.alert('Erro ao excluir vaga de IC', data.message);
+          });
+      }
+
+      Alert.alert('Excluir vaga de IC', 'Você tem certeza disso?', [
+        { text: 'Sim', onPress: () => sendData() },
+        { text: 'Não', onPress: () => {} },
+      ]);
+    },
+    [vagas],
+  );
+
   return (
     <Container>
       <Header />
@@ -27,7 +55,9 @@ const DashboardProfessor: React.FC = () => {
             Minhas vagas de IC criadas: {vagas.length}
           </VagasListTitle>
         }
-        renderItem={({ item: vaga }) => <VagaCriadaCard vaga={vaga} />}
+        renderItem={({ item: vaga }) => (
+          <VagaCriadaCard deleteVaga={deleteVaga} vaga={vaga} />
+        )}
       />
     </Container>
   );
