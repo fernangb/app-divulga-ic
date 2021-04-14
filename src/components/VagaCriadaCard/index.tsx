@@ -43,10 +43,6 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
     // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
   }, []);
 
-  const handleEncerrarVaga = useCallback(() => {
-    Alert.alert('Encerrar Vaga', 'Tela ainda não está pronta.');
-  }, []);
-
   if (cardAberto) {
     return (
       <Container>
@@ -136,10 +132,6 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
             <Icon name="pencil" color="#f76769" size={16} />
             <VagaButtonText>Editar</VagaButtonText>
           </VagaButton>
-          <VagaButton onPress={() => handleEncerrarVaga()}>
-            <Icon name="close-octagon" color="#f76769" size={16} />
-            <VagaButtonText>Encerrar</VagaButtonText>
-          </VagaButton>
           <VagaButton onPress={() => deleteVaga(vaga.id)}>
             <Icon name="delete" color="#f76769" size={16} />
             <VagaButtonText>Excluir</VagaButtonText>
@@ -200,10 +192,6 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
         <VagaButton onPress={() => handleEditarVaga()}>
           <Icon name="pencil" color="#f76769" size={16} />
           <VagaButtonText>Editar</VagaButtonText>
-        </VagaButton>
-        <VagaButton onPress={() => handleEncerrarVaga()}>
-          <Icon name="close-octagon" color="#f76769" size={16} />
-          <VagaButtonText>Encerrar</VagaButtonText>
         </VagaButton>
         <VagaButton onPress={() => deleteVaga(vaga.id)}>
           <Icon name="delete" color="#f76769" size={16} />

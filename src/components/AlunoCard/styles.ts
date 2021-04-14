@@ -45,16 +45,32 @@ export const AlunoMetaText = styled.Text`
   font-size: 14px;
 `;
 
-export const AlunoButton = styled.TouchableOpacity`
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-
 export const AlunoText = styled.Text`
   color: #f76769;
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
   align-self: center;
+`;
+
+export const ButtonFooter = styled.View`
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+`;
+
+export const AlunoButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const AlunoButtonText = styled.Text`
+  color: #f76769;
+  font-family: 'RobotoSlab-Regular';
+  font-size: 12px;
+  align-self: center;
+  padding-left: 4px;
 `;

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Alert } from 'react-native';
 import getFormattedDate from '../../utils/getFormattedDate';
 
 import {
@@ -10,7 +11,9 @@ import {
   AlunoMetaText,
   MaisInfoButton,
   AlunoTitleContainer,
-  NomeBox,
+  ButtonFooter,
+  AlunoButton,
+  AlunoButtonText,
 } from './styles';
 import { IInscricao } from '../../interfaces/IInscricao';
 import CardAvatar from '../CardAvatar';
@@ -21,6 +24,24 @@ interface ICardProps {
 
 const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   const [cardAberto, setCardAberto] = useState(false);
+
+  const handleSelecionar = useCallback(() => {
+    Alert.alert('Selecionar Aluno', 'Tela ainda não está pronta.');
+
+    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
+  }, []);
+
+  const handleMarcarReuniao = useCallback(() => {
+    Alert.alert('Marcar Reunião', 'Tela ainda não está pronta.');
+
+    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
+  }, []);
+
+  const handleEliminarAluno = useCallback(() => {
+    Alert.alert('Eliminar Aluno', 'Tela ainda não está pronta.');
+
+    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
+  }, []);
 
   if (cardAberto) {
     return (
@@ -46,7 +67,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
               size={14}
               style={{ transform: [{ rotateZ: '180deg' }] }}
             />
-            <AlunoMetaText>{inscricao.vaga_ic.nome}</AlunoMetaText>
+            <AlunoMetaText>{inscricao.vagaIc.nome}</AlunoMetaText>
           </AlunoMeta>
           <AlunoMeta>
             <Icon name="calendar" size={14} color="#f76769" />
@@ -77,6 +98,20 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
             </AlunoMetaText>
           </AlunoMeta>
         </AlunoInfo>
+        <ButtonFooter>
+          <AlunoButton onPress={() => handleSelecionar()}>
+            <Icon name="check" color="#f76769" size={16} />
+            <AlunoButtonText>Selecionar</AlunoButtonText>
+          </AlunoButton>
+          <AlunoButton onPress={() => handleMarcarReuniao()}>
+            <Icon name="calendar" color="#f76769" size={16} />
+            <AlunoButtonText>Marcar reunião</AlunoButtonText>
+          </AlunoButton>
+          <AlunoButton onPress={() => handleEliminarAluno()}>
+            <Icon name="delete" color="#f76769" size={16} />
+            <AlunoButtonText>Eliminar</AlunoButtonText>
+          </AlunoButton>
+        </ButtonFooter>
       </Container>
     );
   }
@@ -104,7 +139,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
             size={14}
             style={{ transform: [{ rotateZ: '180deg' }] }}
           />
-          <AlunoMetaText>{inscricao.vaga_ic.nome}</AlunoMetaText>
+          <AlunoMetaText>{inscricao.vagaIc.nome}</AlunoMetaText>
         </AlunoMeta>
         <AlunoMeta>
           <Icon name="calendar" size={14} color="#f76769" />
@@ -114,6 +149,20 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </AlunoMetaText>
         </AlunoMeta>
       </AlunoInfo>
+      <ButtonFooter>
+        <AlunoButton onPress={() => handleSelecionar()}>
+          <Icon name="check" color="#f76769" size={16} />
+          <AlunoButtonText>Selecionar</AlunoButtonText>
+        </AlunoButton>
+        <AlunoButton onPress={() => handleMarcarReuniao()}>
+          <Icon name="calendar" color="#f76769" size={16} />
+          <AlunoButtonText>Marcar reunião</AlunoButtonText>
+        </AlunoButton>
+        <AlunoButton onPress={() => handleEliminarAluno()}>
+          <Icon name="delete" color="#f76769" size={16} />
+          <AlunoButtonText>Eliminar</AlunoButtonText>
+        </AlunoButton>
+      </ButtonFooter>
     </Container>
   );
 };
