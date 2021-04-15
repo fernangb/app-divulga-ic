@@ -25,7 +25,6 @@ const DashboardProfessor: React.FC = () => {
           .then(response => {
             Alert.alert('Excluir vaga de IC', response.data.message);
 
-            // navigation.navigate('DashboardProfessor');
             const novasVagas = vagas.filter(vaga => vaga.id !== id);
 
             setVagas(novasVagas);

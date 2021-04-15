@@ -21,6 +21,7 @@ import {
   ButtonFooter,
 } from './styles';
 import getFormattedCurrency from '../../utils/getFormattedCurrency';
+import api from '../../services/api';
 
 interface ICardProps {
   vaga: IVaga;
@@ -42,6 +43,27 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
 
     // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
   }, []);
+
+  const handleEliminarAluno = useCallback(
+    (id: string) => {
+      async function sendData() {
+        await api
+          .put(`/inscricoes_ic/${id}`)
+          .then(response => {
+            Alert.alert('Excluir vaga de IC', response.data.message);
+
+            const novaVaga = { ...vaga, nrInscritos: vaga.nrInscritos - 1 };
+
+            // setVagas(novasVagas);
+          })
+          .catch(err => {
+            const { data } = err.response;
+            Alert.alert('Erro ao excluir vaga de IC', data.message);
+          });
+      }
+    },
+    [vaga],
+  );
 
   if (cardAberto) {
     return (

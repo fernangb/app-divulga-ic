@@ -17,6 +17,7 @@ import {
 } from './styles';
 import { IInscricao } from '../../interfaces/IInscricao';
 import CardAvatar from '../CardAvatar';
+import api from '../../services/api';
 
 interface ICardProps {
   inscricao: IInscricao;
@@ -38,10 +39,32 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   }, []);
 
   const handleEliminarAluno = useCallback(() => {
-    Alert.alert('Eliminar Aluno', 'Tela ainda não está pronta.');
+    async function sendData() {
+      await api
+        .put(`/inscricoes_ic/${inscricao.id}`)
+        .then(response => {
+          Alert.alert('Excluir vaga de IC', response.data.message);
+
+          // navigation.navigate('DashboardProfessor');
+          // const novasVagas = vagas.filter(vaga => vaga.id !== id);
+
+          // setVagas(novasVagas);
+        })
+        .catch(err => {
+          const { data } = err.response;
+          Alert.alert('Erro ao excluir vaga de IC', data.message);
+        });
+    }
+
+    Alert.alert('Eliminar aluno', 'Você tem certeza disso?', [
+      { text: 'Sim', onPress: () => sendData() },
+      { text: 'Não', onPress: () => {} },
+    ]);
+
+    // Alert.alert('Eliminar Aluno', 'Tela ainda não está pronta.');
 
     // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
-  }, []);
+  }, [inscricao.id]);
 
   if (cardAberto) {
     return (
@@ -145,7 +168,6 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           <Icon name="calendar" size={14} color="#f76769" />
           <AlunoMetaText>
             {getFormattedDate(inscricao.dtInscricao)}
-            {/* {format(inscricao.dtInscricao, 'dd/MM/yyyy HH:mm:ss')} */}
           </AlunoMetaText>
         </AlunoMeta>
       </AlunoInfo>
