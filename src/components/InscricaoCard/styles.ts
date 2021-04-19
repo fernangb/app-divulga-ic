@@ -1,12 +1,22 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
-export const Container = styled.View`
+interface IContainerProps {
+  esAtiva: boolean;
+}
+
+export const Container = styled.View<IContainerProps>`
   background: #222680;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 24px;
   flex-direction: column;
   align-items: flex-start;
+
+  ${props =>
+    !props.esAtiva &&
+    css`
+      background: #9193c0;
+    `}
 `;
 
 export const InscricaoTitleContainer = styled.View`
