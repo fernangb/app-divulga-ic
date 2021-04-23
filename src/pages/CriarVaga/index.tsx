@@ -21,6 +21,11 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
 
+import CheckboxCursos from '../../components/CheckboxCursos';
+import CheckboxAreas from '../../components/ChechboxAreas';
+import { useCursosSelecionados } from '../../hooks/cursos';
+import { useAreasSelecionadas } from '../../hooks/areas';
+
 interface CriarVagaFormData {
   nome: string;
   descricao: string;
@@ -29,7 +34,6 @@ interface CriarVagaFormData {
   crMinimo?: number;
   nrVagas: number;
   periodoMinimo: number;
-  // area: string;
 }
 
 const CriarVaga: React.FC = () => {
@@ -41,6 +45,8 @@ const CriarVaga: React.FC = () => {
   const nrVagasInputRef = useRef<TextInput>(null);
   const periodoMinimoInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+  const { cursosSelecionados } = useCursosSelecionados();
+  const { areasSelecionadas } = useAreasSelecionadas();
 
   const { professor } = useAuth();
 
@@ -73,9 +79,9 @@ const CriarVaga: React.FC = () => {
             nrVagas: dados.nrVagas,
             periodoMinimo: dados.periodoMinimo,
             laboratorioId: professor.laboratorio.id,
-            cursoId: professor.curso.id,
             professorId: professor.id,
-            areaId: '0198a630-1fb3-4fe5-bdcc-2708993382b0',
+            cursos: cursosSelecionados,
+            areas: areasSelecionadas,
           })
           .then(() => {
             Alert.alert(
@@ -101,7 +107,13 @@ const CriarVaga: React.FC = () => {
         }
       }
     },
-    [navigation, professor.curso.id, professor.id, professor.laboratorio.id],
+    [
+      areasSelecionadas,
+      cursosSelecionados,
+      navigation,
+      professor.id,
+      professor.laboratorio.id,
+    ],
   );
 
   return (
@@ -114,6 +126,7 @@ const CriarVaga: React.FC = () => {
         <ScrollView
           contentContainerStyle={{ flex: 1 }}
           keyboardShouldPersistTaps="handled"
+          horizontal
         >
           <Container>
             <View>
@@ -127,20 +140,10 @@ const CriarVaga: React.FC = () => {
                 placeholder="Nome"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  descricaoInputRef.current?.focus();
-                }}
-              />
-              <Input
-                ref={descricaoInputRef}
-                autoCapitalize="words"
-                name="descricao"
-                icon="information"
-                placeholder="Descrição"
-                returnKeyType="next"
-                onSubmitEditing={() => {
                   vlBolsaInputRef.current?.focus();
                 }}
               />
+
               <Input
                 ref={vlBolsaInputRef}
                 keyboardType="numeric"
@@ -191,6 +194,21 @@ const CriarVaga: React.FC = () => {
                 name="nrVagas"
                 icon="pound"
                 placeholder="Número de vagas"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  descricaoInputRef.current?.focus();
+                }}
+              />
+
+              <CheckboxCursos />
+              <CheckboxAreas />
+
+              <Input
+                ref={descricaoInputRef}
+                autoCapitalize="words"
+                name="descricao"
+                icon="information"
+                placeholder="Descrição"
                 returnKeyType="send"
                 onSubmitEditing={() => {
                   formRef.current?.submitForm();

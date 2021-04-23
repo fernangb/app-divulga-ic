@@ -13,6 +13,7 @@ import MinhasInscricoes from '../pages/MinhasInscricoes';
 import ConfirmarInscricaoVaga from '../pages/ConfirmarInscricaoVaga';
 import CancelarInscricaoVaga from '../pages/CancelarInscricaoVaga';
 import VerInscricoes from '../pages/VerInscricoes';
+import CursosCheckbox from '../components/CheckboxCursos';
 
 const App = createStackNavigator();
 
@@ -42,6 +43,7 @@ const AppRoutes: React.FC = () => {
         component={CancelarInscricaoVaga}
       />
       <App.Screen name="VerInscricoes" component={VerInscricoes} />
+      <App.Screen name="CursosCheckbox" component={CursosCheckbox} />
     </App.Navigator>
   ) : (
     <App.Navigator
