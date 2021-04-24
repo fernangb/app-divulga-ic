@@ -22,11 +22,6 @@ const AreasProvider: React.FC = ({ children }) => {
     setAreasSelecionadas(nomes);
   }, []);
 
-  useEffect(() => {
-    console.log('MUDOU');
-    console.log(areasSelecionadas);
-  }, [areasSelecionadas]);
-
   return (
     <AreasContext.Provider
       value={{ areasSelecionadas, handleSetAreasSelecionadas }}

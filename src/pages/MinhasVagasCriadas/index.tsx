@@ -27,7 +27,9 @@ const MinhasVagasCriadas: React.FC = () => {
             Minhas vagas de IC criadas: {Vagas.length}
           </VagasListTitle>
         }
-        renderItem={({ item: Vaga }) => <VagaCriadaCard vaga={Vaga} />}
+        renderItem={({ item: Vaga }) => (
+          <VagaCriadaCard deleteVaga vaga={Vaga} />
+        )}
       />
     </Container>
   );

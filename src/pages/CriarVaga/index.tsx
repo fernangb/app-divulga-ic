@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
@@ -49,6 +50,17 @@ const CriarVaga: React.FC = () => {
   const { areasSelecionadas } = useAreasSelecionadas();
 
   const { professor } = useAuth();
+
+  const [modalCursos, setModalCursos] = useState(false);
+  const [modalAreas, setModalAreas] = useState(false);
+
+  const fecharModalCurso = useCallback(() => {
+    setModalCursos(false);
+  }, []);
+
+  const fecharModalArea = useCallback(() => {
+    setModalAreas(false);
+  }, []);
 
   const handleCriarVaga = useCallback(
     async (dados: CriarVagaFormData) => {
@@ -200,8 +212,11 @@ const CriarVaga: React.FC = () => {
                 }}
               />
 
-              <CheckboxCursos />
-              <CheckboxAreas />
+              <Button onPress={() => setModalCursos(true)}>Cursos </Button>
+              <Button onPress={() => setModalAreas(true)}>Áreas </Button>
+
+              {/* <CheckboxCursos />
+              <CheckboxAreas /> */}
 
               <Input
                 ref={descricaoInputRef}
@@ -226,6 +241,12 @@ const CriarVaga: React.FC = () => {
         <Icon name="arrow-left" size={20} color="#FFF" />
         <VoltarText>Voltar para Dashboard</VoltarText>
       </VoltarButton>
+      <Modal visible={modalCursos}>
+        <CheckboxCursos fecharModalCurso={fecharModalCurso} />
+      </Modal>
+      <Modal visible={modalAreas}>
+        <CheckboxAreas fecharModalArea={fecharModalArea} />
+      </Modal>
     </>
   );
 };

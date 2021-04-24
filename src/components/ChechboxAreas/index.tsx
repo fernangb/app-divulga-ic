@@ -4,7 +4,16 @@ import { FlatList } from 'react-native-gesture-handler';
 import CheckBox from '@react-native-community/checkbox';
 
 import api from '../../services/api';
-import { Container, AreaNome, AreasBox, TodosBox } from './styles';
+import {
+  Container,
+  AreaNome,
+  AreasBox,
+  Icon,
+  Title,
+  TodosBox,
+  VoltarButton,
+  VoltarText,
+} from './styles';
 import { useAreasSelecionadas } from '../../hooks/areas';
 
 interface IArea {
@@ -13,7 +22,11 @@ interface IArea {
   checked: boolean;
 }
 
-const CheckboxAreas: React.FC = () => {
+interface IProps {
+  fecharModalArea(): void;
+}
+
+const AreasCheckbox: React.FC<IProps> = ({ fecharModalArea }) => {
   const [areas, setAreas] = useState<IArea[]>([]);
   const { handleSetAreasSelecionadas } = useAreasSelecionadas();
   const [todosAreas, setTodosAreas] = useState<boolean>(false);
@@ -91,11 +104,12 @@ const CheckboxAreas: React.FC = () => {
 
   return (
     <Container>
+      <Title>Áreas</Title>
       <TodosBox>
         <CheckBox
           value={todosAreas}
           onValueChange={e => handleTodosAreas(e)}
-          tintColors={{ true: '#f76769', false: 'white' }}
+          tintColors={{ true: '#f76769', false: '#222680' }}
         />
         <AreaNome>Todas as áreas</AreaNome>
       </TodosBox>
@@ -109,15 +123,19 @@ const CheckboxAreas: React.FC = () => {
               <CheckBox
                 value={area.checked}
                 onValueChange={() => handleAreasSelecionadas(area)}
-                tintColors={{ true: '#f76769', false: 'white' }}
+                tintColors={{ true: '#f76769', false: '#222680' }}
               />
               <AreaNome>{area.nome}</AreaNome>
             </AreasBox>
           );
         }}
       />
+      <VoltarButton onPress={fecharModalArea}>
+        <Icon name="arrow-left" size={20} color="#FFF" />
+        <VoltarText>Fechar</VoltarText>
+      </VoltarButton>
     </Container>
   );
 };
 
-export default CheckboxAreas;
+export default AreasCheckbox;

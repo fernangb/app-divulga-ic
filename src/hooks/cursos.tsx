@@ -22,11 +22,6 @@ const CursosProvider: React.FC = ({ children }) => {
     setCursosSelecionados(nomes);
   }, []);
 
-  useEffect(() => {
-    console.log('MUDOU');
-    console.log(cursosSelecionados);
-  }, [cursosSelecionados]);
-
   return (
     <CursosContext.Provider
       value={{ cursosSelecionados, handleSetCursosSelecionados }}

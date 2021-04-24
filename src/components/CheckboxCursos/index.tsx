@@ -4,7 +4,16 @@ import { FlatList } from 'react-native-gesture-handler';
 import CheckBox from '@react-native-community/checkbox';
 
 import api from '../../services/api';
-import { Container, CursoNome, CursosBox, TodosBox } from './styles';
+import {
+  Container,
+  CursoNome,
+  CursosBox,
+  Icon,
+  Title,
+  TodosBox,
+  VoltarButton,
+  VoltarText,
+} from './styles';
 import { useCursosSelecionados } from '../../hooks/cursos';
 
 interface ICurso {
@@ -13,7 +22,11 @@ interface ICurso {
   checked: boolean;
 }
 
-const CursosCheckbox: React.FC = () => {
+interface IProps {
+  fecharModalCurso(): void;
+}
+
+const CursosCheckbox: React.FC<IProps> = ({ fecharModalCurso }) => {
   const [cursos, setCursos] = useState<ICurso[]>([]);
   const { handleSetCursosSelecionados } = useCursosSelecionados();
   const [todosCursos, setTodosCursos] = useState<boolean>(false);
@@ -92,11 +105,12 @@ const CursosCheckbox: React.FC = () => {
 
   return (
     <Container>
+      <Title>Cursos</Title>
       <TodosBox>
         <CheckBox
           value={todosCursos}
           onValueChange={e => handleTodosCursos(e)}
-          tintColors={{ true: '#f76769', false: 'white' }}
+          tintColors={{ true: '#f76769', false: '#222680' }}
         />
         <CursoNome>Todos os cursos</CursoNome>
       </TodosBox>
@@ -110,13 +124,17 @@ const CursosCheckbox: React.FC = () => {
               <CheckBox
                 value={curso.checked}
                 onValueChange={() => handleCursosSelecionados(curso)}
-                tintColors={{ true: '#f76769', false: 'white' }}
+                tintColors={{ true: '#f76769', false: '#222680' }}
               />
               <CursoNome>{curso.nome}</CursoNome>
             </CursosBox>
           );
         }}
       />
+      <VoltarButton onPress={fecharModalCurso}>
+        <Icon name="arrow-left" size={20} color="#FFF" />
+        <VoltarText>Fechar</VoltarText>
+      </VoltarButton>
     </Container>
   );
 };
