@@ -57,7 +57,8 @@ const AreasCheckbox: React.FC = () => {
     if (areasSelecionadas.length > 0) setIsFilled(true);
     else setIsFilled(false);
 
-    if (areasSelecionadas.length === areas.length) setTodasAreas(true);
+    if (areasSelecionadas.length === areas.length && areas.length > 0)
+      setTodasAreas(true);
   }, [areas.length, areasSelecionadas.length]);
 
   const handleAreasSelecionadas = useCallback(

@@ -33,6 +33,7 @@ import CheckboxAreas from '../../components/ChechboxAreas';
 import { useCursos } from '../../hooks/cursos';
 import { useAreas } from '../../hooks/areas';
 import { useVagasCriadas } from '../../hooks/vagasCriadas';
+import PickerLaboratorios from '../../components/PickerLaboratorios';
 
 interface CriarVagaFormData {
   nome: string;
@@ -42,6 +43,7 @@ interface CriarVagaFormData {
   crMinimo?: number;
   nrVagas: number;
   periodoMinimo: number;
+  laboratorio: string;
 }
 
 const CriarVaga: React.FC = () => {
@@ -53,9 +55,10 @@ const CriarVaga: React.FC = () => {
   const crMinimoInputRef = useRef<TextInput>(null);
   const nrVagasInputRef = useRef<TextInput>(null);
   const periodoMinimoInputRef = useRef<TextInput>(null);
+  const laboratorioInputRef = useRef<TextInput>(null);
   const { cursosSelecionados } = useCursos();
   const { areasSelecionadas } = useAreas();
-  const { professor, user } = useAuth();
+  const { user } = useAuth();
   const { handleSetCursosSelecionados } = useCursos();
   const { handleSetAreasSelecionadas } = useAreas();
   const { atualizarVagasCriadas } = useVagasCriadas();
@@ -88,7 +91,7 @@ const CriarVaga: React.FC = () => {
             crMinimo: dados.crMinimo,
             nrVagas: dados.nrVagas,
             periodoMinimo: dados.periodoMinimo,
-            laboratorioId: professor.laboratorio.id,
+            laboratorio: dados.laboratorio,
             usuarioId: user.id,
             cursos: cursosSelecionados,
             areas: areasSelecionadas,
@@ -127,7 +130,6 @@ const CriarVaga: React.FC = () => {
       handleSetAreasSelecionadas,
       handleSetCursosSelecionados,
       navigation,
-      professor.laboratorio.id,
       user.id,
     ],
   );
@@ -158,6 +160,11 @@ const CriarVaga: React.FC = () => {
                 onSubmitEditing={() => {
                   vlBolsaInputRef.current?.focus();
                 }}
+              />
+
+              <PickerLaboratorios
+                name="laboratorio"
+                ref={laboratorioInputRef}
               />
 
               <Input

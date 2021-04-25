@@ -57,7 +57,8 @@ const CursosCheckbox: React.FC = () => {
     if (cursosSelecionados.length > 0) setIsFilled(true);
     else setIsFilled(false);
 
-    if (cursosSelecionados.length === cursos.length) setTodosCursos(true);
+    if (cursosSelecionados.length === cursos.length && cursos.length > 0)
+      setTodosCursos(true);
   }, [cursos.length, cursosSelecionados.length]);
 
   const handleCursosSelecionados = useCallback(

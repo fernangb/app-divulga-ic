@@ -26,7 +26,6 @@ import Input from '../../components/Input';
 import DescricaoInput from '../../components/DescricaoInput';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
-import { useAuth } from '../../hooks/auth';
 
 import CheckboxCursos from '../../components/CheckboxCursos';
 import CheckboxAreas from '../../components/ChechboxAreas';
@@ -34,6 +33,7 @@ import { useCursos } from '../../hooks/cursos';
 import { useAreas } from '../../hooks/areas';
 import { useVagasCriadas } from '../../hooks/vagasCriadas';
 import IVaga from '../../interfaces/IVaga';
+import PickerLaboratorios from '../../components/PickerLaboratorios';
 
 interface EditarVagaFormData {
   nome: string;
@@ -43,6 +43,7 @@ interface EditarVagaFormData {
   crMinimo?: number;
   nrVagas: number;
   periodoMinimo: number;
+  laboratorio: string;
 }
 
 interface RouteParams {
@@ -52,6 +53,7 @@ interface RouteParams {
 const EditarVaga: React.FC = () => {
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
+  const laboratorioInputRef = useRef<TextInput>(null);
   const descricaoInputRef = useRef<TextInput>(null);
   const vlBolsaInputRef = useRef<TextInput>(null);
   const hrSemanaInputRef = useRef<TextInput>(null);
@@ -60,7 +62,6 @@ const EditarVaga: React.FC = () => {
   const periodoMinimoInputRef = useRef<TextInput>(null);
   const { cursosSelecionados } = useCursos();
   const { areasSelecionadas } = useAreas();
-  const { professor } = useAuth();
   const { handleSetCursosSelecionados } = useCursos();
   const { handleSetAreasSelecionadas } = useAreas();
   const { atualizarVagasCriadas } = useVagasCriadas();
@@ -114,7 +115,7 @@ const EditarVaga: React.FC = () => {
             crMinimo: dados.crMinimo,
             nrVagas: dados.nrVagas,
             periodoMinimo: dados.periodoMinimo,
-            laboratorioId: professor.laboratorio.id,
+            laboratorio: dados.laboratorio,
             cursos: cursosSelecionados,
             areas: areasSelecionadas,
           })
@@ -152,7 +153,6 @@ const EditarVaga: React.FC = () => {
       handleSetAreasSelecionadas,
       handleSetCursosSelecionados,
       navigation,
-      professor.laboratorio.id,
       routeParams.vaga.id,
     ],
   );
@@ -184,6 +184,7 @@ const EditarVaga: React.FC = () => {
                 crMinimo: routeParams.vaga.crMinimo.toString(),
                 nrVagas: routeParams.vaga.nrVagas.toString(),
                 periodoMinimo: routeParams.vaga.periodoMinimo.toString(),
+                laboratorio: routeParams.vaga.laboratorio.sigla,
               }}
             >
               <Input
@@ -195,6 +196,11 @@ const EditarVaga: React.FC = () => {
                 onSubmitEditing={() => {
                   vlBolsaInputRef.current?.focus();
                 }}
+              />
+              <PickerLaboratorios
+                name="laboratorio"
+                ref={laboratorioInputRef}
+                initialValue={routeParams.vaga.laboratorio.sigla}
               />
 
               <Input

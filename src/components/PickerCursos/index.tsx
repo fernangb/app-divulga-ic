@@ -27,16 +27,18 @@ interface PickerCursosRef {
 
 interface PickerCursosProps extends PickerProps {
   name: string;
+  initialValue?: string;
   containerStyle?: {};
 }
 
 const PickerCursos: React.ForwardRefRenderFunction<
   PickerCursosRef,
   PickerCursosProps
-> = ({ name }, ref) => {
+> = ({ name, initialValue = '' }, ref) => {
   const { fieldName, registerField, defaultValue = '', error } = useField(name);
-  const [cursoEscolhido, setCursoEscolhido] = useState<string>(defaultValue);
+  const [cursoEscolhido, setCursoEscolhido] = useState<string>(initialValue);
   const [isFilled, setIsFilled] = useState(false);
+  const [primeiroLoading, setPrimeiroLoading] = useState(true);
   const [cursos, setCursos] = useState<ICurso[]>([]);
 
   const pickerElementRef = useRef<any>(null);
@@ -54,7 +56,7 @@ const PickerCursos: React.ForwardRefRenderFunction<
     api.get('/cursos').then(response => {
       setCursos(response.data);
     });
-  }, []);
+  }, [cursoEscolhido]);
 
   useEffect(() => {
     registerField<string>({
@@ -72,19 +74,25 @@ const PickerCursos: React.ForwardRefRenderFunction<
     });
   }, [fieldName, registerField]);
 
-  const handleValueChange = useCallback((itemValue: string) => {
-    if (itemValue === '') {
-      setCursoEscolhido('');
-      setIsFilled(false);
-      pickerValueRef.current.value = itemValue;
-    } else {
-      pickerValueRef.current.value = itemValue;
-      setCursoEscolhido(itemValue);
-      setIsFilled(true);
-    }
+  const handleValueChange = useCallback(
+    (itemValue: string) => {
+      if (primeiroLoading && !!initialValue) {
+        setPrimeiroLoading(false);
+        setIsFilled(true);
+      } else if (itemValue === '') {
+        setCursoEscolhido('');
+        setIsFilled(false);
+        pickerValueRef.current.value = itemValue;
+      } else {
+        pickerValueRef.current.value = itemValue;
+        setCursoEscolhido(itemValue);
+        setIsFilled(true);
+      }
 
-    return itemValue;
-  }, []);
+      return itemValue;
+    },
+    [initialValue, primeiroLoading],
+  );
 
   useEffect(() => {
     pickerValueRef.current.value = cursoEscolhido;
@@ -92,8 +100,7 @@ const PickerCursos: React.ForwardRefRenderFunction<
 
   return (
     <Container isErrored={!!error}>
-      <Icon name="school" size={16} color={isFilled ? '#f76769' : '#f1faee'} />
-
+      <Icon name="school" color={isFilled ? '#f76769' : '#f1faee'} size={16} />
       <PickerCurso
         selectedValue={cursoEscolhido}
         onValueChange={itemValue => handleValueChange(itemValue)}

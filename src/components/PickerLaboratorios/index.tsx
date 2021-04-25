@@ -27,18 +27,20 @@ interface PickerLaboratoriosRef {
 
 interface PickerLaboratoriosProps extends PickerProps {
   name: string;
+  initialValue?: string;
   containerStyle?: {};
 }
 
 const PickerLaboratorios: React.ForwardRefRenderFunction<
   PickerLaboratoriosRef,
   PickerLaboratoriosProps
-> = ({ name }, ref) => {
+> = ({ name, initialValue = '' }, ref) => {
   const { fieldName, registerField, defaultValue = '', error } = useField(name);
   const [laboratorioEscolhido, setLaboratorioEscolhido] = useState<string>(
-    defaultValue,
+    initialValue,
   );
   const [isFilled, setIsFilled] = useState(false);
+  const [primeiroLoading, setPrimeiroLoading] = useState(true);
   const [laboratorios, setLaboratorios] = useState<ILaboratorio[]>([]);
 
   const pickerElementRef = useRef<any>(null);
@@ -56,7 +58,7 @@ const PickerLaboratorios: React.ForwardRefRenderFunction<
     api.get('/laboratorios').then(response => {
       setLaboratorios(response.data);
     });
-  }, []);
+  }, [laboratorioEscolhido]);
 
   useEffect(() => {
     registerField<string>({
@@ -74,25 +76,28 @@ const PickerLaboratorios: React.ForwardRefRenderFunction<
     });
   }, [fieldName, registerField]);
 
-  const handleValueChange = useCallback((itemValue: string) => {
-    if (itemValue === '') {
-      setLaboratorioEscolhido('');
-      setIsFilled(false);
-      pickerValueRef.current.value = itemValue;
-    } else {
-      pickerValueRef.current.value = itemValue;
-      setLaboratorioEscolhido(itemValue);
-      setIsFilled(true);
-    }
+  const handleValueChange = useCallback(
+    (itemValue: string) => {
+      if (primeiroLoading && !!initialValue) {
+        setPrimeiroLoading(false);
+        setIsFilled(true);
+      } else if (itemValue === '') {
+        setLaboratorioEscolhido('');
+        setIsFilled(false);
+        pickerValueRef.current.value = itemValue;
+      } else {
+        pickerValueRef.current.value = itemValue;
+        setLaboratorioEscolhido(itemValue);
+        setIsFilled(true);
+      }
 
-    return itemValue;
-  }, []);
+      return itemValue;
+    },
+    [initialValue, primeiroLoading],
+  );
 
   useEffect(() => {
     pickerValueRef.current.value = laboratorioEscolhido;
-
-    console.log('lab1: ', laboratorioEscolhido);
-    console.log('lab2: ', pickerValueRef.current.value);
   }, [laboratorioEscolhido]);
 
   return (

@@ -158,27 +158,6 @@ const CadastroProfessor: React.FC = () => {
                 ref={laboratorioInputRef}
               />
 
-              {/* <Input
-                ref={cursoInputRef}
-                name="curso"
-                icon="school"
-                placeholder="Curso"
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  laboratorioInputRef.current?.focus();
-                }}
-              /> */}
-              {/* <Input
-                ref={laboratorioInputRef}
-                name="laboratorio"
-                icon="warehouse"
-                placeholder="Laboratório"
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  laboratorioInputRef.current?.focus();
-                }}
-              /> */}
-
               <Input
                 ref={emailInputRef}
                 keyboardType="email-address"
