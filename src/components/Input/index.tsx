@@ -37,7 +37,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
   const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
+  const [isFilled, setIsFilled] = useState(!!inputValueRef.current.value);
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);

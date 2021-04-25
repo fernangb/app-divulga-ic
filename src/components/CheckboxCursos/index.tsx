@@ -40,7 +40,10 @@ const CursosCheckbox: React.FC = () => {
     async function loadData() {
       await api.get('/cursos').then(response => {
         const dados = response.data.map((curso: ICurso) => {
-          curso.checked = false;
+          if (cursosSelecionados.find(nome => curso.nome === nome))
+            curso.checked = true;
+          else curso.checked = false;
+
           return curso;
         });
 
@@ -48,12 +51,14 @@ const CursosCheckbox: React.FC = () => {
       });
     }
     loadData();
-  }, []);
+  }, [cursosSelecionados]);
 
   useEffect(() => {
     if (cursosSelecionados.length > 0) setIsFilled(true);
     else setIsFilled(false);
-  }, [cursosSelecionados.length]);
+
+    if (cursosSelecionados.length === cursos.length) setTodosCursos(true);
+  }, [cursos.length, cursosSelecionados.length]);
 
   const handleCursosSelecionados = useCallback(
     (cursoSelecionado: ICurso) => {

@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -8,7 +8,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
@@ -33,8 +33,9 @@ import CheckboxAreas from '../../components/ChechboxAreas';
 import { useCursos } from '../../hooks/cursos';
 import { useAreas } from '../../hooks/areas';
 import { useVagasCriadas } from '../../hooks/vagasCriadas';
+import IVaga from '../../interfaces/IVaga';
 
-interface CriarVagaFormData {
+interface EditarVagaFormData {
   nome: string;
   descricao: string;
   vlBolsa?: number;
@@ -44,7 +45,11 @@ interface CriarVagaFormData {
   periodoMinimo: number;
 }
 
-const CriarVaga: React.FC = () => {
+interface RouteParams {
+  vaga: IVaga;
+}
+
+const EditarVaga: React.FC = () => {
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const descricaoInputRef = useRef<TextInput>(null);
@@ -55,13 +60,33 @@ const CriarVaga: React.FC = () => {
   const periodoMinimoInputRef = useRef<TextInput>(null);
   const { cursosSelecionados } = useCursos();
   const { areasSelecionadas } = useAreas();
-  const { professor, user } = useAuth();
+  const { professor } = useAuth();
   const { handleSetCursosSelecionados } = useCursos();
   const { handleSetAreasSelecionadas } = useAreas();
   const { atualizarVagasCriadas } = useVagasCriadas();
 
-  const handleCriarVaga = useCallback(
-    async (dados: CriarVagaFormData) => {
+  const { params } = useRoute();
+  const routeParams = params as RouteParams;
+
+  useEffect(() => {
+    const nomeCursos = routeParams.vaga.cursos.map(curso => {
+      return curso.nome;
+    });
+
+    const nomeAreas = routeParams.vaga.areas.map(area => {
+      return area.nome;
+    });
+    handleSetCursosSelecionados(nomeCursos);
+    handleSetAreasSelecionadas(nomeAreas);
+  }, [
+    handleSetAreasSelecionadas,
+    handleSetCursosSelecionados,
+    routeParams.vaga.areas,
+    routeParams.vaga.cursos,
+  ]);
+
+  const handleEditarVaga = useCallback(
+    async (dados: EditarVagaFormData) => {
       formRef.current?.setErrors({});
 
       try {
@@ -80,7 +105,8 @@ const CriarVaga: React.FC = () => {
         });
 
         await api
-          .post('/vagas_ic', {
+          .put('/vagas_ic', {
+            id: routeParams.vaga.id,
             nome: dados.nome,
             descricao: dados.descricao,
             vlBolsa: dados.vlBolsa,
@@ -89,13 +115,12 @@ const CriarVaga: React.FC = () => {
             nrVagas: dados.nrVagas,
             periodoMinimo: dados.periodoMinimo,
             laboratorioId: professor.laboratorio.id,
-            usuarioId: user.id,
             cursos: cursosSelecionados,
             areas: areasSelecionadas,
           })
           .then(() => {
             Alert.alert(
-              'Vaga criada com sucesso!',
+              'Vaga atualizada com sucesso!',
               'Você já pode visualizar as suas vagas criadas',
             );
             atualizarVagasCriadas();
@@ -128,7 +153,7 @@ const CriarVaga: React.FC = () => {
       handleSetCursosSelecionados,
       navigation,
       professor.laboratorio.id,
-      user.id,
+      routeParams.vaga.id,
     ],
   );
 
@@ -146,9 +171,21 @@ const CriarVaga: React.FC = () => {
         >
           <Container>
             <View>
-              <Title>Criar vaga de IC</Title>
+              <Title>Editar vaga de IC</Title>
             </View>
-            <Form ref={formRef} onSubmit={handleCriarVaga}>
+            <Form
+              ref={formRef}
+              onSubmit={handleEditarVaga}
+              initialData={{
+                nome: routeParams.vaga.nome,
+                descricao: routeParams.vaga.descricao,
+                vlBolsa: routeParams.vaga.vlBolsa.toString(),
+                hrSemana: routeParams.vaga.hrSemana.toString(),
+                crMinimo: routeParams.vaga.crMinimo.toString(),
+                nrVagas: routeParams.vaga.nrVagas.toString(),
+                periodoMinimo: routeParams.vaga.periodoMinimo.toString(),
+              }}
+            >
               <Input
                 autoCapitalize="words"
                 name="nome"
@@ -232,7 +269,7 @@ const CriarVaga: React.FC = () => {
               />
 
               <Button onPress={() => formRef.current?.submitForm()}>
-                Criar
+                Atualizar
               </Button>
             </Form>
           </Container>
@@ -246,4 +283,4 @@ const CriarVaga: React.FC = () => {
   );
 };
 
-export default CriarVaga;
+export default EditarVaga;

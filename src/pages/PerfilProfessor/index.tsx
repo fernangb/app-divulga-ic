@@ -48,79 +48,82 @@ const PerfilProfessor: React.FC = () => {
     navigation.goBack();
   }, [navigation]);
 
-  const handleSaveProfile = useCallback(async (data: ProfileFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSaveProfile = useCallback(
+    async (data: ProfileFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        nome: Yup.string().required('Nome obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        senhaAntiga: Yup.string(),
-        senhaAtual: Yup.string().when('senha_antiga', {
-          is: val => !!val.length,
-          then: Yup.string().required('Campo obrigatório'),
-          otherwise: Yup.string(),
-        }),
-        password_confirmation: Yup.string()
-          .when('senha_antiga', {
+        const schema = Yup.object().shape({
+          nome: Yup.string().required('Nome obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          senhaAntiga: Yup.string(),
+          senhaAtual: Yup.string().when('senha_antiga', {
             is: val => !!val.length,
             then: Yup.string().required('Campo obrigatório'),
             otherwise: Yup.string(),
-          })
-          .oneOf([Yup.ref('senha_atual'), null], 'Confirmação incorreta'),
-      });
+          }),
+          password_confirmation: Yup.string()
+            .when('senha_antiga', {
+              is: val => !!val.length,
+              then: Yup.string().required('Campo obrigatório'),
+              otherwise: Yup.string(),
+            })
+            .oneOf([Yup.ref('senha_atual'), null], 'Confirmação incorreta'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      const {
-        nome,
-        email,
-        senhaAntiga,
-        novaSenha,
-        confirmacaoNovaSenha,
-      } = data;
+        const {
+          nome,
+          email,
+          senhaAntiga,
+          novaSenha,
+          confirmacaoNovaSenha,
+        } = data;
 
-      const formData = {
-        nome,
-        email,
-        ...(senhaAntiga
-          ? {
-              senhaAntiga,
-              novaSenha,
-              confirmacaoNovaSenha,
-            }
-          : {}),
-      };
+        const formData = {
+          nome,
+          email,
+          ...(senhaAntiga
+            ? {
+                senhaAntiga,
+                novaSenha,
+                confirmacaoNovaSenha,
+              }
+            : {}),
+        };
 
-      const response = await api.put('perfil', formData);
+        const response = await api.put('perfil', formData);
 
-      updateUser(response.data);
+        updateUser(response.data);
 
-      Alert.alert(
-        'Perfil atualizado com sucesso!',
-        'As informações do perfil foram atualizadas.',
-      );
+        Alert.alert(
+          'Perfil atualizado com sucesso!',
+          'As informações do perfil foram atualizadas.',
+        );
 
-      navigation.goBack();
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        navigation.goBack();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
 
-        return;
+          return;
+        }
+
+        Alert.alert(
+          'Erro na atualização do perfil',
+          'Ocorreu um erro ao atualizar seu perfil, tente novamente.',
+        );
       }
-
-      Alert.alert(
-        'Erro na atualização do perfil',
-        'Ocorreu um erro ao atualizar seu perfil, tente novamente.',
-      );
-    }
-  }, []);
+    },
+    [navigation, updateUser],
+  );
 
   return (
     <>

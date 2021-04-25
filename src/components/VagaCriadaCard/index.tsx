@@ -39,10 +39,8 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
   }, [navigation, vaga.id, vaga.nrInscritos]);
 
   const handleEditarVaga = useCallback(() => {
-    Alert.alert('Editar Vaga', 'Tela ainda não está pronta.');
-
-    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
-  }, []);
+    navigation.navigate('EditarVaga', { vaga });
+  }, [navigation, vaga]);
 
   const handleEliminarAluno = useCallback(
     (id: string) => {

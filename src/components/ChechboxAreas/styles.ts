@@ -15,7 +15,7 @@ export const AreasBox = styled.View`
   align-items: center;
 `;
 
-export const TodosBox = styled.View`
+export const TodasBox = styled.View`
   flex-direction: row;
   justify-content: flex-start;
   margin-right: 160px;

@@ -12,12 +12,12 @@ import {
   AreaNome,
   AreasBox,
   Icon,
-  TodosBox,
+  TodasBox,
   VoltarButton,
   VoltarText,
   ButtonBox,
 } from './styles';
-import { useAreasSelecionadas } from '../../hooks/areas';
+import { useAreas } from '../../hooks/areas';
 
 interface IArea {
   nome: string;
@@ -27,11 +27,8 @@ interface IArea {
 
 const AreasCheckbox: React.FC = () => {
   const [areas, setAreas] = useState<IArea[]>([]);
-  const {
-    areasSelecionadas,
-    handleSetAreasSelecionadas,
-  } = useAreasSelecionadas();
-  const [todosAreas, setTodosAreas] = useState(false);
+  const { areasSelecionadas, handleSetAreasSelecionadas } = useAreas();
+  const [todosAreas, setTodasAreas] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
@@ -43,7 +40,10 @@ const AreasCheckbox: React.FC = () => {
     async function loadData() {
       await api.get('/areas').then(response => {
         const dados = response.data.map((area: IArea) => {
-          area.checked = false;
+          if (areasSelecionadas.find(nome => area.nome === nome))
+            area.checked = true;
+          else area.checked = false;
+
           return area;
         });
 
@@ -51,12 +51,14 @@ const AreasCheckbox: React.FC = () => {
       });
     }
     loadData();
-  }, []);
+  }, [areasSelecionadas]);
 
   useEffect(() => {
     if (areasSelecionadas.length > 0) setIsFilled(true);
     else setIsFilled(false);
-  }, [areasSelecionadas.length]);
+
+    if (areasSelecionadas.length === areas.length) setTodasAreas(true);
+  }, [areas.length, areasSelecionadas.length]);
 
   const handleAreasSelecionadas = useCallback(
     (areaSelecionado: IArea) => {
@@ -72,17 +74,17 @@ const AreasCheckbox: React.FC = () => {
 
       const nomes = areasMarcados.map(area => area.nome);
 
-      if (areasMarcados.length === areas.length) setTodosAreas(true);
-      else setTodosAreas(false);
+      if (areasMarcados.length === areas.length) setTodasAreas(true);
+      else setTodasAreas(false);
 
       handleSetAreasSelecionadas(nomes);
     },
     [areas, handleSetAreasSelecionadas],
   );
 
-  const handleTodosAreas = useCallback(
+  const handleTodasAreas = useCallback(
     selecionaTudo => {
-      setTodosAreas(selecionaTudo);
+      setTodasAreas(selecionaTudo);
 
       const tudo = areas.map(area => {
         area.checked = selecionaTudo;
@@ -117,14 +119,14 @@ const AreasCheckbox: React.FC = () => {
       </ButtonBox>
 
       <Modal visible={modalAberto}>
-        <TodosBox>
+        <TodasBox>
           <CheckBox
             value={todosAreas}
-            onValueChange={e => handleTodosAreas(e)}
+            onValueChange={e => handleTodasAreas(e)}
             tintColors={{ true: '#f76769', false: '#222680' }}
           />
           <AreaNome>Todas as áreas</AreaNome>
-        </TodosBox>
+        </TodasBox>
 
         <FlatList
           keyExtractor={area => area.id}

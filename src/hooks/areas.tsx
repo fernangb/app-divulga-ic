@@ -31,14 +31,14 @@ const AreasProvider: React.FC = ({ children }) => {
   );
 };
 
-function useAreasSelecionadas(): AreasContextData {
+function useAreas(): AreasContextData {
   const context = useContext(AreasContext);
 
   if (!context) {
-    throw new Error('useAreasSelecionadas must be used within a AreasProvider');
+    throw new Error('useAreas must be used within a AreasProvider');
   }
 
   return context;
 }
 
-export { AreasProvider, useAreasSelecionadas };
+export { AreasProvider, useAreas };
