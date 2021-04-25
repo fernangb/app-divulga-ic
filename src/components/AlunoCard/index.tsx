@@ -17,7 +17,7 @@ import {
 } from './styles';
 import { IInscricao } from '../../interfaces/IInscricao';
 import CardAvatar from '../CardAvatar';
-import api from '../../services/api';
+import { useAlunosInscritos } from '../../hooks/alunosInscritos';
 
 interface ICardProps {
   inscricao: IInscricao;
@@ -26,45 +26,24 @@ interface ICardProps {
 const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   const [cardAberto, setCardAberto] = useState(false);
 
+  const { eliminarAluno } = useAlunosInscritos();
+
   const handleSelecionar = useCallback(() => {
     Alert.alert('Selecionar Aluno', 'Tela ainda não está pronta.');
-
-    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
   }, []);
 
-  const handleMarcarReuniao = useCallback(() => {
-    Alert.alert('Marcar Reunião', 'Tela ainda não está pronta.');
+  // const handleMarcarReuniao = useCallback(() => {
+  //   Alert.alert('Marcar Reunião', 'Tela ainda não está pronta.');
 
-    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
-  }, []);
+  //   // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
+  // }, []);
 
   const handleEliminarAluno = useCallback(() => {
-    async function sendData() {
-      await api
-        .put(`/inscricoes_ic/${inscricao.id}`)
-        .then(response => {
-          Alert.alert('Excluir vaga de IC', response.data.message);
-
-          // navigation.navigate('DashboardProfessor');
-          // const novasVagas = vagas.filter(vaga => vaga.id !== id);
-
-          // setVagas(novasVagas);
-        })
-        .catch(err => {
-          const { data } = err.response;
-          Alert.alert('Erro ao excluir vaga de IC', data.message);
-        });
-    }
-
     Alert.alert('Eliminar aluno', 'Você tem certeza disso?', [
-      { text: 'Sim', onPress: () => sendData() },
+      { text: 'Sim', onPress: () => eliminarAluno(inscricao.id) },
       { text: 'Não', onPress: () => {} },
     ]);
-
-    // Alert.alert('Eliminar Aluno', 'Tela ainda não está pronta.');
-
-    // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
-  }, [inscricao.id]);
+  }, [eliminarAluno, inscricao.id]);
 
   if (cardAberto) {
     return (
@@ -126,10 +105,10 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
             <Icon name="check" color="#f76769" size={16} />
             <AlunoButtonText>Selecionar</AlunoButtonText>
           </AlunoButton>
-          <AlunoButton onPress={() => handleMarcarReuniao()}>
+          {/* <AlunoButton onPress={() => handleMarcarReuniao()}>
             <Icon name="calendar" color="#f76769" size={16} />
             <AlunoButtonText>Marcar reunião</AlunoButtonText>
-          </AlunoButton>
+          </AlunoButton> */}
           <AlunoButton onPress={() => handleEliminarAluno()}>
             <Icon name="delete" color="#f76769" size={16} />
             <AlunoButtonText>Eliminar</AlunoButtonText>
@@ -176,10 +155,10 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           <Icon name="check" color="#f76769" size={16} />
           <AlunoButtonText>Selecionar</AlunoButtonText>
         </AlunoButton>
-        <AlunoButton onPress={() => handleMarcarReuniao()}>
+        {/* <AlunoButton onPress={() => handleMarcarReuniao()}>
           <Icon name="calendar" color="#f76769" size={16} />
           <AlunoButtonText>Marcar reunião</AlunoButtonText>
-        </AlunoButton>
+        </AlunoButton> */}
         <AlunoButton onPress={() => handleEliminarAluno()}>
           <Icon name="delete" color="#f76769" size={16} />
           <AlunoButtonText>Eliminar</AlunoButtonText>

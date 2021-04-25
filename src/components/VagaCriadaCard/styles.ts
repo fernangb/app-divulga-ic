@@ -12,7 +12,6 @@ export const Container = styled.View`
 export const VagaTitleContainer = styled.View`
   width: 100%;
   flex-direction: row;
-  /* align-items: center; */
   justify-content: space-between;
 `;
 
@@ -41,7 +40,7 @@ export const VagaMetaText = styled.Text`
   margin-left: 12px;
   color: #fff;
   font-family: 'RobotoSlab-Regular';
-  font-size: 14px;
+  font-size: 16px;
   margin-right: 8px;
 `;
 

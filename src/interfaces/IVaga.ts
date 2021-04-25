@@ -37,5 +37,6 @@ export default interface IVaga {
   areas: IArea[];
   cursos: ICurso[];
   nrInscritos: number;
+  nrSelecionados: number;
   esAtiva: boolean;
 }

@@ -42,27 +42,6 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
     navigation.navigate('EditarVaga', { vaga });
   }, [navigation, vaga]);
 
-  const handleEliminarAluno = useCallback(
-    (id: string) => {
-      async function sendData() {
-        await api
-          .put(`/inscricoes_ic/${id}`)
-          .then(response => {
-            Alert.alert('Excluir vaga de IC', response.data.message);
-
-            const novaVaga = { ...vaga, nrInscritos: vaga.nrInscritos - 1 };
-
-            // setVagas(novasVagas);
-          })
-          .catch(err => {
-            const { data } = err.response;
-            Alert.alert('Erro ao excluir vaga de IC', data.message);
-          });
-      }
-    },
-    [vaga],
-  );
-
   if (cardAberto) {
     return (
       <Container>
@@ -95,6 +74,13 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
             <VagaMetaText>
               {vaga.nrInscritos}{' '}
               {vaga.nrInscritos === 1 ? 'inscrito' : 'inscritos'}
+            </VagaMetaText>
+          </VagaMeta>
+          <VagaMeta>
+            <Icon name="star" size={14} color="#f76769" />
+            <VagaMetaText>
+              {vaga.nrSelecionados}{' '}
+              {vaga.nrSelecionados === 1 ? 'selecionado' : 'selecionados'}
             </VagaMetaText>
           </VagaMeta>
           <VagaInfoListMeta>
@@ -194,7 +180,13 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
             {vaga.nrInscritos === 1 ? 'inscrito' : 'inscritos'}
           </VagaMetaText>
         </VagaMeta>
-
+        <VagaMeta>
+          <Icon name="star" size={14} color="#f76769" />
+          <VagaMetaText>
+            {vaga.nrSelecionados}{' '}
+            {vaga.nrSelecionados === 1 ? 'selecionado' : 'selecionados'}
+          </VagaMetaText>
+        </VagaMeta>
         <VagaMeta>
           <Icon name="currency-usd" size={14} color="#f76769" />
           <VagaMetaText>{getFormattedCurrency(vaga.vlBolsa)}</VagaMetaText>

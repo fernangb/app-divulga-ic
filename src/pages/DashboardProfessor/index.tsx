@@ -16,9 +16,6 @@ const DashboardProfessor: React.FC = () => {
   } = useVagasCriadas();
 
   useEffect(() => {
-    // api.get('/vagas_ic/professor/me').then(response => {
-    //   handleSetVagasCriadas(response.data);
-    // });
     atualizarVagasCriadas();
   }, [atualizarVagasCriadas]);
 
@@ -33,6 +30,7 @@ const DashboardProfessor: React.FC = () => {
             const novasVagas = vagasCriadas.filter(vaga => vaga.id !== id);
 
             handleSetVagasCriadas(novasVagas);
+            atualizarVagasCriadas();
           })
           .catch(err => {
             const { data } = err.response;
