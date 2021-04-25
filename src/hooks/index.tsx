@@ -2,13 +2,16 @@ import React from 'react';
 import { AreasProvider } from './areas';
 import { AuthProvider } from './auth';
 import { CursosProvider } from './cursos';
+import { VagasCriadasProvider } from './vagasCriadas';
 
 const AppProvider: React.FC = ({ children }) => (
   <>
     <AuthProvider>
-      <CursosProvider>
-        <AreasProvider>{children}</AreasProvider>
-      </CursosProvider>
+      <VagasCriadasProvider>
+        <CursosProvider>
+          <AreasProvider>{children}</AreasProvider>
+        </CursosProvider>
+      </VagasCriadasProvider>
     </AuthProvider>
   </>
 );

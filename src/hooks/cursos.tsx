@@ -31,16 +31,14 @@ const CursosProvider: React.FC = ({ children }) => {
   );
 };
 
-function useCursosSelecionados(): CursosContextData {
+function useCursos(): CursosContextData {
   const context = useContext(CursosContext);
 
   if (!context) {
-    throw new Error(
-      'useCursosSelecionados must be used within a CursosProvider',
-    );
+    throw new Error('useCursos must be used within a CursosProvider');
   }
 
   return context;
 }
 
-export { CursosProvider, useCursosSelecionados };
+export { CursosProvider, useCursos };

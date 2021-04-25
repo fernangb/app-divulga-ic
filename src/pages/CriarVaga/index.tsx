@@ -30,8 +30,9 @@ import { useAuth } from '../../hooks/auth';
 
 import CheckboxCursos from '../../components/CheckboxCursos';
 import CheckboxAreas from '../../components/ChechboxAreas';
-import { useCursosSelecionados } from '../../hooks/cursos';
+import { useCursos } from '../../hooks/cursos';
 import { useAreasSelecionadas } from '../../hooks/areas';
+import { useVagasCriadas } from '../../hooks/vagasCriadas';
 
 interface CriarVagaFormData {
   nome: string;
@@ -52,11 +53,12 @@ const CriarVaga: React.FC = () => {
   const crMinimoInputRef = useRef<TextInput>(null);
   const nrVagasInputRef = useRef<TextInput>(null);
   const periodoMinimoInputRef = useRef<TextInput>(null);
-  const { cursosSelecionados } = useCursosSelecionados();
+  const { cursosSelecionados } = useCursos();
   const { areasSelecionadas } = useAreasSelecionadas();
   const { professor, user } = useAuth();
-  const { handleSetCursosSelecionados } = useCursosSelecionados();
+  const { handleSetCursosSelecionados } = useCursos();
   const { handleSetAreasSelecionadas } = useAreasSelecionadas();
+  const { atualizarVagasCriadas } = useVagasCriadas();
 
   const handleCriarVaga = useCallback(
     async (dados: CriarVagaFormData) => {
@@ -96,6 +98,7 @@ const CriarVaga: React.FC = () => {
               'Vaga criada com sucesso!',
               'Você já pode visualizar as suas vagas criadas',
             );
+            atualizarVagasCriadas();
             handleSetCursosSelecionados([]);
             handleSetAreasSelecionadas([]);
             navigation.navigate('DashboardProfessor');
@@ -119,6 +122,7 @@ const CriarVaga: React.FC = () => {
     },
     [
       areasSelecionadas,
+      atualizarVagasCriadas,
       cursosSelecionados,
       handleSetAreasSelecionadas,
       handleSetCursosSelecionados,

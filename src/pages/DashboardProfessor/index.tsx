@@ -1,21 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 import api from '../../services/api';
 import { Container, VagasList, VagasListTitle } from './styles';
 
 import Header from '../../components/Header';
 
-import IVaga from '../../interfaces/IVaga';
 import VagaCriadaCard from '../../components/VagaCriadaCard';
+import { useVagasCriadas } from '../../hooks/vagasCriadas';
 
 const DashboardProfessor: React.FC = () => {
-  const [vagas, setVagas] = useState<IVaga[]>([]);
+  const {
+    vagasCriadas,
+    handleSetVagasCriadas,
+    atualizarVagasCriadas,
+  } = useVagasCriadas();
 
   useEffect(() => {
-    api.get('/vagas_ic/professor/me').then(response => {
-      setVagas(response.data);
-    });
-  }, []);
+    // api.get('/vagas_ic/professor/me').then(response => {
+    //   handleSetVagasCriadas(response.data);
+    // });
+    atualizarVagasCriadas();
+  }, [atualizarVagasCriadas]);
 
   const deleteVaga = useCallback(
     (id: string) => {
@@ -25,9 +30,9 @@ const DashboardProfessor: React.FC = () => {
           .then(response => {
             Alert.alert('Excluir vaga de IC', response.data.message);
 
-            const novasVagas = vagas.filter(vaga => vaga.id !== id);
+            const novasVagas = vagasCriadas.filter(vaga => vaga.id !== id);
 
-            setVagas(novasVagas);
+            handleSetVagasCriadas(novasVagas);
           })
           .catch(err => {
             const { data } = err.response;
@@ -40,7 +45,7 @@ const DashboardProfessor: React.FC = () => {
         { text: 'Não', onPress: () => {} },
       ]);
     },
-    [vagas],
+    [handleSetVagasCriadas, vagasCriadas],
   );
 
   return (
@@ -48,10 +53,10 @@ const DashboardProfessor: React.FC = () => {
       <Header />
       <VagasList
         keyExtractor={vaga => vaga.id}
-        data={vagas}
+        data={vagasCriadas}
         ListHeaderComponent={
           <VagasListTitle>
-            Minhas vagas de IC criadas: {vagas.length}
+            Minhas vagas de IC criadas: {vagasCriadas.length}
           </VagasListTitle>
         }
         renderItem={({ item: vaga }) => (

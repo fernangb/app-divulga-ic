@@ -36,6 +36,10 @@ const AreasCheckbox: React.FC = () => {
   const [isFilled, setIsFilled] = useState(false);
 
   useEffect(() => {
+    if (areas.length === 0) handleSetAreasSelecionadas([]);
+  }, [areas.length, handleSetAreasSelecionadas]);
+
+  useEffect(() => {
     async function loadData() {
       await api.get('/areas').then(response => {
         const dados = response.data.map((area: IArea) => {

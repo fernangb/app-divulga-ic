@@ -17,7 +17,7 @@ import {
   VoltarText,
   ButtonBox,
 } from './styles';
-import { useCursosSelecionados } from '../../hooks/cursos';
+import { useCursos } from '../../hooks/cursos';
 
 interface ICurso {
   nome: string;
@@ -27,13 +27,14 @@ interface ICurso {
 
 const CursosCheckbox: React.FC = () => {
   const [cursos, setCursos] = useState<ICurso[]>([]);
-  const {
-    cursosSelecionados,
-    handleSetCursosSelecionados,
-  } = useCursosSelecionados();
+  const { cursosSelecionados, handleSetCursosSelecionados } = useCursos();
   const [todosCursos, setTodosCursos] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+
+  useEffect(() => {
+    if (cursos.length === 0) handleSetCursosSelecionados([]);
+  }, [cursos.length, handleSetCursosSelecionados]);
 
   useEffect(() => {
     async function loadData() {
