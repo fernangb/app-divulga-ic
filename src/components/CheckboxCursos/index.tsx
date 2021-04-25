@@ -3,8 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import CheckBox from '@react-native-community/checkbox';
 
+import { Modal } from 'react-native';
 import api from '../../services/api';
 import {
+  CheckboxButton,
+  ButtonText,
   Container,
   CursoNome,
   CursosBox,
@@ -13,6 +16,7 @@ import {
   TodosBox,
   VoltarButton,
   VoltarText,
+  ButtonBox,
 } from './styles';
 import { useCursosSelecionados } from '../../hooks/cursos';
 
@@ -22,14 +26,15 @@ interface ICurso {
   checked: boolean;
 }
 
-interface IProps {
-  fecharModalCurso(): void;
-}
-
-const CursosCheckbox: React.FC<IProps> = ({ fecharModalCurso }) => {
+const CursosCheckbox: React.FC = () => {
   const [cursos, setCursos] = useState<ICurso[]>([]);
-  const { handleSetCursosSelecionados } = useCursosSelecionados();
-  const [todosCursos, setTodosCursos] = useState<boolean>(false);
+  const {
+    cursosSelecionados,
+    handleSetCursosSelecionados,
+  } = useCursosSelecionados();
+  const [todosCursos, setTodosCursos] = useState(false);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -45,17 +50,10 @@ const CursosCheckbox: React.FC<IProps> = ({ fecharModalCurso }) => {
     loadData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(cursos);
-  // }, [cursos]);
-
-  // useEffect(() => {
-  //   console.log('SEL: ', cursosSelecionados);
-  // }, [cursosSelecionados]);
-
-  // useEffect(() => {
-  //   console.log('TODOS: ', todosCursos);
-  // }, [todosCursos]);
+  useEffect(() => {
+    if (cursosSelecionados.length > 0) setIsFilled(true);
+    else setIsFilled(false);
+  }, [cursosSelecionados.length]);
 
   const handleCursosSelecionados = useCallback(
     (cursoSelecionado: ICurso) => {
@@ -105,36 +103,49 @@ const CursosCheckbox: React.FC<IProps> = ({ fecharModalCurso }) => {
 
   return (
     <Container>
-      <Title>Cursos</Title>
-      <TodosBox>
-        <CheckBox
-          value={todosCursos}
-          onValueChange={e => handleTodosCursos(e)}
-          tintColors={{ true: '#f76769', false: '#222680' }}
-        />
-        <CursoNome>Todos os cursos</CursoNome>
-      </TodosBox>
+      <ButtonBox>
+        <CheckboxButton onPress={() => setModalAberto(true)}>
+          <Icon
+            name="school"
+            size={16}
+            color={isFilled ? '#f76769' : '#f1faee'}
+          />
+          <ButtonText>Cursos</ButtonText>
+        </CheckboxButton>
+      </ButtonBox>
 
-      <FlatList
-        keyExtractor={curso => curso.id}
-        data={cursos}
-        renderItem={({ item: curso }) => {
-          return (
-            <CursosBox>
-              <CheckBox
-                value={curso.checked}
-                onValueChange={() => handleCursosSelecionados(curso)}
-                tintColors={{ true: '#f76769', false: '#222680' }}
-              />
-              <CursoNome>{curso.nome}</CursoNome>
-            </CursosBox>
-          );
-        }}
-      />
-      <VoltarButton onPress={fecharModalCurso}>
-        <Icon name="arrow-left" size={20} color="#FFF" />
-        <VoltarText>Fechar</VoltarText>
-      </VoltarButton>
+      <Modal visible={modalAberto}>
+        <Title>Cursos</Title>
+        <TodosBox>
+          <CheckBox
+            value={todosCursos}
+            onValueChange={e => handleTodosCursos(e)}
+            tintColors={{ true: '#f76769', false: '#222680' }}
+          />
+          <CursoNome>Todos os cursos</CursoNome>
+        </TodosBox>
+
+        <FlatList
+          keyExtractor={curso => curso.id}
+          data={cursos}
+          renderItem={({ item: curso }) => {
+            return (
+              <CursosBox>
+                <CheckBox
+                  value={curso.checked}
+                  onValueChange={() => handleCursosSelecionados(curso)}
+                  tintColors={{ true: '#f76769', false: '#222680' }}
+                />
+                <CursoNome>{curso.nome}</CursoNome>
+              </CursosBox>
+            );
+          }}
+        />
+        <VoltarButton onPress={() => setModalAberto(false)}>
+          <Icon name="arrow-left" size={20} color="#FFF" />
+          <VoltarText>Fechar</VoltarText>
+        </VoltarButton>
+      </Modal>
     </Container>
   );
 };

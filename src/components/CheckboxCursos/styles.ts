@@ -3,20 +3,10 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
-  /* height: 132px;
-  background: #222680;
-  border-radius: 10px;
-  margin-top: 4px;
-  border-width: 2px;
-  border-color: #222680; */
   display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
-`;
-
-export const Icon = styled(MaterialIcon)`
-  margin-right: 16px;
 `;
 
 export const CursosBox = styled.View`
@@ -62,4 +52,40 @@ export const VoltarText = styled.Text`
   color: #fff;
   font-size: 18px;
   font-family: 'RobotoSlab-Regular';
+`;
+
+export const ButtonBox = styled.View`
+  width: 90%;
+  height: 48px;
+  padding: 0 16px;
+  background: #222680;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  flex-direction: row;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 4px;
+  border-width: 2px;
+  border-color: #222680;
+`;
+
+export const CheckboxButton = styled.TouchableOpacity`
+  background: #222680;
+  height: 48px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  flex-direction: row;
+  border-width: 2px;
+  border-color: #222680;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Icon = styled(MaterialIcon)`
+  margin-right: 20px;
+`;
+
+export const ButtonText = styled.Text`
+  color: #fff;
 `;

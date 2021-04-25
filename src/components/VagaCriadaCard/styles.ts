@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   background: #222680;
   border-radius: 10px;
-  padding: 20px;
+  padding: 12px;
   margin-bottom: 24px;
   flex-direction: column;
   align-items: flex-start;

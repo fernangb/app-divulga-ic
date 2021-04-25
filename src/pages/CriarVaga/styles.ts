@@ -37,6 +37,32 @@ export const VoltarText = styled.Text`
   font-family: 'RobotoSlab-Regular';
 `;
 
+export const CheckboxButtonBox = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+`;
+
+export const CheckboxButton = styled.TouchableOpacity`
+  background: #222680;
+  height: 48px;
+  width: 45%;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  flex-direction: row;
+  margin-top: 4px;
+  border-width: 2px;
+  border-color: #222680;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Icon = styled(MaterialIcon)`
   margin-right: 16px;
+`;
+
+export const CheckboxButtonText = styled.Text`
+  color: #fff;
+  margin-right: 32px;
 `;

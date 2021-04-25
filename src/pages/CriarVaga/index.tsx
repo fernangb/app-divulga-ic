@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useRef, useCallback, useState, useEffect } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -9,13 +9,21 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
-import { Container, Title, VoltarButton, VoltarText } from './styles';
+import {
+  Container,
+  Title,
+  VoltarButton,
+  VoltarText,
+  CheckboxButton,
+  CheckboxButtonText,
+  CheckboxButtonBox,
+  Icon,
+} from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -51,12 +59,12 @@ const CriarVaga: React.FC = () => {
 
   const { professor } = useAuth();
 
-  const [modalCursos, setModalCursos] = useState(false);
+  // const [modalCursos, setModalCursos] = useState(false);
   const [modalAreas, setModalAreas] = useState(false);
 
-  const fecharModalCurso = useCallback(() => {
-    setModalCursos(false);
-  }, []);
+  // const fecharModalCurso = useCallback(() => {
+  //   setModalCursos(false);
+  // }, []);
 
   const fecharModalArea = useCallback(() => {
     setModalAreas(false);
@@ -211,12 +219,28 @@ const CriarVaga: React.FC = () => {
                   descricaoInputRef.current?.focus();
                 }}
               />
+              <CheckboxButtonBox>
+                <CheckboxCursos />
 
-              <Button onPress={() => setModalCursos(true)}>Cursos </Button>
-              <Button onPress={() => setModalAreas(true)}>Áreas </Button>
-
-              {/* <CheckboxCursos />
-              <CheckboxAreas /> */}
+                {/* <CheckboxButton onPress={() => setModalCursos(true)}>
+                  <Icon
+                    name="school"
+                    size={16}
+                    color="#f1faee"
+                    // color={isFocused || isFilled ? '#f76769' : '#f1faee'}
+                  />
+                  <CheckboxButtonText>Cursos</CheckboxButtonText>
+                </CheckboxButton> */}
+                <CheckboxButton onPress={() => setModalAreas(true)}>
+                  <Icon
+                    name="lightbulb-on"
+                    size={16}
+                    color="#f1faee"
+                    // color={isFocused || isFilled ? '#f76769' : '#f1faee'}
+                  />
+                  <CheckboxButtonText>Áreas</CheckboxButtonText>
+                </CheckboxButton>
+              </CheckboxButtonBox>
 
               <Input
                 ref={descricaoInputRef}
@@ -241,9 +265,12 @@ const CriarVaga: React.FC = () => {
         <Icon name="arrow-left" size={20} color="#FFF" />
         <VoltarText>Voltar para Dashboard</VoltarText>
       </VoltarButton>
-      <Modal visible={modalCursos}>
-        <CheckboxCursos fecharModalCurso={fecharModalCurso} />
-      </Modal>
+      {/* <Modal visible={modalCursos}>
+        <CheckboxCursos
+          modalCursos={modalCursos}
+          fecharModalCurso={fecharModalCurso}
+        />
+      </Modal> */}
       <Modal visible={modalAreas}>
         <CheckboxAreas fecharModalArea={fecharModalArea} />
       </Modal>
