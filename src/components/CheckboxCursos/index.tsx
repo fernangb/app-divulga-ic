@@ -12,7 +12,6 @@ import {
   CursoNome,
   CursosBox,
   Icon,
-  Title,
   TodosBox,
   VoltarButton,
   VoltarText,
@@ -115,7 +114,6 @@ const CursosCheckbox: React.FC = () => {
       </ButtonBox>
 
       <Modal visible={modalAberto}>
-        <Title>Cursos</Title>
         <TodosBox>
           <CheckBox
             value={todosCursos}

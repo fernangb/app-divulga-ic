@@ -7,7 +7,7 @@ export const Container = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  padding: 32px 32px ${Platform.OS === 'android' ? 148 : 40}px;
+  padding: 32px 0px ${Platform.OS === 'android' ? 148 : 40}px;
 `;
 
 export const Title = styled.Text`
@@ -39,30 +39,9 @@ export const VoltarText = styled.Text`
 
 export const CheckboxButtonBox = styled.View`
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  display: flex;
-`;
-
-export const CheckboxButton = styled.TouchableOpacity`
-  background: #222680;
-  height: 48px;
-  width: 45%;
-  border-radius: 10px;
-  margin-bottom: 4px;
-  flex-direction: row;
-  margin-top: 4px;
-  border-width: 2px;
-  border-color: #222680;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 `;
 
 export const Icon = styled(MaterialIcon)`
   margin-right: 16px;
-`;
-
-export const CheckboxButtonText = styled.Text`
-  color: #fff;
-  margin-right: 32px;
 `;

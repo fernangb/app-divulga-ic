@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,7 +7,6 @@ import {
   ScrollView,
   TextInput,
   Alert,
-  Modal,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
@@ -19,13 +18,12 @@ import {
   Title,
   VoltarButton,
   VoltarText,
-  CheckboxButton,
-  CheckboxButtonText,
   CheckboxButtonBox,
   Icon,
 } from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import DescricaoInput from '../../components/DescricaoInput';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
@@ -46,6 +44,7 @@ interface CriarVagaFormData {
 }
 
 const CriarVaga: React.FC = () => {
+  const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const descricaoInputRef = useRef<TextInput>(null);
   const vlBolsaInputRef = useRef<TextInput>(null);
@@ -53,22 +52,11 @@ const CriarVaga: React.FC = () => {
   const crMinimoInputRef = useRef<TextInput>(null);
   const nrVagasInputRef = useRef<TextInput>(null);
   const periodoMinimoInputRef = useRef<TextInput>(null);
-  const navigation = useNavigation();
   const { cursosSelecionados } = useCursosSelecionados();
   const { areasSelecionadas } = useAreasSelecionadas();
-
-  const { professor } = useAuth();
-
-  // const [modalCursos, setModalCursos] = useState(false);
-  const [modalAreas, setModalAreas] = useState(false);
-
-  // const fecharModalCurso = useCallback(() => {
-  //   setModalCursos(false);
-  // }, []);
-
-  const fecharModalArea = useCallback(() => {
-    setModalAreas(false);
-  }, []);
+  const { professor, user } = useAuth();
+  const { handleSetCursosSelecionados } = useCursosSelecionados();
+  const { handleSetAreasSelecionadas } = useAreasSelecionadas();
 
   const handleCriarVaga = useCallback(
     async (dados: CriarVagaFormData) => {
@@ -99,7 +87,7 @@ const CriarVaga: React.FC = () => {
             nrVagas: dados.nrVagas,
             periodoMinimo: dados.periodoMinimo,
             laboratorioId: professor.laboratorio.id,
-            professorId: professor.id,
+            usuarioId: user.id,
             cursos: cursosSelecionados,
             areas: areasSelecionadas,
           })
@@ -108,6 +96,8 @@ const CriarVaga: React.FC = () => {
               'Vaga criada com sucesso!',
               'Você já pode visualizar as suas vagas criadas',
             );
+            handleSetCursosSelecionados([]);
+            handleSetAreasSelecionadas([]);
             navigation.navigate('DashboardProfessor');
           })
           .catch(err => {
@@ -130,9 +120,11 @@ const CriarVaga: React.FC = () => {
     [
       areasSelecionadas,
       cursosSelecionados,
+      handleSetAreasSelecionadas,
+      handleSetCursosSelecionados,
       navigation,
-      professor.id,
       professor.laboratorio.id,
+      user.id,
     ],
   );
 
@@ -221,30 +213,11 @@ const CriarVaga: React.FC = () => {
               />
               <CheckboxButtonBox>
                 <CheckboxCursos />
-
-                {/* <CheckboxButton onPress={() => setModalCursos(true)}>
-                  <Icon
-                    name="school"
-                    size={16}
-                    color="#f1faee"
-                    // color={isFocused || isFilled ? '#f76769' : '#f1faee'}
-                  />
-                  <CheckboxButtonText>Cursos</CheckboxButtonText>
-                </CheckboxButton> */}
-                <CheckboxButton onPress={() => setModalAreas(true)}>
-                  <Icon
-                    name="lightbulb-on"
-                    size={16}
-                    color="#f1faee"
-                    // color={isFocused || isFilled ? '#f76769' : '#f1faee'}
-                  />
-                  <CheckboxButtonText>Áreas</CheckboxButtonText>
-                </CheckboxButton>
+                <CheckboxAreas />
               </CheckboxButtonBox>
 
-              <Input
+              <DescricaoInput
                 ref={descricaoInputRef}
-                autoCapitalize="words"
                 name="descricao"
                 icon="information"
                 placeholder="Descrição"
@@ -265,15 +238,6 @@ const CriarVaga: React.FC = () => {
         <Icon name="arrow-left" size={20} color="#FFF" />
         <VoltarText>Voltar para Dashboard</VoltarText>
       </VoltarButton>
-      {/* <Modal visible={modalCursos}>
-        <CheckboxCursos
-          modalCursos={modalCursos}
-          fecharModalCurso={fecharModalCurso}
-        />
-      </Modal> */}
-      <Modal visible={modalAreas}>
-        <CheckboxAreas fecharModalArea={fecharModalArea} />
-      </Modal>
     </>
   );
 };
