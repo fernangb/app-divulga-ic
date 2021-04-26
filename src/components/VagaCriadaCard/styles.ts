@@ -1,12 +1,23 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
-export const Container = styled.View`
+interface IContainerProps {
+  esPreenchida: boolean;
+}
+
+export const Container = styled.View<IContainerProps>`
   background: #222680;
   border-radius: 10px;
   padding: 12px;
   margin-bottom: 24px;
   flex-direction: column;
   align-items: flex-start;
+
+  ${props =>
+    props.esPreenchida &&
+    css`
+      border-color: #04d361;
+      border-width: 5px;
+    `}
 `;
 
 export const VagaTitleContainer = styled.View`

@@ -26,9 +26,12 @@ const AlunosInscritosContext = createContext<AlunosInscritosContextData>(
 
 const AlunosInscritosProvider: React.FC = ({ children }) => {
   const [alunosInscritos, setAlunosInscritos] = useState<IInscricao[]>([]);
+  const [todosAlunosSelecionados, setTodosAlunosSelecionados] = useState(false);
   const {
     atualizarNrAlunosInscritos,
-    atualizarNrAlunosSelecionados,
+    aumentarNrAlunosSelecionados,
+    diminuirNrAlunosSelecionados,
+    verificarVaga,
   } = useVagasCriadas();
 
   const atualizarInscricoes = useCallback((inscricoes: IInscricao[]) => {
@@ -47,6 +50,7 @@ const AlunosInscritosProvider: React.FC = ({ children }) => {
           );
 
           atualizarNrAlunosInscritos(inscricao.vagaIc.id);
+          diminuirNrAlunosSelecionados(inscricao.vagaIc.id);
           setAlunosInscritos(novosAlunosInscritos);
         })
         .catch(err => {
@@ -54,7 +58,7 @@ const AlunosInscritosProvider: React.FC = ({ children }) => {
           Alert.alert('Erro ao excluir vaga de IC', data.message);
         });
     },
-    [alunosInscritos, atualizarNrAlunosInscritos],
+    [alunosInscritos, atualizarNrAlunosInscritos, diminuirNrAlunosSelecionados],
   );
 
   const selecionarAluno = useCallback(
@@ -62,11 +66,6 @@ const AlunosInscritosProvider: React.FC = ({ children }) => {
       await api
         .put(`/inscricoes_ic/selecionar/${inscricao.id}`)
         .then(response => {
-          Alert.alert(
-            'Selecionar aluno para vaga de IC',
-            response.data.message,
-          );
-
           const alunosAtualizado = alunosInscritos.map(alunoInscrito => {
             if (alunoInscrito.id === inscricao.id)
               alunoInscrito.esSelecionado = true;
@@ -74,15 +73,18 @@ const AlunosInscritosProvider: React.FC = ({ children }) => {
             return alunoInscrito;
           });
 
-          atualizarNrAlunosSelecionados(inscricao.vagaIc.id);
+          aumentarNrAlunosSelecionados(inscricao.vagaIc.id);
           setAlunosInscritos(alunosAtualizado);
+          Alert.alert('Selecionar aluno', response.data.message, [
+            { text: 'Ok', onPress: () => verificarVaga(inscricao.vagaIc.id) },
+          ]);
         })
         .catch(err => {
           const { data } = err.response;
           Alert.alert('Erro ao excluir vaga de IC', data.message);
         });
     },
-    [alunosInscritos, atualizarNrAlunosSelecionados],
+    [alunosInscritos, aumentarNrAlunosSelecionados, verificarVaga],
   );
   return (
     <AlunosInscritosContext.Provider

@@ -39,4 +39,5 @@ export default interface IVaga {
   nrInscritos: number;
   nrSelecionados: number;
   esAtiva: boolean;
+  esPreenchida: boolean;
 }

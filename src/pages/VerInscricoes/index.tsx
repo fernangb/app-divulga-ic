@@ -23,7 +23,12 @@ const VerInscricoes: React.FC = () => {
   const routeParams = params as RouteParams;
 
   const { alunosInscritos, atualizarInscricoes } = useAlunosInscritos();
-  const { getNrVagas, getNrVagasPreenchidas, vagasCriadas } = useVagasCriadas();
+  const {
+    getNrVagas,
+    getNrVagasPreenchidas,
+    vagasCriadas,
+    handleSetVagasCriadas,
+  } = useVagasCriadas();
   const [nrVagasPreenchidas, setNrVagasPreenchidas] = useState(
     getNrVagasPreenchidas(routeParams.vagaId),
   );
@@ -36,7 +41,7 @@ const VerInscricoes: React.FC = () => {
       setNrVagasPreenchidas(vaga.nrSelecionados);
       setNrVagas(vaga.nrVagas);
     }
-  }, [routeParams.vagaId, vagasCriadas]);
+  }, [handleSetVagasCriadas, routeParams.vagaId, vagasCriadas]);
 
   useEffect(() => {
     async function loadData() {

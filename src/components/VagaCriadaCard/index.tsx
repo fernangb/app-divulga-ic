@@ -21,7 +21,6 @@ import {
   ButtonFooter,
 } from './styles';
 import getFormattedCurrency from '../../utils/getFormattedCurrency';
-import api from '../../services/api';
 
 interface ICardProps {
   vaga: IVaga;
@@ -44,7 +43,7 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
 
   if (cardAberto) {
     return (
-      <Container>
+      <Container esPreenchida={vaga.esPreenchida}>
         <VagaTitleContainer>
           <VagaNome>{vaga.nome}</VagaNome>
 
@@ -148,7 +147,7 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
   }
 
   return (
-    <Container>
+    <Container esPreenchida={vaga.esPreenchida}>
       <VagaTitleContainer>
         <VagaNome>{vaga.nome}</VagaNome>
 
