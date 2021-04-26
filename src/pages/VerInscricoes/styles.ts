@@ -46,6 +46,8 @@ export const IncricaoMetaText = styled.Text`
   font-family: 'RobotoSlab-Regular';
 `;
 
+export const TitleBox = styled.View``;
+
 export const InscricoesListTitle = styled.Text`
   margin-left: 8px;
   margin-bottom: 24px;

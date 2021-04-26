@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/prefer-default-export */
 import React, {
@@ -10,11 +11,12 @@ import React, {
 import { Alert } from 'react-native';
 import { IInscricao } from '../interfaces/IInscricao';
 import api from '../services/api';
+import { useVagasCriadas } from './vagasCriadas';
 
 interface AlunosInscritosContextData {
   alunosInscritos: IInscricao[];
-  selecionarAluno(inscricaoId: string): void;
-  eliminarAluno(inscricaoId: string): void;
+  selecionarAluno(inscricao: IInscricao): void;
+  eliminarAluno(inscricao: IInscricao): void;
   atualizarInscricoes(inscricoes: IInscricao[]): void;
 }
 
@@ -24,22 +26,27 @@ const AlunosInscritosContext = createContext<AlunosInscritosContextData>(
 
 const AlunosInscritosProvider: React.FC = ({ children }) => {
   const [alunosInscritos, setAlunosInscritos] = useState<IInscricao[]>([]);
+  const {
+    atualizarNrAlunosInscritos,
+    atualizarNrAlunosSelecionados,
+  } = useVagasCriadas();
 
   const atualizarInscricoes = useCallback((inscricoes: IInscricao[]) => {
     setAlunosInscritos(inscricoes);
   }, []);
 
   const eliminarAluno = useCallback(
-    async (inscricaoId: string) => {
+    async (inscricao: IInscricao) => {
       await api
-        .put(`/inscricoes_ic/${inscricaoId}`)
+        .put(`/inscricoes_ic/eliminar/${inscricao.id}`)
         .then(response => {
           Alert.alert('Excluir vaga de IC', response.data.message);
 
           const novosAlunosInscritos = alunosInscritos.filter(
-            inscricao => inscricao.id !== inscricaoId,
+            inscricaoAluno => inscricaoAluno.id !== inscricao.id,
           );
 
+          atualizarNrAlunosInscritos(inscricao.vagaIc.id);
           setAlunosInscritos(novosAlunosInscritos);
         })
         .catch(err => {
@@ -47,11 +54,36 @@ const AlunosInscritosProvider: React.FC = ({ children }) => {
           Alert.alert('Erro ao excluir vaga de IC', data.message);
         });
     },
-    [alunosInscritos],
+    [alunosInscritos, atualizarNrAlunosInscritos],
   );
 
-  const selecionarAluno = useCallback(() => {}, []);
+  const selecionarAluno = useCallback(
+    async (inscricao: IInscricao) => {
+      await api
+        .put(`/inscricoes_ic/selecionar/${inscricao.id}`)
+        .then(response => {
+          Alert.alert(
+            'Selecionar aluno para vaga de IC',
+            response.data.message,
+          );
 
+          const alunosAtualizado = alunosInscritos.map(alunoInscrito => {
+            if (alunoInscrito.id === inscricao.id)
+              alunoInscrito.esSelecionado = true;
+
+            return alunoInscrito;
+          });
+
+          atualizarNrAlunosSelecionados(inscricao.vagaIc.id);
+          setAlunosInscritos(alunosAtualizado);
+        })
+        .catch(err => {
+          const { data } = err.response;
+          Alert.alert('Erro ao excluir vaga de IC', data.message);
+        });
+    },
+    [alunosInscritos, atualizarNrAlunosSelecionados],
+  );
   return (
     <AlunosInscritosContext.Provider
       value={{

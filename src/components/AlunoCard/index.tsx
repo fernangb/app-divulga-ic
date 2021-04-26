@@ -26,11 +26,14 @@ interface ICardProps {
 const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   const [cardAberto, setCardAberto] = useState(false);
 
-  const { eliminarAluno } = useAlunosInscritos();
+  const { eliminarAluno, selecionarAluno } = useAlunosInscritos();
 
-  const handleSelecionar = useCallback(() => {
-    Alert.alert('Selecionar Aluno', 'Tela ainda não está pronta.');
-  }, []);
+  const handleSelecionarAluno = useCallback(() => {
+    Alert.alert('Selecionar aluno', 'Você tem certeza disso?', [
+      { text: 'Sim', onPress: () => selecionarAluno(inscricao) },
+      { text: 'Não', onPress: () => {} },
+    ]);
+  }, [inscricao, selecionarAluno]);
 
   // const handleMarcarReuniao = useCallback(() => {
   //   Alert.alert('Marcar Reunião', 'Tela ainda não está pronta.');
@@ -40,14 +43,14 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
 
   const handleEliminarAluno = useCallback(() => {
     Alert.alert('Eliminar aluno', 'Você tem certeza disso?', [
-      { text: 'Sim', onPress: () => eliminarAluno(inscricao.id) },
+      { text: 'Sim', onPress: () => eliminarAluno(inscricao) },
       { text: 'Não', onPress: () => {} },
     ]);
-  }, [eliminarAluno, inscricao.id]);
+  }, [eliminarAluno, inscricao]);
 
   if (cardAberto) {
     return (
-      <Container>
+      <Container esSelecionado={inscricao.esSelecionado}>
         <AlunoTitleContainer>
           <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
           <AlunoNome>
@@ -101,7 +104,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           </AlunoMeta>
         </AlunoInfo>
         <ButtonFooter>
-          <AlunoButton onPress={() => handleSelecionar()}>
+          <AlunoButton onPress={() => handleSelecionarAluno()}>
             <Icon name="check" color="#f76769" size={16} />
             <AlunoButtonText>Selecionar</AlunoButtonText>
           </AlunoButton>
@@ -119,7 +122,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   }
 
   return (
-    <Container>
+    <Container esSelecionado={inscricao.esSelecionado}>
       <AlunoTitleContainer>
         <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
         <AlunoNome>
@@ -151,7 +154,7 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
         </AlunoMeta>
       </AlunoInfo>
       <ButtonFooter>
-        <AlunoButton onPress={() => handleSelecionar()}>
+        <AlunoButton onPress={() => handleSelecionarAluno()}>
           <Icon name="check" color="#f76769" size={16} />
           <AlunoButtonText>Selecionar</AlunoButtonText>
         </AlunoButton>
