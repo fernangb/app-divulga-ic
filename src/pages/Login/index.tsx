@@ -71,8 +71,6 @@ const Login: React.FC = () => {
         'Ocorreu um erro ao fazer o login. Verifique as suas credenciais.',
       );
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

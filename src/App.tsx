@@ -6,7 +6,6 @@ import Routes from './routes';
 
 import AppProvider from './hooks';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const App = () => {
   return (
     <NavigationContainer>

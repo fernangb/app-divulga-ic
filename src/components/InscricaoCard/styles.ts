@@ -22,7 +22,6 @@ export const Container = styled.View<IContainerProps>`
 export const InscricaoTitleContainer = styled.View`
   width: 100%;
   flex-direction: row;
-  /* align-items: center; */
   justify-content: space-between;
 `;
 

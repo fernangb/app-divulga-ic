@@ -2,7 +2,6 @@ import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-// import { IVagas } from './index';
 
 interface IVagas {
   id: string;
@@ -50,8 +49,6 @@ export const UserAvatar = styled.Image`
   width: 64px;
   height: 64px;
   border-radius: 32px;
-  /* border: 1px;
-  border-color: #f76769; */
 `;
 
 export const VagasListContainer = styled.View`
@@ -76,8 +73,6 @@ export const VagaAvatar = styled.Image`
   height: 64px;
   border-radius: 32px;
   margin-left: -8px;
-  /* border: 1px;
-  border-color: #f76769; */
 `;
 
 export const VagaInfo = styled.View`

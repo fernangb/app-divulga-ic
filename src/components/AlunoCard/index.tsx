@@ -35,12 +35,6 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
     ]);
   }, [inscricao, selecionarAluno]);
 
-  // const handleMarcarReuniao = useCallback(() => {
-  //   Alert.alert('Marcar Reunião', 'Tela ainda não está pronta.');
-
-  //   // navigation.navigate('VerInscricoes', { vagaId: vaga.id });
-  // }, []);
-
   const handleEliminarAluno = useCallback(() => {
     Alert.alert('Eliminar aluno', 'Você tem certeza disso?', [
       { text: 'Sim', onPress: () => eliminarAluno(inscricao) },
@@ -78,7 +72,6 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
             <Icon name="calendar" size={14} color="#f76769" />
             <AlunoMetaText>
               {getFormattedDate(inscricao.dtInscricao)}
-              {/* {format(inscricao.dtInscricao, 'dd/MM/yyyy HH:mm:ss')} */}
             </AlunoMetaText>
           </AlunoMeta>
           <AlunoMeta>
@@ -108,10 +101,6 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
             <Icon name="check" color="#f76769" size={16} />
             <AlunoButtonText>Selecionar</AlunoButtonText>
           </AlunoButton>
-          {/* <AlunoButton onPress={() => handleMarcarReuniao()}>
-            <Icon name="calendar" color="#f76769" size={16} />
-            <AlunoButtonText>Marcar reunião</AlunoButtonText>
-          </AlunoButton> */}
           <AlunoButton onPress={() => handleEliminarAluno()}>
             <Icon name="delete" color="#f76769" size={16} />
             <AlunoButtonText>Eliminar</AlunoButtonText>
@@ -158,10 +147,6 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
           <Icon name="check" color="#f76769" size={16} />
           <AlunoButtonText>Selecionar</AlunoButtonText>
         </AlunoButton>
-        {/* <AlunoButton onPress={() => handleMarcarReuniao()}>
-          <Icon name="calendar" color="#f76769" size={16} />
-          <AlunoButtonText>Marcar reunião</AlunoButtonText>
-        </AlunoButton> */}
         <AlunoButton onPress={() => handleEliminarAluno()}>
           <Icon name="delete" color="#f76769" size={16} />
           <AlunoButtonText>Eliminar</AlunoButtonText>

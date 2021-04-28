@@ -18,8 +18,6 @@ export const InscricaoAvatar = styled.Image`
   height: 64px;
   border-radius: 32px;
   margin-left: -8px;
-  /* border: 1px;
-  border-color: #f76769; */
 `;
 
 export const InscricaoInfo = styled.View`

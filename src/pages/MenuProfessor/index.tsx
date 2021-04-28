@@ -61,7 +61,6 @@ const MenuProfessor: React.FC = () => {
               <OptionText>Minhas vagas criadas</OptionText>
             </OptionButton>
             <OptionButton onPress={() => navigation.navigate('CriarVaga')}>
-              {/* <OptionButton onPress={() => navigation.navigate('CursosCheckbox')}> */}
               <Icon name="plus-circle" size={36} color="#fff" />
               <OptionText>Criar vaga de IC</OptionText>
             </OptionButton>

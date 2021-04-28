@@ -28,6 +28,4 @@ export const UserAvatar = styled.Image`
   width: 64px;
   height: 64px;
   border-radius: 32px;
-  /* border: 1px;
-  border-color: #f76769; */
 `;

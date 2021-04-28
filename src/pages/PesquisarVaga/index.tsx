@@ -54,9 +54,6 @@ const PesquisarVaga: React.FC = () => {
   return (
     <Container>
       <Header>
-        {/* <BackButton onPress={navigateBack}>
-          <Icon name="arrow-left" size={24} color="#222680" />
-        </BackButton> */}
         <HeaderTitle>Pesquisar Vagas</HeaderTitle>
         <UserAvatar source={{ uri: user.avatar_url }} />
       </Header>
