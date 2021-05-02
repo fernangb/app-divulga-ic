@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
+import { Alert } from 'react-native';
 import {
   Container,
   InscricaoInfo,
@@ -31,8 +32,16 @@ const InscricaoCard: React.FC<ICardProps> = ({ inscricao }) => {
 
   const handleInscricao = useCallback(
     async (id: string) => {
-      await api.delete(`/inscricoes_ic/${id}`);
-      navigate('CancelarInscricaoVaga', { nome: inscricao.vagaIc.nome });
+      await api
+        .delete(`/inscricoes_ic/${id}`)
+        .then(() => {
+          navigate('CancelarInscricaoVaga', { nome: inscricao.vagaIc.nome });
+        })
+        .catch(err => {
+          const { data } = err.response;
+
+          Alert.alert('Erro no cadastro', data.message);
+        });
     },
     [inscricao.vagaIc.nome, navigate],
   );

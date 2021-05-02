@@ -1,71 +1,81 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useRoute, useNavigation } from '@react-navigation/native';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Alert } from 'react-native';
+import Header from '../../components/Header';
+import VagaCard from '../../components/VagaCard';
+import IVaga from '../../interfaces/IVaga';
+import api from '../../services/api';
 import {
   Container,
-  Header,
-  HeaderTitle,
-  UserAvatar,
-  VagasListContainer,
+  FilterBox,
+  FilterOption,
+  FilterOptionText,
+  Title,
   VagasList,
+  VagasListTitle,
 } from './styles';
-import { useAuth } from '../../hooks/auth';
-import api from '../../services/api';
-import { UserName } from '../DashboardAluno/styles';
-
-interface RouteParams {
-  id: string;
-}
-
-interface IVagas {
-  id: string;
-  cursoId: string;
-  areaId: string;
-  professorId: string;
-  laboratorioId: string;
-  nome: string;
-  descricao: string;
-  vlBolsa: number;
-  hrSemana: number;
-  crMinimo: number;
-  periodoMinimo: number;
-  nrVagas: number;
-  laboratorio: { nome: string; sigla: string };
-  professor: { usuario: { avatar_url: string } };
-}
 
 const PesquisarVaga: React.FC = () => {
-  const route = useRoute();
-  const { user } = useAuth();
-  const { goBack } = useNavigation();
-  const [vagas, setVagas] = useState<IVagas[]>([]);
+  const [vagas, setVagas] = useState<IVaga[]>([]);
 
-  const navigateBack = useCallback(() => {
-    goBack();
-  }, [goBack]);
+  const [laboratorios, setLaboratorios] = useState<string[]>(['1']);
+  const [professor, setProfessor] = useState('Flávio Mello');
+  const [areas, setAreas] = useState<string[]>([]);
+  const [cursos, setCursos] = useState<string[]>(['2']);
+  const [esAberta, setEsAberta] = useState(true);
+  const [esPreenchida, setEsPreenchida] = useState(false);
 
-  useEffect(() => {
-    api.get('/vagas_ic').then(response => {
-      setVagas(response.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   console.log('vagas: ', vagas);
+  // }, [vagas]);
+
+  const handlePesquisar = useCallback(() => {
+    async function loadData() {
+      await api
+        .get(
+          `/vagas_ic/search?esAberta=${esAberta}&esPreenchida=${esPreenchida}&professor=${professor}&cursos=${cursos}&areas=${areas}&laboratorios=${laboratorios}`,
+        )
+        .then(response => {
+          setVagas(response.data);
+        });
+      // .catch(err => {
+      //   const { data } = err.response;
+
+      //   Alert.alert('Erro na criação da vaga', data.message);
+      // });
+    }
+
+    loadData();
+  }, [areas, cursos, esAberta, esPreenchida, laboratorios, professor]);
 
   return (
     <Container>
-      <Header>
-        <HeaderTitle>Pesquisar Vagas</HeaderTitle>
-        <UserAvatar source={{ uri: user.avatar_url }} />
-      </Header>
-      <VagasListContainer>
-        <VagasList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={vagas}
-          keyExtractor={vaga => vaga.id}
-          renderItem={({ item: vaga }) => <UserName>{vaga.nome}</UserName>}
-        />
-      </VagasListContainer>
+      <Header />
+      <Title>Buscar vagas de IC</Title>
+      <FilterBox>
+        <FilterOption>
+          <FilterOptionText>Laboratório</FilterOptionText>
+        </FilterOption>
+        <FilterOption>
+          <FilterOptionText>Cursos</FilterOptionText>
+        </FilterOption>
+        <FilterOption>
+          <FilterOptionText>Áreas</FilterOptionText>
+        </FilterOption>
+        <FilterOption>
+          <FilterOptionText>Oi</FilterOptionText>
+        </FilterOption>
+      </FilterBox>
+      <FilterOption onPress={handlePesquisar}>
+        <FilterOptionText>Pesquisar</FilterOptionText>
+      </FilterOption>
+      <VagasList
+        keyExtractor={vaga => vaga.id}
+        data={vagas}
+        ListHeaderComponent={
+          <VagasListTitle>Vagas recomendadas: {vagas.length}</VagasListTitle>
+        }
+        renderItem={({ item: vaga }) => <VagaCard vaga={vaga} />}
+      />
     </Container>
   );
 };

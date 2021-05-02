@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 import React, {
   createContext,
@@ -7,6 +8,7 @@ import React, {
   useEffect,
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Alert } from 'react-native';
 import api from '../services/api';
 import { IAluno } from '../interfaces/IAluno';
 import { IProfessor } from '../interfaces/IProfessor';
@@ -65,22 +67,25 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('sessions', {
-      email,
-      password,
-    });
+    await api
+      .post('sessions', { email, password })
+      .then(response => {
+        const { user, token, aluno, professor } = response.data;
 
-    const { user, token, aluno, professor } = response.data;
+        AsyncStorage.multiSet([
+          ['@GoBarber:token', token],
+          ['@GoBarber:user', JSON.stringify(user)],
+          ['@GoBarber:aluno', JSON.stringify(aluno)],
+          ['@GoBarber:professor', JSON.stringify(professor)],
+        ]);
 
-    await AsyncStorage.multiSet([
-      ['@GoBarber:token', token],
-      ['@GoBarber:user', JSON.stringify(user)],
-      ['@GoBarber:aluno', JSON.stringify(aluno)],
-      ['@GoBarber:professor', JSON.stringify(professor)],
-    ]);
-
-    api.defaults.headers.authorization = `Bearer ${token}`;
-    setData({ token, user, aluno, professor });
+        api.defaults.headers.authorization = `Bearer ${token}`;
+        setData({ token, user, aluno, professor });
+      })
+      .catch(err => {
+        const { data } = err.response;
+        Alert.alert('Erro ao excluir vaga de IC', data.message);
+      });
   }, []);
 
   const signOut = useCallback(async () => {
