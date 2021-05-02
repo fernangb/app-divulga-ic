@@ -19,7 +19,7 @@ export const Title = styled.Text`
 export const FilterBox = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 export const FilterOption = styled(RectButton)`

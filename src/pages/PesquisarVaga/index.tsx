@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import CheckboxCursos from '../../components/CheckboxCursos';
+import CheckboxAreas from '../../components/ChechboxAreas';
 import Header from '../../components/Header';
 import VagaCard from '../../components/VagaCard';
 import IVaga from '../../interfaces/IVaga';
@@ -13,14 +14,19 @@ import {
   VagasList,
   VagasListTitle,
 } from './styles';
+import CheckboxLaboratorios from '../../components/CheckboxLaboratorios';
+import { useCursos } from '../../hooks/cursos';
+import { useAreas } from '../../hooks/areas';
+import { useLaboratorios } from '../../hooks/laboratorios';
 
 const PesquisarVaga: React.FC = () => {
   const [vagas, setVagas] = useState<IVaga[]>([]);
 
-  const [laboratorios, setLaboratorios] = useState<string[]>(['1']);
+  const { cursosSelecionados } = useCursos();
+  const { areasSelecionadas } = useAreas();
+  const { laboratoriosSelecionados } = useLaboratorios();
+
   const [professor, setProfessor] = useState('Flávio Mello');
-  const [areas, setAreas] = useState<string[]>([]);
-  const [cursos, setCursos] = useState<string[]>(['2']);
   const [esAberta, setEsAberta] = useState(true);
   const [esPreenchida, setEsPreenchida] = useState(false);
 
@@ -32,7 +38,7 @@ const PesquisarVaga: React.FC = () => {
     async function loadData() {
       await api
         .get(
-          `/vagas_ic/search?esAberta=${esAberta}&esPreenchida=${esPreenchida}&professor=${professor}&cursos=${cursos}&areas=${areas}&laboratorios=${laboratorios}`,
+          `/vagas_ic/search?esAberta=${esAberta}&esPreenchida=${esPreenchida}&professor=${professor}&cursos=${cursosSelecionados}&areas=${areasSelecionadas}&laboratorios=${laboratoriosSelecionados}`,
         )
         .then(response => {
           setVagas(response.data);
@@ -45,25 +51,32 @@ const PesquisarVaga: React.FC = () => {
     }
 
     loadData();
-  }, [areas, cursos, esAberta, esPreenchida, laboratorios, professor]);
+  }, [
+    areasSelecionadas,
+    cursosSelecionados,
+    esAberta,
+    esPreenchida,
+    laboratoriosSelecionados,
+    professor,
+  ]);
 
   return (
     <Container>
       <Header />
       <Title>Buscar vagas de IC</Title>
       <FilterBox>
-        <FilterOption>
-          <FilterOptionText>Laboratório</FilterOptionText>
+        <CheckboxCursos />
+        <CheckboxAreas />
+        <CheckboxLaboratorios />
+        {/* <FilterOption>
+          <CheckboxCursos />
         </FilterOption>
         <FilterOption>
-          <FilterOptionText>Cursos</FilterOptionText>
+          <CheckboxAreas />
         </FilterOption>
         <FilterOption>
-          <FilterOptionText>Áreas</FilterOptionText>
-        </FilterOption>
-        <FilterOption>
-          <FilterOptionText>Oi</FilterOptionText>
-        </FilterOption>
+          <CheckboxLaboratorios />
+        </FilterOption> */}
       </FilterBox>
       <FilterOption onPress={handlePesquisar}>
         <FilterOptionText>Pesquisar</FilterOptionText>
@@ -72,7 +85,7 @@ const PesquisarVaga: React.FC = () => {
         keyExtractor={vaga => vaga.id}
         data={vagas}
         ListHeaderComponent={
-          <VagasListTitle>Vagas recomendadas: {vagas.length}</VagasListTitle>
+          <VagasListTitle>Vagas encontradas: {vagas.length}</VagasListTitle>
         }
         renderItem={({ item: vaga }) => <VagaCard vaga={vaga} />}
       />

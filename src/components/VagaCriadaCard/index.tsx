@@ -69,6 +69,12 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
             </VagaMetaText>
           </VagaMeta>
           <VagaMeta>
+            <Icon name="pound" size={14} color="#f76769" />
+            <VagaMetaText>
+              {vaga.nrVagas} {vaga.nrVagas === 1 ? 'vaga' : 'vagas'}
+            </VagaMetaText>
+          </VagaMeta>
+          <VagaMeta>
             <Icon name="ticket" size={14} color="#f76769" />
             <VagaMetaText>
               {vaga.nrInscritos}{' '}
@@ -116,12 +122,6 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
           <VagaMeta>
             <Icon name="progress-check" size={14} color="#f76769" />
             <VagaMetaText>{vaga.periodoMinimo}° período</VagaMetaText>
-          </VagaMeta>
-          <VagaMeta>
-            <Icon name="pound" size={14} color="#f76769" />
-            <VagaMetaText>
-              {vaga.nrVagas} {vaga.nrVagas === 1 ? 'vaga' : 'vagas'}
-            </VagaMetaText>
           </VagaMeta>
           <VagaMeta>
             <Icon name="information" size={14} color="#f76769" />
@@ -173,6 +173,12 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
           </VagaMetaText>
         </VagaMeta>
         <VagaMeta>
+          <Icon name="pound" size={14} color="#f76769" />
+          <VagaMetaText>
+            {vaga.nrVagas} {vaga.nrVagas === 1 ? 'vaga' : 'vagas'}
+          </VagaMetaText>
+        </VagaMeta>
+        <VagaMeta>
           <Icon name="ticket" size={14} color="#f76769" />
           <VagaMetaText>
             {vaga.nrInscritos}{' '}
@@ -185,14 +191,6 @@ const VagaCriadaCard: React.FC<ICardProps> = ({ vaga, deleteVaga }) => {
             {vaga.nrSelecionados}{' '}
             {vaga.nrSelecionados === 1 ? 'selecionado' : 'selecionados'}
           </VagaMetaText>
-        </VagaMeta>
-        <VagaMeta>
-          <Icon name="currency-usd" size={14} color="#f76769" />
-          <VagaMetaText>{getFormattedCurrency(vaga.vlBolsa)}</VagaMetaText>
-        </VagaMeta>
-        <VagaMeta>
-          <Icon name="alarm" size={14} color="#f76769" />
-          <VagaMetaText>{vaga.hrSemana} h</VagaMetaText>
         </VagaMeta>
       </VagaInfo>
       <ButtonFooter>
