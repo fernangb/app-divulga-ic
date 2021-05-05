@@ -30,15 +30,16 @@ const PesquisarVaga: React.FC = () => {
   const [esAberta, setEsAberta] = useState(true);
   const [esPreenchida, setEsPreenchida] = useState(false);
 
-  // useEffect(() => {
-  //   console.log('vagas: ', vagas);
-  // }, [vagas]);
-
   const handlePesquisar = useCallback(() => {
     async function loadData() {
+      console.log('cursos: ', cursosSelecionados);
       await api
         .get(
-          `/vagas_ic/search?esAberta=${esAberta}&esPreenchida=${esPreenchida}&professor=${professor}&cursos=${cursosSelecionados}&areas=${areasSelecionadas}&laboratorios=${laboratoriosSelecionados}`,
+          `/vagas_ic/search?esAberta=${esAberta}&esPreenchida=${esPreenchida}&professor=${professor}&cursos=${cursosSelecionados.join(
+            ',',
+          )}&areas=${areasSelecionadas.join(
+            ',',
+          )}&laboratorios=${laboratoriosSelecionados.join(',')}`,
         )
         .then(response => {
           setVagas(response.data);

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useCallback, useRef } from 'react';
 import {
   Image,
@@ -36,9 +37,7 @@ const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
-  const { signIn, user } = useAuth();
-
-  console.log(user);
+  const { signIn } = useAuth();
 
   const handleLogin = useCallback(
     async (data: LoginFormData) => {
