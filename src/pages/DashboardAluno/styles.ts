@@ -8,6 +8,12 @@ export const Container = styled.View`
   flex: 1;
 `;
 
+export const LoadingView = styled.View`
+  align-self: center;
+  justify-content: center;
+  margin-top: 300px;
+`;
+
 export const VagasList = styled(FlatList as new () => FlatList<IVaga>)`
   padding-top: 8px;
   margin: 16px;

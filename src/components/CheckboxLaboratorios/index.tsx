@@ -121,9 +121,10 @@ const LaboratoriosCheckbox: React.FC = () => {
       <ButtonBox>
         <CheckboxButton onPress={() => setModalAberto(true)}>
           <Icon
-            name="school"
-            size={16}
+            name="filter"
             color={isFilled ? '#f76769' : '#f1faee'}
+            size={16}
+            style={{ transform: [{ rotateZ: '180deg' }] }}
           />
           <ButtonText>Laboratorios</ButtonText>
         </CheckboxButton>

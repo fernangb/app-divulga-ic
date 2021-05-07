@@ -7,9 +7,15 @@ export const Container = styled.View`
   flex: 1;
 `;
 
+export const LoadingView = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Title = styled.Text`
   margin-left: 8px;
-  margin-bottom: 16px;
+  margin-top: 16px;
+  margin-bottom: 32px;
   color: #f76769;
   font-family: 'RobotoSlab-Medium';
   font-size: 24px;
@@ -19,20 +25,28 @@ export const Title = styled.Text`
 export const FilterBox = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
-export const FilterOption = styled(RectButton)`
-  background: #222680;
+export const FilterOption = styled.View`
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
   margin-top: 4px;
   margin-left: 4px;
   padding: 12px 24px;
 `;
 
-export const FilterOptionText = styled.Text`
+export const SearchButton = styled(RectButton)`
+  background: #222680;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  margin: 24px 16px 0px;
+  padding: 12px 24px;
+`;
+
+export const SearchButtonText = styled.Text`
   color: #fff;
   font-size: 12px;
 `;

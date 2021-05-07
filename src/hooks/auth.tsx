@@ -84,7 +84,7 @@ const AuthProvider: React.FC = ({ children }) => {
       })
       .catch(err => {
         const { data } = err.response;
-        Alert.alert('Erro ao excluir vaga de IC', data.message);
+        Alert.alert('Erro ao realizar login', data.message);
       });
   }, []);
 
