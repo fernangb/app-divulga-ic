@@ -6,6 +6,7 @@ import EscolherPerfil from '../pages/EscolherPerfil';
 import CadastroProfessor from '../pages/CadastroProfessor';
 import CriarVaga from '../pages/CriarVaga';
 import PesquisarVaga from '../pages/PesquisarVaga';
+import AlterarSenha from '../pages/AlterarSenha';
 
 const Auth = createStackNavigator();
 
@@ -23,6 +24,7 @@ const AuthRoutes: React.FC = () => (
     <Auth.Screen name="EscolherPerfil" component={EscolherPerfil} />
     <Auth.Screen name="CriarVaga" component={CriarVaga} />
     <Auth.Screen name="PesquisarVaga" component={PesquisarVaga} />
+    <Auth.Screen name="AlterarSenha" component={AlterarSenha} />
   </Auth.Navigator>
 );
 

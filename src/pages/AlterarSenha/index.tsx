@@ -12,49 +12,31 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import {
-  Container,
-  Title,
-  UserAvatar,
-  UserAvatarButton,
-  BackButton,
-} from './styles';
+import { Container, Title, BackButton } from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
-import PickerCursos from '../../components/PickerCursos';
 
-interface ProfileFormData {
-  nome: string;
-  email: string;
-  curso: string;
-  dre: string;
-  cre: string;
-
+interface PasswordFormData {
   senhaAntiga: string;
   novaSenha: string;
   confirmacaoNovaSenha: string;
 }
 
-const PerfilAluno: React.FC = () => {
+const AlterarSenha: React.FC = () => {
   const navigation = useNavigation();
-  const { user, aluno, updateUser } = useAuth();
   const formRef = useRef<FormHandles>(null);
-  const nomeInputRef = useRef<TextInput>(null);
-  const sobrenomeInputRef = useRef<TextInput>(null);
-  const emailInputRef = useRef<TextInput>(null);
-  const cursoInputRef = useRef<TextInput>(null);
-  const dreInputRef = useRef<TextInput>(null);
-  const crInputRef = useRef<TextInput>(null);
+  const senhaAntigaInputRef = useRef<TextInput>(null);
+  const novaSenhaInputRef = useRef<TextInput>(null);
+  const confirmacaoSenhaInputRef = useRef<TextInput>(null);
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const handleSaveProfile = useCallback(
-    async (data: ProfileFormData) => {
+    async (data: PasswordFormData) => {
       try {
         formRef.current?.setErrors({});
 
@@ -82,17 +64,9 @@ const PerfilAluno: React.FC = () => {
           abortEarly: false,
         });
 
-        const {
-          nome,
-          email,
-          senhaAntiga,
-          novaSenha,
-          confirmacaoNovaSenha,
-        } = data;
+        const { senhaAntiga, novaSenha, confirmacaoNovaSenha } = data;
 
         const formData = {
-          nome,
-          email,
           ...(senhaAntiga
             ? {
                 senhaAntiga,
@@ -103,8 +77,6 @@ const PerfilAluno: React.FC = () => {
         };
 
         const response = await api.put('perfil', formData);
-
-        updateUser(response.data);
 
         Alert.alert(
           'Perfil atualizado com sucesso!',
@@ -127,12 +99,8 @@ const PerfilAluno: React.FC = () => {
         );
       }
     },
-    [navigation, updateUser],
+    [navigation],
   );
-
-  const handleAlterarSenha = useCallback(() => {
-    navigation.navigate('AlterarSenha');
-  }, [navigation]);
 
   return (
     <>
@@ -149,89 +117,46 @@ const PerfilAluno: React.FC = () => {
             <BackButton onPress={handleGoBack}>
               <Icon name="arrow-left" size={24} color="#222680" />
             </BackButton>
-            <UserAvatarButton onPress={() => {}}>
-              <UserAvatar source={{ uri: user.avatar_url }} />
-            </UserAvatarButton>
             <View>
-              <Title>Meu perfil</Title>
+              <Title>Alterar Senha</Title>
             </View>
-            <Form
-              initialData={{
-                nome: user.nome,
-                email: user.email,
-                sobrenome: user.sobrenome,
-                dre: aluno.dre,
-                cr: aluno.cr,
-              }}
-              ref={formRef}
-              onSubmit={handleSaveProfile}
-            >
+            <Form ref={formRef} onSubmit={handleSaveProfile}>
               <Input
-                ref={nomeInputRef}
-                autoCorrect={false}
-                autoCapitalize="words"
-                name="nome"
-                icon="account"
-                placeholder="Nome"
+                ref={senhaAntigaInputRef}
+                name="senha_antiga"
+                icon="lock"
+                placeholder="Senha atual"
+                secureTextEntry
+                containerStyle={{ marginTop: 16 }}
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  sobrenomeInputRef.current?.focus();
+                  novaSenhaInputRef.current?.focus();
                 }}
               />
               <Input
-                ref={sobrenomeInputRef}
-                autoCorrect={false}
-                autoCapitalize="words"
-                name="sobrenome"
-                icon="account"
-                placeholder="Sobrenome"
+                ref={novaSenhaInputRef}
+                name="senha"
+                icon="lock"
+                placeholder="Nova senha"
+                secureTextEntry
+                containerStyle={{ marginTop: 16 }}
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  emailInputRef.current?.focus();
-                }}
-              />
-
-              <Input
-                ref={emailInputRef}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                name="email"
-                icon="email"
-                placeholder="E-mail"
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  dreInputRef.current?.focus();
+                  confirmacaoSenhaInputRef.current?.focus();
                 }}
               />
               <Input
-                ref={dreInputRef}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="numeric"
-                name="dre"
-                icon="card-account-details"
-                placeholder="DRE"
-                returnKeyType="next"
+                ref={confirmacaoSenhaInputRef}
+                name="confirmacao_senha"
+                icon="lock"
+                placeholder="Confirmar senha"
+                secureTextEntry
+                containerStyle={{ marginTop: 16 }}
+                returnKeyType="send"
                 onSubmitEditing={() => {
-                  crInputRef.current?.focus();
+                  formRef.current?.submitForm();
                 }}
               />
-              <Input
-                ref={crInputRef}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="numeric"
-                name="cr"
-                icon="alpha-c-box"
-                placeholder="CR"
-              />
-              <PickerCursos
-                name="curso"
-                ref={cursoInputRef}
-                initialValue={aluno.curso.nome}
-              />
-              <Button onPress={handleAlterarSenha}>Alterar Senha</Button>
               <Button onPress={() => formRef.current?.submitForm()}>
                 Confirmar mudanças
               </Button>
@@ -243,4 +168,4 @@ const PerfilAluno: React.FC = () => {
   );
 };
 
-export default PerfilAluno;
+export default AlterarSenha;
