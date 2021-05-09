@@ -6,6 +6,7 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
@@ -17,10 +18,11 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+import logoImg from '../../assets/logo1.png';
 
 interface PasswordFormData {
   senhaAntiga: string;
-  novaSenha: string;
+  senha: string;
   confirmacaoNovaSenha: string;
 }
 
@@ -36,54 +38,49 @@ const AlterarSenha: React.FC = () => {
   }, [navigation]);
 
   const handleSaveProfile = useCallback(
-    async (data: PasswordFormData) => {
+    async (dados: PasswordFormData) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          nome: Yup.string().required('Nome obrigatório'),
-          email: Yup.string()
-            .required('E-mail obrigatório')
-            .email('Digite um e-mail válido'),
-          senhaAntiga: Yup.string(),
-          senhaAtual: Yup.string().when('senha_antiga', {
-            is: val => !!val.length,
-            then: Yup.string().required('Campo obrigatório'),
-            otherwise: Yup.string(),
-          }),
-          password_confirmation: Yup.string()
-            .when('senha_antiga', {
-              is: val => !!val.length,
-              then: Yup.string().required('Campo obrigatório'),
-              otherwise: Yup.string(),
-            })
-            .oneOf([Yup.ref('senha_atual'), null], 'Confirmação incorreta'),
+          senhaAntiga: Yup.string().required('Campo obrigatório'),
+          senha: Yup.string().required('Campo obrigatório'),
+          confirmacaoNovaSenha: Yup.string().required('Campo obrigatório'),
         });
 
-        await schema.validate(data, {
+        await schema.validate(dados, {
           abortEarly: false,
         });
 
-        const { senhaAntiga, novaSenha, confirmacaoNovaSenha } = data;
+        const { senhaAntiga, senha, confirmacaoNovaSenha } = dados;
 
-        const formData = {
-          ...(senhaAntiga
-            ? {
-                senhaAntiga,
-                novaSenha,
-                confirmacaoNovaSenha,
-              }
-            : {}),
-        };
+        if (senha !== confirmacaoNovaSenha) {
+          Alert.alert(
+            'Erro ao atualizar senha',
+            'Confirmação de senha inválida.',
+          );
+        } else {
+          const formData = {
+            senha: senhaAntiga,
+            novaSenha: senha,
+          };
 
-        const response = await api.put('perfil', formData);
+          await api
+            .put('/senha', formData)
+            .then(() => {
+              Alert.alert(
+                'Senha atualizada com sucesso!',
+                'As informações do perfil foram atualizadas.',
+              );
 
-        Alert.alert(
-          'Perfil atualizado com sucesso!',
-          'As informações do perfil foram atualizadas.',
-        );
+              navigation.goBack();
+            })
+            .catch(err => {
+              const { data } = err.response;
 
-        navigation.goBack();
+              Alert.alert('Erro ao atualizar senha', data.message);
+            });
+        }
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -117,13 +114,15 @@ const AlterarSenha: React.FC = () => {
             <BackButton onPress={handleGoBack}>
               <Icon name="arrow-left" size={24} color="#222680" />
             </BackButton>
+            <Image source={logoImg} />
+
             <View>
               <Title>Alterar Senha</Title>
             </View>
             <Form ref={formRef} onSubmit={handleSaveProfile}>
               <Input
                 ref={senhaAntigaInputRef}
-                name="senha_antiga"
+                name="senhaAntiga"
                 icon="lock"
                 placeholder="Senha atual"
                 secureTextEntry
@@ -147,7 +146,7 @@ const AlterarSenha: React.FC = () => {
               />
               <Input
                 ref={confirmacaoSenhaInputRef}
-                name="confirmacao_senha"
+                name="confirmacaoNovaSenha"
                 icon="lock"
                 placeholder="Confirmar senha"
                 secureTextEntry
