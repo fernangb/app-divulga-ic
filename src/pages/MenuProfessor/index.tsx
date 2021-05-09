@@ -70,6 +70,10 @@ const MenuProfessor: React.FC = () => {
               <Icon name="account" size={36} color="#fff" />
               <OptionText>Ver perfil</OptionText>
             </OptionButton>
+            <OptionButton onPress={() => navigation.navigate('AlterarSenha')}>
+              <Icon name="lock" size={36} color="#fff" />
+              <OptionText>Alterar senha</OptionText>
+            </OptionButton>
 
             <OptionButton
               onPress={() => navigation.navigate('DashboardProfessor')}

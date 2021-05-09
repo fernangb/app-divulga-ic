@@ -24,13 +24,16 @@ import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
+import PickerCursos from '../../components/PickerCursos';
+import PickerLaboratorios from '../../components/PickerLaboratorios';
 
 interface ProfileFormData {
   nome: string;
+  sobrenome: string;
   email: string;
-  senhaAntiga: string;
-  novaSenha: string;
-  confirmacaoNovaSenha: string;
+  siape: string;
+  curso: string;
+  laboratorio: string;
 }
 
 const PerfilProfessor: React.FC = () => {
@@ -38,75 +41,50 @@ const PerfilProfessor: React.FC = () => {
   const nomeInputRef = useRef<TextInput>(null);
   const sobrenomeInputRef = useRef<TextInput>(null);
   const emailInputRef = useRef<TextInput>(null);
-  const senhaAntigaInputRef = useRef<TextInput>(null);
-  const novaSenhaInputRef = useRef<TextInput>(null);
-  const confirmacaoSenhaInputRef = useRef<TextInput>(null);
+  const siapeInputRef = useRef<TextInput>(null);
+  const cursoInputRef = useRef<TextInput>(null);
+  const laboratorioInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
-  const { user, updateUser } = useAuth();
+  const { user, professor, updateProfessor } = useAuth();
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const handleSaveProfile = useCallback(
-    async (data: ProfileFormData) => {
+    async (dados: ProfileFormData) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
           nome: Yup.string().required('Nome obrigatório'),
+          sobrenome: Yup.string().required('Sobrenome obrigatório'),
+          siape: Yup.string().required('SIAPE obrigatório'),
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
-          senhaAntiga: Yup.string(),
-          senhaAtual: Yup.string().when('senha_antiga', {
-            is: val => !!val.length,
-            then: Yup.string().required('Campo obrigatório'),
-            otherwise: Yup.string(),
-          }),
-          password_confirmation: Yup.string()
-            .when('senha_antiga', {
-              is: val => !!val.length,
-              then: Yup.string().required('Campo obrigatório'),
-              otherwise: Yup.string(),
-            })
-            .oneOf([Yup.ref('senha_atual'), null], 'Confirmação incorreta'),
         });
 
-        await schema.validate(data, {
+        await schema.validate(dados, {
           abortEarly: false,
         });
 
-        const {
-          nome,
-          email,
-          senhaAntiga,
-          novaSenha,
-          confirmacaoNovaSenha,
-        } = data;
+        await api
+          .put('/professores', dados)
+          .then(response => {
+            updateProfessor(response.data);
 
-        const formData = {
-          nome,
-          email,
-          ...(senhaAntiga
-            ? {
-                senhaAntiga,
-                novaSenha,
-                confirmacaoNovaSenha,
-              }
-            : {}),
-        };
+            Alert.alert(
+              'Perfil atualizado com sucesso!',
+              'As informações do perfil foram atualizadas.',
+            );
+            navigation.goBack();
+          })
+          .catch(err => {
+            const { data } = err.response;
 
-        const response = await api.put('perfil', formData);
-
-        updateUser(response.data);
-
-        Alert.alert(
-          'Perfil atualizado com sucesso!',
-          'As informações do perfil foram atualizadas.',
-        );
-
-        navigation.goBack();
+            Alert.alert('Erro ao atualizar perfil', data.message);
+          });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -122,7 +100,7 @@ const PerfilProfessor: React.FC = () => {
         );
       }
     },
-    [navigation, updateUser],
+    [navigation, updateProfessor],
   );
 
   return (
@@ -151,6 +129,7 @@ const PerfilProfessor: React.FC = () => {
                 nome: user.nome,
                 email: user.email,
                 sobrenome: user.sobrenome,
+                siape: professor.siape,
               }}
               ref={formRef}
               onSubmit={handleSaveProfile}
@@ -189,45 +168,32 @@ const PerfilProfessor: React.FC = () => {
                 placeholder="E-mail"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  senhaAntigaInputRef.current?.focus();
+                  siapeInputRef.current?.focus();
                 }}
               />
               <Input
-                ref={senhaAntigaInputRef}
-                name="senha_antiga"
-                icon="lock"
-                placeholder="Senha atual"
-                secureTextEntry
-                containerStyle={{ marginTop: 16 }}
+                ref={siapeInputRef}
+                keyboardType="numeric"
+                name="siape"
+                icon="card-account-details"
+                placeholder="SIAPE"
                 returnKeyType="next"
                 onSubmitEditing={() => {
-                  novaSenhaInputRef.current?.focus();
+                  cursoInputRef.current?.focus();
                 }}
               />
-              <Input
-                ref={novaSenhaInputRef}
-                name="senha"
-                icon="lock"
-                placeholder="Nova senha"
-                secureTextEntry
-                containerStyle={{ marginTop: 16 }}
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  confirmacaoSenhaInputRef.current?.focus();
-                }}
+
+              <PickerCursos
+                name="curso"
+                ref={cursoInputRef}
+                initialValue={professor.curso.nome}
               />
-              <Input
-                ref={confirmacaoSenhaInputRef}
-                name="confirmacao_senha"
-                icon="lock"
-                placeholder="Confirmar senha"
-                secureTextEntry
-                containerStyle={{ marginTop: 16 }}
-                returnKeyType="send"
-                onSubmitEditing={() => {
-                  formRef.current?.submitForm();
-                }}
+              <PickerLaboratorios
+                name="laboratorio"
+                ref={laboratorioInputRef}
+                initialValue={professor.laboratorio.sigla}
               />
+
               <Button onPress={() => formRef.current?.submitForm()}>
                 Confirmar mudanças
               </Button>

@@ -34,7 +34,8 @@ interface AuthContextData {
   loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
-  updateUser(user: IAluno): Promise<void>;
+  updateAluno(aluno: IAluno): Promise<void>;
+  updateProfessor(professor: IProfessor): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -97,12 +98,25 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState);
   }, []);
 
-  const updateUser = useCallback(
+  const updateAluno = useCallback(
     async (aluno: IAluno) => {
       await AsyncStorage.setItem('@GoBarber:aluno', JSON.stringify(aluno));
       const { professor } = data;
 
       setData({ token: data.token, user: aluno.usuario, aluno, professor });
+    },
+    [data],
+  );
+
+  const updateProfessor = useCallback(
+    async (professor: IProfessor) => {
+      await AsyncStorage.setItem(
+        '@GoBarber:professor',
+        JSON.stringify(professor),
+      );
+      const { aluno } = data;
+
+      setData({ token: data.token, user: professor.usuario, aluno, professor });
     },
     [data],
   );
@@ -116,7 +130,8 @@ const AuthProvider: React.FC = ({ children }) => {
         loading,
         signIn,
         signOut,
-        updateUser,
+        updateAluno,
+        updateProfessor,
       }}
     >
       {children}

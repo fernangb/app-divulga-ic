@@ -26,11 +26,12 @@ export const BackButton = styled.TouchableOpacity`
 export const OptionButton = styled.TouchableOpacity`
   background: #222680;
   padding: 16px 8px ${16 + getBottomSpace()}px;
-  margin: 16px;
+  margin: 4px;
   align-items: center;
   flex-direction: row;
   width: 90%;
   height: 64px;
+  border-radius: 8px;
 `;
 
 export const OptionText = styled.Text`

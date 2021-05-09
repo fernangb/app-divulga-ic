@@ -62,6 +62,10 @@ const MenuAluno: React.FC = () => {
               <Icon name="account" size={36} color="#fff" />
               <OptionText>Ver perfil</OptionText>
             </OptionButton>
+            <OptionButton onPress={() => navigation.navigate('AlterarSenha')}>
+              <Icon name="lock" size={36} color="#fff" />
+              <OptionText>Alterar Senha</OptionText>
+            </OptionButton>
             <OptionButton onPress={() => navigation.navigate('PesquisarVaga')}>
               <Icon name="magnify" size={36} color="#fff" />
               <OptionText>Buscar mais vagas</OptionText>

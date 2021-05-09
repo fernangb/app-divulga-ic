@@ -39,7 +39,7 @@ interface ProfileFormData {
 
 const PerfilAluno: React.FC = () => {
   const navigation = useNavigation();
-  const { user, aluno, updateUser } = useAuth();
+  const { user, aluno, updateAluno } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const nomeInputRef = useRef<TextInput>(null);
   const sobrenomeInputRef = useRef<TextInput>(null);
@@ -88,20 +88,20 @@ const PerfilAluno: React.FC = () => {
         await api
           .put('/alunos', formData)
           .then(response => {
-            updateUser(response.data);
+            updateAluno(response.data);
 
             Alert.alert(
               'Perfil atualizado com sucesso!',
               'As informações do perfil foram atualizadas.',
             );
+
+            navigation.goBack();
           })
           .catch(err => {
             const { data } = err.response;
 
             Alert.alert('Erro ao atualizar perfil', data.message);
           });
-
-        navigation.goBack();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -114,7 +114,7 @@ const PerfilAluno: React.FC = () => {
         }
       }
     },
-    [navigation, updateUser],
+    [navigation, updateAluno],
   );
 
   return (
