@@ -13,6 +13,7 @@ import api from '../services/api';
 import { IAluno } from '../interfaces/IAluno';
 import { IProfessor } from '../interfaces/IProfessor';
 import { IUsuario } from '../interfaces/IUsuario';
+import { useVagasRecomendadas } from './vagasRecomendadas';
 
 interface AuthState {
   token: string;
@@ -41,6 +42,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>({} as AuthState);
   const [loading, setLoading] = useState(true);
+
+  const { atualizarVagasRecomendadas } = useVagasRecomendadas();
 
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {

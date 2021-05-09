@@ -5,18 +5,21 @@ import { AuthProvider } from './auth';
 import { CursosProvider } from './cursos';
 import { LaboratoriosProvider } from './laboratorios';
 import { VagasCriadasProvider } from './vagasCriadas';
+import { VagasRecomendadasProvider } from './vagasRecomendadas';
 
 const AppProvider: React.FC = ({ children }) => (
   <>
     <AuthProvider>
       <VagasCriadasProvider>
-        <AlunosInscritosProvider>
-          <CursosProvider>
-            <AreasProvider>
-              <LaboratoriosProvider>{children}</LaboratoriosProvider>
-            </AreasProvider>
-          </CursosProvider>
-        </AlunosInscritosProvider>
+        <VagasRecomendadasProvider>
+          <AlunosInscritosProvider>
+            <CursosProvider>
+              <AreasProvider>
+                <LaboratoriosProvider>{children}</LaboratoriosProvider>
+              </AreasProvider>
+            </CursosProvider>
+          </AlunosInscritosProvider>
+        </VagasRecomendadasProvider>
       </VagasCriadasProvider>
     </AuthProvider>
   </>

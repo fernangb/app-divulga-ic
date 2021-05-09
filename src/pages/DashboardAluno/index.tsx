@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
-import api from '../../services/api';
 import { Container, LoadingView, VagasList, VagasListTitle } from './styles';
 
 import Header from '../../components/Header';
 
 import VagaCard from '../../components/VagaCard';
-import IVaga from '../../interfaces/IVaga';
+import { useVagasRecomendadas } from '../../hooks/vagasRecomendadas';
+import { useAuth } from '../../hooks/auth';
 // import logoImg from '../../assets/logo1.png';
 
 const DashboardAluno: React.FC = () => {
-  const [vagas, setVagas] = useState<IVaga[]>([]);
   const [loading, setLoading] = useState(false);
+  const {
+    vagasRecomendadas,
+    atualizarVagasRecomendadas,
+  } = useVagasRecomendadas();
+
+  const { aluno } = useAuth();
 
   // const { navigate } = useNavigation();
 
@@ -19,14 +24,16 @@ const DashboardAluno: React.FC = () => {
     async function loadData() {
       setLoading(true);
 
-      await api.get('/vagas_ic/aluno/me').then(response => {
-        setVagas(response.data);
-      });
+      atualizarVagasRecomendadas();
+
+      // await api.get('/vagas_ic/aluno/me').then(response => {
+      //   setVagas(response.data);
+      // });
     }
 
     loadData();
     setLoading(false);
-  }, []);
+  }, [atualizarVagasRecomendadas, aluno]);
 
   // const handlePesquisarVagas = useCallback(() => {
   //   navigate('PesquisarVaga');
@@ -49,9 +56,11 @@ const DashboardAluno: React.FC = () => {
       <Header />
       <VagasList
         keyExtractor={vaga => vaga.id}
-        data={vagas}
+        data={vagasRecomendadas}
         ListHeaderComponent={
-          <VagasListTitle>Vagas recomendadas: {vagas.length}</VagasListTitle>
+          <VagasListTitle>
+            Vagas recomendadas: {vagasRecomendadas.length}
+          </VagasListTitle>
         }
         renderItem={({ item: vaga }) => <VagaCard vaga={vaga} />}
       />
