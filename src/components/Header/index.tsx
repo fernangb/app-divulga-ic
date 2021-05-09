@@ -29,7 +29,7 @@ const Header: React.FC = () => {
           <UserName>{user.nome}</UserName>
         </HeaderTitle>
         <ProfileButton onPress={navigateToMenu}>
-          <Icon name="account-circle" size={64} color="#f76769" />
+          <Icon name="menu" color="#f76769" size={48} />
         </ProfileButton>
       </Container>
     );

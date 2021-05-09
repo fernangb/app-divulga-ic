@@ -6,19 +6,14 @@ import {
   ScrollView,
   TextInput,
   Alert,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import {
-  Container,
-  Title,
-  UserAvatar,
-  UserAvatarButton,
-  BackButton,
-} from './styles';
+import { Container, Title, BackButton } from './styles';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -26,6 +21,7 @@ import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 import PickerCursos from '../../components/PickerCursos';
 import PickerLaboratorios from '../../components/PickerLaboratorios';
+import logoImg from '../../assets/logo1.png';
 
 interface ProfileFormData {
   nome: string;
@@ -118,9 +114,11 @@ const PerfilProfessor: React.FC = () => {
             <BackButton onPress={handleGoBack}>
               <Icon name="arrow-left" size={24} color="#222680" />
             </BackButton>
-            <UserAvatarButton onPress={() => {}}>
+            {/* <UserAvatarButton onPress={() => {}}>
               <UserAvatar source={{ uri: user.avatar_url }} />
-            </UserAvatarButton>
+            </UserAvatarButton> */}
+            <Image source={logoImg} />
+
             <View>
               <Title>Meu perfil</Title>
             </View>
