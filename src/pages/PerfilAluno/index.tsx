@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import React, { useCallback, useRef } from 'react';
 import {
   KeyboardAvoidingView,
@@ -28,14 +29,12 @@ import PickerCursos from '../../components/PickerCursos';
 
 interface ProfileFormData {
   nome: string;
+  sobrenome: string;
   email: string;
   curso: string;
   dre: string;
-  cre: string;
-
-  senhaAntiga: string;
-  novaSenha: string;
-  confirmacaoNovaSenha: string;
+  cr: string;
+  periodo: string;
 }
 
 const PerfilAluno: React.FC = () => {
@@ -48,68 +47,59 @@ const PerfilAluno: React.FC = () => {
   const cursoInputRef = useRef<TextInput>(null);
   const dreInputRef = useRef<TextInput>(null);
   const crInputRef = useRef<TextInput>(null);
+  const periodoInputRef = useRef<TextInput>(null);
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const handleSaveProfile = useCallback(
-    async (data: ProfileFormData) => {
+    async (dados: ProfileFormData) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
           nome: Yup.string().required('Nome obrigatório'),
+          sobrenome: Yup.string().required('Nome obrigatório'),
+          dre: Yup.string().required('Nome obrigatório'),
+          cr: Yup.string().required('Nome obrigatório'),
+          periodo: Yup.string().required('Nome obrigatório'),
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
-          senhaAntiga: Yup.string(),
-          senhaAtual: Yup.string().when('senha_antiga', {
-            is: val => !!val.length,
-            then: Yup.string().required('Campo obrigatório'),
-            otherwise: Yup.string(),
-          }),
-          password_confirmation: Yup.string()
-            .when('senha_antiga', {
-              is: val => !!val.length,
-              then: Yup.string().required('Campo obrigatório'),
-              otherwise: Yup.string(),
-            })
-            .oneOf([Yup.ref('senha_atual'), null], 'Confirmação incorreta'),
         });
 
-        await schema.validate(data, {
+        await schema.validate(dados, {
           abortEarly: false,
         });
 
-        const {
-          nome,
-          email,
-          senhaAntiga,
-          novaSenha,
-          confirmacaoNovaSenha,
-        } = data;
+        const { nome, sobrenome, email, curso, periodo, cr, dre } = dados;
 
         const formData = {
           nome,
+          sobrenome,
           email,
-          ...(senhaAntiga
-            ? {
-                senhaAntiga,
-                novaSenha,
-                confirmacaoNovaSenha,
-              }
-            : {}),
+          curso,
+          periodo: parseInt(periodo),
+          cr: parseFloat(cr),
+          dre,
         };
 
-        const response = await api.put('perfil', formData);
+        await api
+          .put('/alunos', formData)
+          .then(response => {
+            updateUser(response.data);
 
-        updateUser(response.data);
+            Alert.alert(
+              'Perfil atualizado com sucesso!',
+              'As informações do perfil foram atualizadas.',
+            );
+          })
+          .catch(err => {
+            const { data } = err.response;
 
-        Alert.alert(
-          'Perfil atualizado com sucesso!',
-          'As informações do perfil foram atualizadas.',
-        );
+            Alert.alert('Erro ao atualizar perfil', data.message);
+          });
 
         navigation.goBack();
       } catch (err) {
@@ -117,22 +107,15 @@ const PerfilAluno: React.FC = () => {
           const errors = getValidationErrors(err);
 
           formRef.current?.setErrors(errors);
-
-          return;
+          Alert.alert(
+            'Erro na atualização do perfil',
+            'Ocorreu um erro ao atualizar seu perfil, tente novamente.',
+          );
         }
-
-        Alert.alert(
-          'Erro na atualização do perfil',
-          'Ocorreu um erro ao atualizar seu perfil, tente novamente.',
-        );
       }
     },
     [navigation, updateUser],
   );
-
-  const handleAlterarSenha = useCallback(() => {
-    navigation.navigate('AlterarSenha');
-  }, [navigation]);
 
   return (
     <>
@@ -161,7 +144,8 @@ const PerfilAluno: React.FC = () => {
                 email: user.email,
                 sobrenome: user.sobrenome,
                 dre: aluno.dre,
-                cr: aluno.cr,
+                cr: aluno.cr?.toString(),
+                periodo: aluno.cr?.toString(),
               }}
               ref={formRef}
               onSubmit={handleSaveProfile}
@@ -214,6 +198,22 @@ const PerfilAluno: React.FC = () => {
                 placeholder="DRE"
                 returnKeyType="next"
                 onSubmitEditing={() => {
+                  periodoInputRef.current?.focus();
+                }}
+              />
+              <PickerCursos
+                name="curso"
+                ref={cursoInputRef}
+                initialValue={aluno.curso.nome}
+              />
+              <Input
+                ref={periodoInputRef}
+                keyboardType="numeric"
+                name="periodo"
+                icon="numeric"
+                placeholder="Período"
+                returnKeyType="next"
+                onSubmitEditing={() => {
                   crInputRef.current?.focus();
                 }}
               />
@@ -226,12 +226,6 @@ const PerfilAluno: React.FC = () => {
                 icon="alpha-c-box"
                 placeholder="CR"
               />
-              <PickerCursos
-                name="curso"
-                ref={cursoInputRef}
-                initialValue={aluno.curso.nome}
-              />
-              <Button onPress={handleAlterarSenha}>Alterar Senha</Button>
               <Button onPress={() => formRef.current?.submitForm()}>
                 Confirmar mudanças
               </Button>
