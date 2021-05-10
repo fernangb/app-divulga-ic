@@ -118,9 +118,9 @@ const Login: React.FC = () => {
                 Entrar
               </Button>
             </Form>
-            <EsqueceuSenha>
+            {/* <EsqueceuSenha>
               <EsqueceuSenhaText>Esqueci minha senha</EsqueceuSenhaText>
-            </EsqueceuSenha>
+            </EsqueceuSenha> */}
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>

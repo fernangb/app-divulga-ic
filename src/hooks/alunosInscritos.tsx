@@ -49,8 +49,11 @@ const AlunosInscritosProvider: React.FC = ({ children }) => {
             inscricaoAluno => inscricaoAluno.id !== inscricao.id,
           );
 
+          if (inscricao.esSelecionado) {
+            diminuirNrAlunosSelecionados(inscricao.vagaIc.id);
+          }
+
           atualizarNrAlunosInscritos(inscricao.vagaIc.id);
-          diminuirNrAlunosSelecionados(inscricao.vagaIc.id);
           setAlunosInscritos(novosAlunosInscritos);
         })
         .catch(err => {
