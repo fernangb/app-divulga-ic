@@ -37,7 +37,7 @@ export const FilterOption = styled.View`
 `;
 
 export const SearchButton = styled(RectButton)`
-  background: #222680;
+  background: #f76769;
   flex-direction: row;
   justify-content: center;
   align-items: center;
