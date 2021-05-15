@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Input } from 'native-base';
 import CheckboxCursos from '../../components/CheckboxCursos';
 import CheckboxAreas from '../../components/ChechboxAreas';
 import Header from '../../components/Header';
@@ -112,7 +111,7 @@ const PesquisarVaga: React.FC = () => {
           </FilterOption>
         </FilterBox>
         <SearchButton onPress={handlePesquisar}>
-          <Icon name="magnify" size={16} color="#fff" />
+          <Icon name="magnify" size={20} color="#222680" />
           <SearchButtonText>Pesquisar</SearchButtonText>
         </SearchButton>
         <VagasList
@@ -143,7 +142,7 @@ const PesquisarVaga: React.FC = () => {
         </FilterOption>
       </FilterBox>
       <SearchButton onPress={handlePesquisar}>
-        <Icon name="magnify" size={16} color="#fff" />
+        <Icon name="magnify" size={20} color="#222680" />
         <SearchButtonText>Pesquisar</SearchButtonText>
       </SearchButton>
       <VagasList

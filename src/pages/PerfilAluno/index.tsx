@@ -142,7 +142,7 @@ const PerfilAluno: React.FC = () => {
                 sobrenome: user.sobrenome,
                 dre: aluno.dre,
                 cr: aluno.cr?.toString(),
-                periodo: aluno.cr?.toString(),
+                periodo: aluno.periodo?.toString(),
               }}
               ref={formRef}
               onSubmit={handleSaveProfile}

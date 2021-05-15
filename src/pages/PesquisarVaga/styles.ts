@@ -47,8 +47,9 @@ export const SearchButton = styled(RectButton)`
 `;
 
 export const SearchButtonText = styled.Text`
-  color: #fff;
-  font-size: 12px;
+  color: #222680;
+  font-size: 16px;
+  margin-left: 8px;
 `;
 
 export const VagasList = styled(FlatList as new () => FlatList<IVaga>)`
