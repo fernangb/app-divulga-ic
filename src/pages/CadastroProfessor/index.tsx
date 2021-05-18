@@ -70,7 +70,7 @@ const CadastroProfessor: React.FC = () => {
           .post('/professores', {
             email: dados.email,
             senha: dados.senha,
-            confirmacao_senha: dados.senhaRepetida,
+            confirmacaoSenha: dados.senhaRepetida,
             nome: dados.nome,
             sobrenome: dados.sobrenome,
             siape: dados.siape,

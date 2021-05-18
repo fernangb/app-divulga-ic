@@ -27,7 +27,9 @@ export const AlunoTitleContainer = styled.View`
   display: flex;
 `;
 
-export const MaisInfoButton = styled.TouchableOpacity``;
+export const MaisInfoButton = styled.TouchableOpacity`
+  width: 5%;
+`;
 
 export const AlunoInfo = styled.View``;
 
@@ -40,6 +42,7 @@ export const AlunoNome = styled.Text`
   display: flex;
   flex: 1;
   padding-left: 4px;
+  width: 95%;
 `;
 
 export const AlunoMeta = styled.View`

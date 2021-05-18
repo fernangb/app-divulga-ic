@@ -16,7 +16,6 @@ import {
   AlunoButtonText,
 } from './styles';
 import { IInscricao } from '../../interfaces/IInscricao';
-import CardAvatar from '../CardAvatar';
 import { useAlunosInscritos } from '../../hooks/alunosInscritos';
 
 interface ICardProps {
@@ -46,7 +45,6 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
     return (
       <Container esSelecionado={inscricao.esSelecionado}>
         <AlunoTitleContainer>
-          <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
           <AlunoNome>
             {inscricao.aluno.usuario.nome} {inscricao.aluno.usuario.sobrenome}
           </AlunoNome>
@@ -113,7 +111,6 @@ const AlunoCard: React.FC<ICardProps> = ({ inscricao }) => {
   return (
     <Container esSelecionado={inscricao.esSelecionado}>
       <AlunoTitleContainer>
-        <CardAvatar avatar_url={inscricao.aluno.usuario.avatar_url} />
         <AlunoNome>
           {inscricao.aluno.usuario.nome} {inscricao.aluno.usuario.sobrenome}
         </AlunoNome>

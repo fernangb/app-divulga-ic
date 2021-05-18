@@ -26,7 +26,9 @@ export const VagaTitleContainer = styled.View`
   justify-content: space-between;
 `;
 
-export const MaisInfoButton = styled.TouchableOpacity``;
+export const MaisInfoButton = styled.TouchableOpacity`
+  width: 5%;
+`;
 
 export const VagaInfo = styled.View``;
 
@@ -36,6 +38,7 @@ export const VagaNome = styled.Text`
   color: #f76769;
   margin-left: 8px;
   margin-bottom: 16px;
+  width: 95%;
 `;
 
 export const VagaMeta = styled.View`
