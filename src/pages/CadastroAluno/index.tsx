@@ -73,7 +73,7 @@ const CadastroAluno: React.FC = () => {
             sobrenome: dados.sobrenome,
             email: dados.email,
             senha: dados.senha,
-            confirmacao_senha: dados.senhaRepetida,
+            confirmacaoSenha: dados.senhaRepetida,
             dre: dados.dre,
             periodo: dados.periodo,
             curso: dados.curso,
